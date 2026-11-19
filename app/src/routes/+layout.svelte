@@ -1,11 +1,11 @@
 <script lang="ts">
-	import '@fontsource-variable/plus-jakarta-sans';
-	import '../app.css';
+	// En-tête et pied de page identiques au site de référence (mêmes classes, même CSS).
+	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 	import { getLocale, localizeHref, deLocalizeHref } from '#lib/paraglide/runtime.js';
 	import { m } from '#lib/paraglide/messages.js';
+	import { LEGACY_CSS } from '#lib/legacy/index.js';
 	import Logo from '#lib/components/Logo.svelte';
-	import favicon from '#lib/assets/favicon.svg';
 	import type { LayoutProps } from './$types';
 
 	let { children, data }: LayoutProps = $props();
@@ -24,139 +24,150 @@
 	] as const;
 
 	const here = $derived(deLocalizeHref(page.url.pathname));
-	const isAdmin = $derived(here.startsWith('/admin'));
-	const current = (p: string) =>
-		here === p || (p !== '/' && here.startsWith(p)) ? 'page' : undefined;
+	const lang = $derived(getLocale());
+	const home = $derived(localizeHref('/'));
+	const current = (p: string) => (here.startsWith(p) ? 'page' : undefined);
+
+	let menuOpen = $state(false);
+	let cartCount = $state(0);
+
+	onMount(() => {
+		try {
+			localStorage.setItem('tc-lang', getLocale()); // même langue en revenant sur l'accueil
+			const cart = JSON.parse(localStorage.getItem('tc-cart') || '[]');
+			cartCount = Array.isArray(cart) ? cart.length : 0;
+		} catch {
+			/* stockage indisponible : on garde 0 */
+		}
+		const close = (e: MouseEvent) => {
+			if (!(e.target as Element).closest('.langsel')) menuOpen = false;
+		};
+		document.addEventListener('click', close);
+		return () => document.removeEventListener('click', close);
+	});
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+		rel="stylesheet"
+	/>
+	{@html `<style>${LEGACY_CSS}</style>`}
 </svelte:head>
 
-<a class="skip" href="#main">{m.skip()}</a>
-
-{#if !isAdmin}
-	<p class="demo">{m.demo()}</p>
-{/if}
-
-<header>
-	<div class="wrap bar">
-		<a class="logo" href={localizeHref('/')}><Logo /></a>
-		<nav aria-label="Menu">
-			<a href={localizeHref('/offres')} aria-current={current('/offres')}>{m.nav_offers()}</a>
+<div class="demo" role="note">{m.demo()}</div>
+<div class="topbar">
+	<div class="wrap"><span>{m.top_left()}</span><span>{m.top_right()}</span></div>
+</div>
+<header class="site">
+	<div class="wrap">
+		<a class="logo" data-sveltekit-reload href={home} aria-label="Turismo Club"><Logo /></a>
+		<nav class="main" aria-label="Menu">
+			<a data-sveltekit-reload href="{home}#catalogue">{m.nav_offers()}</a>
+			<a data-sveltekit-reload href="{home}#devis">{m.nav_custom()}</a>
+			<a data-sveltekit-reload href="{home}#accueil-faq">{m.nav_faq()}</a>
+		</nav>
+		<div class="hdr-right" style="display:flex;align-items:center;gap:12px">
+			<div class="langsel">
+				<button
+					type="button"
+					id="langBtn"
+					aria-haspopup="true"
+					aria-expanded={menuOpen}
+					aria-controls="langMenu"
+					aria-label="{m.lang()}: {LANGS.find((l) => l.c === lang)?.n}"
+					onclick={() => (menuOpen = !menuOpen)}
+				>
+					<svg
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						aria-hidden="true"
+					>
+						<circle cx="12" cy="12" r="10" /><path
+							d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"
+						/>
+					</svg><span>{lang.toUpperCase()}</span>
+				</button>
+				<div id="langMenu" class="langmenu" hidden={!menuOpen}>
+					{#each LANGS as l (l.c)}
+						<a
+							href={localizeHref(here, { locale: l.c })}
+							hreflang={l.c}
+							lang={l.c}
+							aria-current={l.c === lang}
+							data-sveltekit-reload
+						>
+							{l.n}
+						</a>
+					{/each}
+				</div>
+			</div>
 			{#if data.staffRole}
-				<a href={localizeHref('/admin')} aria-current={current('/admin')}>{m.nav_admin()}</a>
+				<a class="cart-btn" href={localizeHref('/admin')} aria-current={current('/admin')}>
+					{m.nav_admin()}
+				</a>
 			{/if}
 			{#if data.user}
-				<a href={localizeHref('/compte')} aria-current={current('/compte')}>{m.nav_account()}</a>
+				<a class="cart-btn" href={localizeHref('/compte')} aria-current={current('/compte')}>
+					{m.nav_account()}
+				</a>
 			{:else}
-				<a class="btn ghost" href={localizeHref('/connexion')}>{m.nav_login()}</a>
+				<a class="cart-btn" href={localizeHref('/connexion')} aria-current={current('/connexion')}>
+					{m.nav_login()}
+				</a>
 			{/if}
-			<label class="lang">
-				<span class="sr-only">{m.lang()}</span>
-				<select
-					value={getLocale()}
-					onchange={(e) =>
-						(location.href = localizeHref(here, { locale: e.currentTarget.value as never }))}
-				>
-					{#each LANGS as l (l.c)}
-						<option value={l.c}>{l.n}</option>
-					{/each}
-				</select>
-			</label>
-		</nav>
+			<a class="cart-btn" data-sveltekit-reload href="{home}#panier">
+				{m.cart()} <b id="cartCount">{cartCount}</b>
+			</a>
+		</div>
 	</div>
 </header>
 
-<main id="main">
+<main id="app" tabindex="-1">
 	{@render children()}
 </main>
 
-<footer>
-	<div class="wrap foot">
-		<Logo dark />
-		<p>{m.footer()}</p>
-		<!-- Liens pour les moteurs de recherche : la même page dans chaque langue. -->
-		<nav aria-label={m.lang()}>
-			{#each LANGS as l (l.c)}
-				<a href={localizeHref(here, { locale: l.c })} hreflang={l.c} lang={l.c}>{l.n}</a>
-			{/each}
-		</nav>
+<footer class="site">
+	<div class="wrap">
+		<span>
+			<strong style="color:var(--ink)">Turismo Club</strong> · {m.footer()} · Via Cavour 182, 00184 Roma
+			· bonjour@turismoclub-demo.it
+		</span>
+		<span>
+			P.IVA IT00000000000 (demo) · <a
+				data-sveltekit-reload
+				href="{home}#credits"
+				style="color:var(--muted)"
+			>
+				{m.credits()}
+			</a>
+		</span>
 	</div>
 </footer>
 
 <style>
-	.demo {
-		margin: 0;
-		padding: 8px 20px;
-		background: var(--accent-light);
-		color: #451a03;
-		font-size: 13px;
-		text-align: center;
-	}
-	header {
-		border-bottom: 1px solid var(--line);
-		background: #fff;
-		position: sticky;
-		top: 0;
-		z-index: 10;
-	}
-	.bar {
+	/* Le menu des langues du site de référence utilise des <button> ; ici ce sont des liens (vraies adresses par langue). */
+	.langmenu a {
+		min-height: 40px;
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: 16px;
-		flex-wrap: wrap;
-		padding-block: 10px;
-	}
-	.logo {
-		display: inline-flex;
-		min-height: 44px;
-		align-items: center;
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		gap: 6px 18px;
-		flex-wrap: wrap;
-	}
-	nav a:not(.btn) {
+		padding: 0 12px;
+		border-radius: 8px;
+		font-size: 15px;
 		color: var(--ink);
-		font-weight: 700;
 		text-decoration: none;
-		min-height: 44px;
-		display: inline-flex;
-		align-items: center;
 	}
-	nav a[aria-current='page'] {
-		color: var(--accent);
-		box-shadow: inset 0 -2px 0 var(--accent);
+	.langmenu a:hover {
+		background: var(--soft);
 	}
-	.lang {
-		margin: 0;
-	}
-	select {
-		min-height: 44px;
-		border: 1px solid #9ca3af;
-		border-radius: 10px;
-		padding: 0 10px;
-		font: 600 15px var(--font);
-		background: #fff;
-	}
-	main {
-		min-height: 60vh;
-	}
-	footer {
-		background: var(--hero);
-		color: #e5e7eb;
-		margin-top: 64px;
-	}
-	.foot {
-		padding-block: 36px;
-	}
-	.foot nav a {
-		color: #e5e7eb;
-		font-weight: 500;
-		font-size: 14px;
+	.langmenu a[aria-current='true'] {
+		font-weight: 800;
+		background: var(--cream);
 	}
 </style>

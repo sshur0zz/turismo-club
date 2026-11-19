@@ -4,6 +4,8 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+	// Autorise la lecture du site de référence (../site/index.html).
+	server: { fs: { allow: ['..'] } },
 	// En dev, ne pas pré-empaqueter SvelteKit côté serveur (sinon il est chargé deux fois).
 	environments: { ssr: { optimizeDeps: { exclude: ['@sveltejs/kit'] } } },
 	plugins: [
