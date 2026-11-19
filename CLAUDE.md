@@ -72,7 +72,12 @@ Bandeau « demo » en haut du site : il doit disparaître seulement quand tout c
 - conditions d'annulation, mentions légales, politique de confidentialité RGPD, CGV (fournies par l'agence, droit italien) ;
 - traductions relues par des natifs (priorité : zh, ja, ko).
 
-## Prochaines étapes (dans l'ordre)
+## Refonte v2 en cours (branche `refonte-v2`)
+
+Portail sur-mesure dynamique (rubriques, pages à blocs, plugins, espace client, back-office) : voir **`docs/ARCHITECTURE-V2.md`**, qui fait foi pour tout nouveau travail.
+La v2 utilise SvelteKit (dossier `app/`) : la règle « pas de framework » ci-dessous ne s'applique qu'à l'ancien site `site/`, conservé jusqu'au basculement.
+
+## Prochaines étapes de l'ancien site (dans l'ordre)
 
 1. Brancher Cloudflare Pages sur ce dépôt et vérifier la mise en ligne automatique.
 2. Acheter `turismoclub.it` et le relier à Cloudflare Pages (Custom domains).
