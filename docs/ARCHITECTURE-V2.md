@@ -136,8 +136,8 @@ site/                    Ancien site, conservé jusqu'au basculement
 
 Règle : un agent ne modifie que son périmètre. Chaque phase = une branche → prévisualisation `*.pages.dev` → validation → fusion dans `main`.
 
-## 8. Questions ouvertes
+## 8. Décisions (19/11/2026)
 
-1. Qui utilise le back-office, et combien de personnes ?
-2. Les clients doivent-ils pouvoir réserver **sans** créer de compte (compte créé automatiquement) ? — recommandé : oui.
-3. Faut-il gérer des **partenaires** (hôtels/restaurants) qui se connectent pour voir leurs demandes ?
+1. **Utilisateur du back-office** : le chef d'entreprise seul pour l'instant (rôle `admin`). Les rôles `conseiller` et `guide` restent prêts pour plus tard.
+2. **Réserver sans compte** : oui. Le compte client est créé automatiquement à la première réservation (même e-mail = même client) ; il pourra s'y connecter par lien magique.
+3. **Accès partenaires** (hôtels/restaurants) : reporté, à rediscuter après la phase 6.

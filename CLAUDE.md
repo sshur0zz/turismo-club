@@ -75,7 +75,8 @@ Bandeau « demo » en haut du site : il doit disparaître seulement quand tout c
 ## Refonte v2 en cours (branche `refonte-v2`)
 
 Portail sur-mesure dynamique (rubriques, pages à blocs, plugins, espace client, back-office) : voir **`docs/ARCHITECTURE-V2.md`**, qui fait foi pour tout nouveau travail.
-La v2 utilise SvelteKit (dossier `app/`) : la règle « pas de framework » ci-dessous ne s'applique qu'à l'ancien site `site/`, conservé jusqu'au basculement.
+La v2 utilise SvelteKit (dossier `app/`, voir `app/README.md` pour les commandes) : la règle « pas de framework » ci-dessous ne s'applique qu'à l'ancien site `site/`, conservé jusqu'au basculement.
+Règles v2 : textes dans `app/messages/*.json` (10 langues, jamais de texte en dur) ; Supabase côté serveur via `locals.supabase` ; `npm run build` doit passer avant tout commit.
 
 ## Prochaines étapes de l'ancien site (dans l'ordre)
 
