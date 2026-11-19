@@ -1,0 +1,30 @@
+-- Turismo Club — 05 : RLS sur toutes les tables restantes (catalogue, avis, paiements)
+-- Appliqué sur Supabase le 2026-11-18. À exécuter après 04_espace_pro.sql.
+ALTER TABLE destinations        ENABLE ROW LEVEL SECURITY;
+ALTER TABLE categories          ENABLE ROW LEVEL SECURITY;
+ALTER TABLE guides              ENABLE ROW LEVEL SECURITY;
+ALTER TABLE activity_categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE activity_steps      ENABLE ROW LEVEL SECURITY;
+ALTER TABLE activity_photos     ENABLE ROW LEVEL SECURITY;
+ALTER TABLE payments            ENABLE ROW LEVEL SECURITY;
+ALTER TABLE reviews             ENABLE ROW LEVEL SECURITY;
+CREATE POLICY public_read_destinations ON destinations        FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY public_read_categories   ON categories          FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY public_read_guides       ON guides              FOR SELECT TO anon, authenticated USING (is_active);
+CREATE POLICY public_read_act_cat      ON activity_categories FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY public_read_steps        ON activity_steps      FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY public_read_photos       ON activity_photos     FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY public_read_reviews      ON reviews             FOR SELECT TO anon, authenticated USING (is_published);
+CREATE POLICY admin_destinations ON destinations        FOR ALL TO authenticated USING (current_staff_role() = 'admin') WITH CHECK (current_staff_role() = 'admin');
+CREATE POLICY admin_categories   ON categories          FOR ALL TO authenticated USING (current_staff_role() = 'admin') WITH CHECK (current_staff_role() = 'admin');
+CREATE POLICY admin_guides       ON guides              FOR ALL TO authenticated USING (current_staff_role() = 'admin') WITH CHECK (current_staff_role() = 'admin');
+CREATE POLICY admin_act_cat      ON activity_categories FOR ALL TO authenticated USING (current_staff_role() = 'admin') WITH CHECK (current_staff_role() = 'admin');
+CREATE POLICY admin_steps        ON activity_steps      FOR ALL TO authenticated USING (current_staff_role() = 'admin') WITH CHECK (current_staff_role() = 'admin');
+CREATE POLICY admin_photos       ON activity_photos     FOR ALL TO authenticated USING (current_staff_role() = 'admin') WITH CHECK (current_staff_role() = 'admin');
+CREATE POLICY admin_reviews      ON reviews             FOR ALL TO authenticated USING (current_staff_role() = 'admin') WITH CHECK (current_staff_role() = 'admin');
+CREATE POLICY admin_payments     ON payments            FOR ALL TO authenticated USING (current_staff_role() = 'admin') WITH CHECK (current_staff_role() = 'admin');
+CREATE POLICY cons_payments_read ON payments FOR SELECT TO authenticated USING (current_staff_role() = 'conseiller');
+CREATE POLICY cons_reviews       ON reviews  FOR ALL    TO authenticated USING (current_staff_role() = 'conseiller') WITH CHECK (current_staff_role() = 'conseiller');
+REVOKE INSERT, UPDATE, DELETE ON activity_cards, departure_availability FROM anon, authenticated;
+REVOKE ALL ON v_manifest, v_dashboard FROM anon;
+REVOKE EXECUTE ON FUNCTION write_audit() FROM anon, authenticated, public;
