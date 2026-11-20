@@ -194,6 +194,7 @@ footer.site .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-bet
 .success .ref{font-size:28px;font-weight:800;letter-spacing:2px;background:var(--soft);border-radius:12px;padding:12px 20px}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:14px 20px;border-radius:12px;font-weight:600;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:calc(100% - 32px)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.legal h2{font-size:20px;margin:18px 0 4px}.legal p{margin:0 0 8px}.legal ul{margin:0 0 8px;padding-left:20px;line-height:1.7}
 @media (max-width:640px){
   .hero{padding:40px 22px;margin:16px}
   .hero .scene{opacity:.3}
@@ -208,8 +209,8 @@ footer.site .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-bet
 </style>
 </head>
 <body>
-<div class="demo" role="note">Simulation de démonstration. Les lieux et conseils pratiques sont réels ; les prix, guides, avis, chiffres et coordonnées de l'agence sont fictifs. Aucun paiement réel, aucune donnée envoyée.</div>
-<div class="topbar"><div class="wrap"><span>Agence locale basée à Rome · conseillers francophones</span><span>WhatsApp : +39 333 000 4521 · 7j/7, 8 h–21 h</span></div></div>
+<div class="demo" role="note">Preview version — site under construction. Prices are indicative and online payment is not active yet.</div>
+<div class="topbar"><div class="wrap"><span>Local agency based in Rome · multilingual advisors</span><span>WhatsApp: +39 327 944 2376</span></div></div>
 <header class="site">
   <div class="wrap">
     <a class="logo" href="#accueil" aria-label="Turismo Club, accueil"></a>
@@ -218,8 +219,7 @@ footer.site .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-bet
       <a href="#devis" data-nav="devis">Tailor-made trips</a>
       <a href="#accueil-faq" data-nav="faq">FAQ</a>
     </nav>
-    <div class="hdr-right" style="display:flex;align-items:center;gap:12px">
-    <a class="cart-btn" href="#panier" data-nav="panier">Cart <b id="cartCount">0</b></a></div>
+    <div class="hdr-right" style="display:flex;align-items:center;gap:12px"></div>
   </div>
   <div class="flagbar" aria-hidden="true"><i style="background:#009246"></i><i style="background:#F4F5F0;box-shadow:inset 0 1px 0 #E5E7EB,inset 0 -1px 0 #E5E7EB"></i><i style="background:#CE2B37"></i></div>
 </header>
@@ -227,15 +227,165 @@ footer.site .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-bet
 <main id="app" tabindex="-1"></main>
 
 <footer class="site"><div class="wrap">
-  <span><strong style="color:var(--ink)">Turismo Club</strong> · Via Cavour 182, 00184 Roma · bonjour@turismoclub-demo.it</span>
-  <span>P.IVA IT00000000000 (fictive) · <a href="#credits" style="color:var(--muted)">Crédits photos</a></span>
+  <span><strong style="color:var(--ink)">Turismo Club di Riadh Mraihi</strong> · Roma, Italia · P.IVA 18751221005 · mraihi.riadh@yahoo.com</span>
+  <span><a href="#privacy" style="color:var(--muted)">Privacy &amp; Cookies</a> · <a href="#legal" style="color:var(--muted)">Legal notice</a> · <a href="#credits" style="color:var(--muted)">Photo credits</a></span>
 </div></footer>
 
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
 
 <script>
-const MODE = document.documentElement.dataset.mode === 'pro' ? 'pro' : 'public';
+/* ===================== Infos réelles de l'agence =====================
+   SEULE source des coordonnées affichées (barre du haut, pied de page, WhatsApp, e-mail, pages légales).
+   Un champ vide ('') n'est pas affiché. */
+const CONFIG = {
+  company: 'Turismo Club di Riadh Mraihi',
+  brand: 'Turismo Club',
+  vat: '18751221005',
+  rea: '',                                   // numéro REA : à compléter
+  address: 'Roma, Italia',                   // provisoire : siège exact à ajouter
+  email: 'mraihi.riadh@yahoo.com',           // provisoire : sera remplacé par une adresse @turismoclub.it
+  whatsapp: '+39 327 944 2376',
+  whatsappLink: 'https://wa.me/393279442376',
+  hours: '',                                 // horaires : vide = non affiché
+  legalUpdated: '2026-11-20'
+};
+
+/* ===================== Textes ajoutés / corrigés (10 langues) =====================
+   Fusionnés dans UI au démarrage : une clé ici remplace la clé du même nom dans UI. */
+const UI2 = {
+en: { demo: "Preview version — site under construction. Prices are indicative and online payment is not active yet.",
+  hours_l: "Hours", indic: "indicative price", sec_top: "Our tours in Rome", so_pop: "Recommended",
+  f3a: "Cancellation conditions depend on the offer. They are confirmed in writing with our reply, before any payment.",
+  br_t: "Booking request", br_d: "No payment now: we check availability and confirm the price within 24 h.",
+  f_offer: "Offer", f_name: "Full name", f_date: "Preferred date", f_pax: "Number of people", f_lang: "Preferred language", f_msg: "Message (optional)",
+  consent: "I agree that my data is used to answer my request, as described in the {link}.", privacy: "Privacy & Cookies", legal: "Legal notice",
+  e_name: "Please enter your name.", e_date: "Please choose a date.", e_pax: "Please enter a number of people.", e_consent: "Please tick this box to send your request.", e_wait: "Please wait a few seconds, then send again.",
+  br_send: "Send my request", br_sending: "Sending…", br_ok: "Request received. We will reply within 24 h. No payment has been made.",
+  br_fail: "We could not send your request online. Nothing is lost: send it to us directly on WhatsApp or by email.",
+  br_wa: "Also send on WhatsApp", br_wa2: "Send on WhatsApp", br_mail: "Send by email", br_new: "Make another request",
+  wa_msg: "Hello Turismo Club, booking request: {offer} · date: {date} · {n} people · name: {name}",
+  q_send: "Send my request", q_ok: "Request received. We will reply within 24 h. No payment has been made.", q_reply: "An advisor will contact you with a first proposal.",
+  en_only: "This page is available in English and Italian only." },
+it: { demo: "Versione di anteprima — sito in costruzione. I prezzi sono indicativi e il pagamento online non è ancora attivo.",
+  hours_l: "Orari", indic: "prezzo indicativo", sec_top: "I nostri tour a Roma", so_pop: "Consigliati",
+  f3a: "Le condizioni di cancellazione dipendono dall'offerta. Vengono confermate per iscritto con la nostra risposta, prima di qualsiasi pagamento.",
+  br_t: "Richiesta di prenotazione", br_d: "Nessun pagamento ora: verifichiamo la disponibilità e confermiamo il prezzo entro 24 h.",
+  f_offer: "Offerta", f_name: "Nome e cognome", f_date: "Data desiderata", f_pax: "Numero di persone", f_lang: "Lingua preferita", f_msg: "Messaggio (facoltativo)",
+  consent: "Acconsento all'uso dei miei dati per rispondere alla mia richiesta, come descritto nella pagina {link}.", privacy: "Privacy e Cookie", legal: "Note legali",
+  e_name: "Inserisci il tuo nome.", e_date: "Scegli una data.", e_pax: "Inserisci il numero di persone.", e_consent: "Seleziona questa casella per inviare la richiesta.", e_wait: "Attendi qualche secondo, poi invia di nuovo.",
+  br_send: "Invia la richiesta", br_sending: "Invio in corso…", br_ok: "Richiesta ricevuta. Ti rispondiamo entro 24 h. Nessun pagamento è stato effettuato.",
+  br_fail: "Non siamo riusciti a inviare la richiesta online. Non si perde nulla: inviacela direttamente su WhatsApp o via e-mail.",
+  br_wa: "Invia anche su WhatsApp", br_wa2: "Invia su WhatsApp", br_mail: "Invia via e-mail", br_new: "Fai un'altra richiesta",
+  wa_msg: "Buongiorno Turismo Club, richiesta di prenotazione: {offer} · data: {date} · {n} persone · nome: {name}",
+  q_send: "Invia la richiesta", q_ok: "Richiesta ricevuta. Ti rispondiamo entro 24 h. Nessun pagamento è stato effettuato.", q_reply: "Un consulente ti contatterà con una prima proposta.",
+  en_only: "Questa pagina è disponibile solo in inglese e in italiano." },
+fr: { demo: "Version de prévisualisation — site en construction. Les prix sont indicatifs et le paiement en ligne n'est pas encore actif.",
+  hours_l: "Horaires", indic: "prix indicatif", sec_top: "Nos visites à Rome", so_pop: "Recommandés",
+  f3a: "Les conditions d'annulation dépendent de l'offre. Elles vous sont confirmées par écrit avec notre réponse, avant tout paiement.",
+  br_t: "Demande de réservation", br_d: "Aucun paiement maintenant : nous vérifions la disponibilité et confirmons le prix sous 24 h.",
+  f_offer: "Offre", f_name: "Nom et prénom", f_date: "Date souhaitée", f_pax: "Nombre de personnes", f_lang: "Langue préférée", f_msg: "Message (facultatif)",
+  consent: "J'accepte que mes données soient utilisées pour répondre à ma demande, comme décrit dans la page {link}.", privacy: "Confidentialité & cookies", legal: "Mentions légales",
+  e_name: "Indiquez votre nom.", e_date: "Choisissez une date.", e_pax: "Indiquez le nombre de personnes.", e_consent: "Cochez cette case pour envoyer votre demande.", e_wait: "Patientez quelques secondes, puis renvoyez.",
+  br_send: "Envoyer ma demande", br_sending: "Envoi en cours…", br_ok: "Demande reçue. Nous vous répondons sous 24 h. Aucun paiement n'a été effectué.",
+  br_fail: "Votre demande n'a pas pu être envoyée en ligne. Rien n'est perdu : envoyez-la-nous directement sur WhatsApp ou par e-mail.",
+  br_wa: "Envoyer aussi sur WhatsApp", br_wa2: "Envoyer sur WhatsApp", br_mail: "Envoyer par e-mail", br_new: "Faire une autre demande",
+  wa_msg: "Bonjour Turismo Club, demande de réservation : {offer} · date : {date} · {n} personnes · nom : {name}",
+  q_send: "Envoyer ma demande", q_ok: "Demande reçue. Nous vous répondons sous 24 h. Aucun paiement n'a été effectué.", q_reply: "Un conseiller vous recontacte avec une première proposition.",
+  en_only: "Cette page n'existe qu'en anglais et en italien." },
+es: { demo: "Versión preliminar — sitio en construcción. Los precios son orientativos y el pago en línea aún no está activo.",
+  hours_l: "Horario", indic: "precio orientativo", sec_top: "Nuestros tours en Roma", so_pop: "Recomendados",
+  f3a: "Las condiciones de cancelación dependen de la oferta. Se confirman por escrito con nuestra respuesta, antes de cualquier pago.",
+  br_t: "Solicitud de reserva", br_d: "Sin pago ahora: comprobamos la disponibilidad y confirmamos el precio en 24 h.",
+  f_offer: "Oferta", f_name: "Nombre y apellidos", f_date: "Fecha deseada", f_pax: "Número de personas", f_lang: "Idioma preferido", f_msg: "Mensaje (opcional)",
+  consent: "Acepto que mis datos se usen para responder a mi solicitud, como se describe en la página {link}.", privacy: "Privacidad y cookies", legal: "Aviso legal",
+  e_name: "Introduce tu nombre.", e_date: "Elige una fecha.", e_pax: "Indica el número de personas.", e_consent: "Marca esta casilla para enviar tu solicitud.", e_wait: "Espera unos segundos y vuelve a enviar.",
+  br_send: "Enviar mi solicitud", br_sending: "Enviando…", br_ok: "Solicitud recibida. Te respondemos en 24 h. No se ha realizado ningún pago.",
+  br_fail: "No hemos podido enviar tu solicitud en línea. No se pierde nada: envíanosla directamente por WhatsApp o por correo.",
+  br_wa: "Enviar también por WhatsApp", br_wa2: "Enviar por WhatsApp", br_mail: "Enviar por correo", br_new: "Hacer otra solicitud",
+  wa_msg: "Hola Turismo Club, solicitud de reserva: {offer} · fecha: {date} · {n} personas · nombre: {name}",
+  q_send: "Enviar mi solicitud", q_ok: "Solicitud recibida. Te respondemos en 24 h. No se ha realizado ningún pago.", q_reply: "Un asesor te contactará con una primera propuesta.",
+  en_only: "Esta página solo está disponible en inglés e italiano." },
+de: { demo: "Vorschauversion — Website im Aufbau. Die Preise sind Richtwerte, Online-Zahlung ist noch nicht aktiv.",
+  hours_l: "Öffnungszeiten", indic: "Richtpreis", sec_top: "Unsere Touren in Rom", so_pop: "Empfohlen",
+  f3a: "Die Stornobedingungen hängen vom Angebot ab. Sie werden Ihnen mit unserer Antwort schriftlich bestätigt, vor jeder Zahlung.",
+  br_t: "Buchungsanfrage", br_d: "Jetzt keine Zahlung: Wir prüfen die Verfügbarkeit und bestätigen den Preis innerhalb von 24 Std.",
+  f_offer: "Angebot", f_name: "Vor- und Nachname", f_date: "Wunschdatum", f_pax: "Anzahl Personen", f_lang: "Bevorzugte Sprache", f_msg: "Nachricht (optional)",
+  consent: "Ich bin einverstanden, dass meine Daten zur Beantwortung meiner Anfrage verwendet werden, wie auf der Seite {link} beschrieben.", privacy: "Datenschutz & Cookies", legal: "Impressum",
+  e_name: "Bitte geben Sie Ihren Namen ein.", e_date: "Bitte wählen Sie ein Datum.", e_pax: "Bitte geben Sie die Personenzahl an.", e_consent: "Bitte kreuzen Sie dieses Feld an, um die Anfrage zu senden.", e_wait: "Bitte warten Sie einige Sekunden und senden Sie erneut.",
+  br_send: "Anfrage senden", br_sending: "Wird gesendet…", br_ok: "Anfrage erhalten. Wir antworten innerhalb von 24 Std. Es wurde keine Zahlung vorgenommen.",
+  br_fail: "Ihre Anfrage konnte nicht online gesendet werden. Nichts geht verloren: Senden Sie sie uns direkt per WhatsApp oder E-Mail.",
+  br_wa: "Auch per WhatsApp senden", br_wa2: "Per WhatsApp senden", br_mail: "Per E-Mail senden", br_new: "Weitere Anfrage stellen",
+  wa_msg: "Hallo Turismo Club, Buchungsanfrage: {offer} · Datum: {date} · {n} Personen · Name: {name}",
+  q_send: "Anfrage senden", q_ok: "Anfrage erhalten. Wir antworten innerhalb von 24 Std. Es wurde keine Zahlung vorgenommen.", q_reply: "Ein Berater meldet sich mit einem ersten Vorschlag bei Ihnen.",
+  en_only: "Diese Seite ist nur auf Englisch und Italienisch verfügbar." },
+pt: { demo: "Versão de pré-visualização — site em construção. Os preços são indicativos e o pagamento online ainda não está ativo.",
+  hours_l: "Horário", indic: "preço indicativo", sec_top: "Os nossos tours em Roma", so_pop: "Recomendados",
+  f3a: "As condições de cancelamento dependem da oferta. São confirmadas por escrito com a nossa resposta, antes de qualquer pagamento.",
+  br_t: "Pedido de reserva", br_d: "Sem pagamento agora: verificamos a disponibilidade e confirmamos o preço em 24 h.",
+  f_offer: "Oferta", f_name: "Nome completo", f_date: "Data pretendida", f_pax: "Número de pessoas", f_lang: "Língua preferida", f_msg: "Mensagem (opcional)",
+  consent: "Aceito que os meus dados sejam usados para responder ao meu pedido, como descrito na página {link}.", privacy: "Privacidade e cookies", legal: "Aviso legal",
+  e_name: "Indique o seu nome.", e_date: "Escolha uma data.", e_pax: "Indique o número de pessoas.", e_consent: "Assinale esta caixa para enviar o pedido.", e_wait: "Aguarde alguns segundos e envie novamente.",
+  br_send: "Enviar o meu pedido", br_sending: "A enviar…", br_ok: "Pedido recebido. Respondemos em 24 h. Não foi efetuado nenhum pagamento.",
+  br_fail: "Não foi possível enviar o seu pedido online. Nada se perde: envie-o diretamente por WhatsApp ou por e-mail.",
+  br_wa: "Enviar também por WhatsApp", br_wa2: "Enviar por WhatsApp", br_mail: "Enviar por e-mail", br_new: "Fazer outro pedido",
+  wa_msg: "Olá Turismo Club, pedido de reserva: {offer} · data: {date} · {n} pessoas · nome: {name}",
+  q_send: "Enviar o meu pedido", q_ok: "Pedido recebido. Respondemos em 24 h. Não foi efetuado nenhum pagamento.", q_reply: "Um consultor entrará em contacto com uma primeira proposta.",
+  en_only: "Esta página só está disponível em inglês e italiano." },
+nl: { demo: "Voorbeeldversie — website in opbouw. Prijzen zijn indicatief en online betalen is nog niet actief.",
+  hours_l: "Openingstijden", indic: "indicatieve prijs", sec_top: "Onze tours in Rome", so_pop: "Aanbevolen",
+  f3a: "De annuleringsvoorwaarden hangen af van het aanbod. Ze worden schriftelijk bevestigd met ons antwoord, vóór elke betaling.",
+  br_t: "Boekingsaanvraag", br_d: "Nu geen betaling: we controleren de beschikbaarheid en bevestigen de prijs binnen 24 uur.",
+  f_offer: "Aanbod", f_name: "Volledige naam", f_date: "Gewenste datum", f_pax: "Aantal personen", f_lang: "Voorkeurstaal", f_msg: "Bericht (optioneel)",
+  consent: "Ik ga ermee akkoord dat mijn gegevens worden gebruikt om mijn aanvraag te beantwoorden, zoals beschreven op de pagina {link}.", privacy: "Privacy & cookies", legal: "Juridische informatie",
+  e_name: "Vul uw naam in.", e_date: "Kies een datum.", e_pax: "Vul het aantal personen in.", e_consent: "Vink dit vakje aan om uw aanvraag te versturen.", e_wait: "Wacht een paar seconden en verstuur opnieuw.",
+  br_send: "Aanvraag versturen", br_sending: "Bezig met versturen…", br_ok: "Aanvraag ontvangen. We antwoorden binnen 24 uur. Er is geen betaling gedaan.",
+  br_fail: "Uw aanvraag kon niet online worden verstuurd. Er gaat niets verloren: stuur hem direct via WhatsApp of e-mail.",
+  br_wa: "Ook via WhatsApp sturen", br_wa2: "Via WhatsApp sturen", br_mail: "Per e-mail sturen", br_new: "Nog een aanvraag doen",
+  wa_msg: "Hallo Turismo Club, boekingsaanvraag: {offer} · datum: {date} · {n} personen · naam: {name}",
+  q_send: "Aanvraag versturen", q_ok: "Aanvraag ontvangen. We antwoorden binnen 24 uur. Er is geen betaling gedaan.", q_reply: "Een adviseur neemt contact met u op met een eerste voorstel.",
+  en_only: "Deze pagina is alleen beschikbaar in het Engels en Italiaans." },
+zh: { demo: "预览版——网站建设中。价格仅供参考，暂未开通在线支付。",
+  hours_l: "营业时间", indic: "参考价格", sec_top: "我们的罗马游览项目", so_pop: "推荐",
+  f3a: "取消条件视具体产品而定，将在付款前随我们的回复以书面形式确认。",
+  br_t: "预订申请", br_d: "现在无需付款：我们会在24小时内核实名额并确认价格。",
+  f_offer: "产品", f_name: "姓名", f_date: "期望日期", f_pax: "人数", f_lang: "首选语言", f_msg: "留言（选填）",
+  consent: "我同意我的数据用于回复我的申请，详见{link}页面。", privacy: "隐私与Cookie", legal: "法律声明",
+  e_name: "请填写您的姓名。", e_date: "请选择日期。", e_pax: "请填写人数。", e_consent: "请勾选此项以提交申请。", e_wait: "请稍等几秒后再提交。",
+  br_send: "提交申请", br_sending: "正在提交…", br_ok: "申请已收到。我们将在24小时内回复。未产生任何付款。",
+  br_fail: "您的申请未能在线提交。信息不会丢失：请直接通过WhatsApp或电子邮件发送给我们。",
+  br_wa: "同时通过WhatsApp发送", br_wa2: "通过WhatsApp发送", br_mail: "通过电子邮件发送", br_new: "再提交一个申请",
+  wa_msg: "您好 Turismo Club，预订申请：{offer} · 日期：{date} · {n}人 · 姓名：{name}",
+  q_send: "提交申请", q_ok: "申请已收到。我们将在24小时内回复。未产生任何付款。", q_reply: "顾问将与您联系并提供初步方案。",
+  en_only: "本页面仅提供英文和意大利文版本。" },
+ja: { demo: "プレビュー版 — サイト準備中です。料金は目安で、オンライン決済はまだご利用いただけません。",
+  hours_l: "営業時間", indic: "目安料金", sec_top: "ローマのツアー", so_pop: "おすすめ順",
+  f3a: "キャンセル条件は商品によって異なります。お支払いの前に、ご返信とあわせて書面でお知らせします。",
+  br_t: "予約リクエスト", br_d: "今はお支払い不要です。空き状況を確認し、24時間以内に料金を確定してご連絡します。",
+  f_offer: "商品", f_name: "お名前", f_date: "希望日", f_pax: "人数", f_lang: "希望言語", f_msg: "メッセージ（任意）",
+  consent: "{link}ページの説明のとおり、リクエストへの回答のために私のデータが使用されることに同意します。", privacy: "プライバシーとCookie", legal: "法的情報",
+  e_name: "お名前を入力してください。", e_date: "日付を選択してください。", e_pax: "人数を入力してください。", e_consent: "送信するにはこのボックスにチェックを入れてください。", e_wait: "数秒待ってから、もう一度送信してください。",
+  br_send: "リクエストを送信", br_sending: "送信中…", br_ok: "リクエストを受け付けました。24時間以内にご返信します。お支払いは発生していません。",
+  br_fail: "オンラインで送信できませんでした。内容は失われません。WhatsAppまたはメールで直接お送りください。",
+  br_wa: "WhatsAppでも送る", br_wa2: "WhatsAppで送る", br_mail: "メールで送る", br_new: "別のリクエストをする",
+  wa_msg: "Turismo Club様、予約リクエスト：{offer} · 日付：{date} · {n}名 · 名前：{name}",
+  q_send: "リクエストを送信", q_ok: "リクエストを受け付けました。24時間以内にご返信します。お支払いは発生していません。", q_reply: "担当者が最初のご提案をお送りします。",
+  en_only: "このページは英語とイタリア語のみでご覧いただけます。" },
+ko: { demo: "미리보기 버전 — 사이트 준비 중입니다. 가격은 참고용이며 온라인 결제는 아직 이용할 수 없습니다.",
+  hours_l: "운영 시간", indic: "참고 가격", sec_top: "로마 투어", so_pop: "추천순",
+  f3a: "취소 조건은 상품에 따라 다릅니다. 결제 전에 저희 답변과 함께 서면으로 확인해 드립니다.",
+  br_t: "예약 요청", br_d: "지금은 결제하지 않습니다. 예약 가능 여부를 확인하고 24시간 안에 가격을 확정해 드립니다.",
+  f_offer: "상품", f_name: "성명", f_date: "희망 날짜", f_pax: "인원", f_lang: "선호 언어", f_msg: "메시지 (선택)",
+  consent: "{link} 페이지에 설명된 대로 요청에 답변하기 위해 내 정보가 사용되는 것에 동의합니다.", privacy: "개인정보 및 쿠키", legal: "법적 고지",
+  e_name: "이름을 입력해 주세요.", e_date: "날짜를 선택해 주세요.", e_pax: "인원을 입력해 주세요.", e_consent: "요청을 보내려면 이 항목에 체크해 주세요.", e_wait: "몇 초 기다린 후 다시 보내 주세요.",
+  br_send: "요청 보내기", br_sending: "보내는 중…", br_ok: "요청이 접수되었습니다. 24시간 안에 답변드립니다. 결제는 이루어지지 않았습니다.",
+  br_fail: "온라인으로 요청을 보내지 못했습니다. 내용은 사라지지 않습니다. WhatsApp이나 이메일로 직접 보내 주세요.",
+  br_wa: "WhatsApp으로도 보내기", br_wa2: "WhatsApp으로 보내기", br_mail: "이메일로 보내기", br_new: "다른 요청하기",
+  wa_msg: "안녕하세요 Turismo Club, 예약 요청: {offer} · 날짜: {date} · {n}명 · 이름: {name}",
+  q_send: "요청 보내기", q_ok: "요청이 접수되었습니다. 24시간 안에 답변드립니다. 결제는 이루어지지 않았습니다.", q_reply: "상담사가 첫 제안을 가지고 연락드립니다.",
+  en_only: "이 페이지는 영어와 이탈리아어로만 제공됩니다." }
+};
+
 /* ===================== Langues =====================
    Langue principale : anglais. Les 10 langues proposées couvrent les principaux
    marchés touristiques de Rome ; pour en changer, modifier LANGS et UI. */
@@ -246,157 +396,158 @@ const LANGS = [
 ];
 const LOCALES = { en: 'en-GB', it: 'it-IT', fr: 'fr-FR', es: 'es-ES', de: 'de-DE', pt: 'pt-PT', nl: 'nl-NL', zh: 'zh-CN', ja: 'ja-JP', ko: 'ko-KR' };
 const UI = {
-en: { req_ok: "Request sent! We will reply within 24 h by email.", q_ok: "Your request has been received.", demo: "Demo simulation: real places and practical tips; prices, guides, reviews, figures and agency details are fictitious. No real payment, no data sent.", top_left: "Local agency based in Rome · multilingual advisors", top_right: "WhatsApp: +39 333 000 4521 · daily 8am–9pm", nav_offers: "Experiences", nav_custom: "Tailor-made trips", nav_faq: "FAQ", cart: "Cart", lang: "Language",
+en: { q_ok: "Your request has been received.", demo: "Demo simulation: real places and practical tips; prices, guides, reviews, figures and agency details are fictitious. No real payment, no data sent.", top_left: "Local agency based in Rome · multilingual advisors", nav_offers: "Experiences", nav_custom: "Tailor-made trips", nav_faq: "FAQ", lang: "Language",
   hero_eb: "Your local agency in Rome", hero_t: "Everything for your stay in Rome, booked with people who live here.", hero_d: "Guided tours, bus tours, circuits across Italy, hotels and restaurants: one local team, one booking.", s_cat: "What are you looking for?", s_all: "Everything", s_where: "Where?", s_any: "Anywhere", s_btn: "Search",
-  st_years: "years in Rome", st_trav: "travellers welcomed", st_rev: "1,284 reviews (fictitious)", st_reply: "average reply time", sec_cat: "What we organise", offers: "offers", sec_top: "Most booked in Rome", see_all: "See all offers",
+  sec_cat: "What we organise", offers: "offers", sec_top: "Most booked in Rome", see_all: "See all offers",
   why_eb: "Why a local agency", why_t: "We live in Rome. It changes your trip.", why1t: "Guides we know personally.", why1d: "Selected, trained and followed by our team.", why2t: "An advisor on site.", why2d: "Delay, rain, change of plans: same-day answer, in your language.", why3t: "No middleman.", why3d: "You book directly with the people who organise your stay.",
   sec_trips: "Circuits & day trips from Rome", sec_stay: "Hotels & restaurants we recommend", cta_eb: "Tailor-made trips", cta_t: "Several days in Italy, a group or a honeymoon?", cta_d: "Tell us your dates, wishes and budget: an advisor sends you a free, no-obligation programme within 48 hours.", cta_b: "Request my programme",
   faq_t: "Frequently asked questions", f1q: "Why book with a local agency?", f1a: "You deal directly with the team that runs your tour, before and during your stay, in your language.", f2q: "Are entrance tickets included?", f2a: "Yes for all monument and museum tours: we buy skip-the-line tickets and your guide hands them out at the meeting point.", f3q: "Can I cancel?", f3a: "Yes: free cancellation and full refund up to 24 hours before the start (72 hours for circuits and day trips by train).", f4q: "How do hotel and restaurant bookings work?", f4a: "Send a request: we check availability with our partners and confirm within 24 hours. Nothing is charged before confirmation.",
   credits: "Photo credits", home: "Home", cat_t: "Tours, bus tours, circuits, hotels and restaurants", cat_d: "Everything is organised by our team in Rome.", f_cat: "Category", f_dest: "Destination", f_all: "All", f_dur: "Duration", d_short: "Under 3 h", d_mid: "3 to 5 h", d_long: "Full day or more", reset: "Reset filters", results: "results", sort: "Sort by", so_pop: "Most booked", so_low: "Price: low to high", so_high: "Price: high to low", so_dur: "Duration", none: "No offer matches your filters.", none_hint: "Remove a filter, or request a tailor-made programme.",
-  from: "from", pp: "/ person", pn: "/ night", reviews: "reviews", no_rev: "New · no reviews yet", guided: "Multilingual guide", fullday: "Full day", days: "days",
-  hl: "Highlights", prog: "Itinerary", incl: "Included", notincl: "Not included", meet: "Meeting point", gtk: "Good to know", rev_t: "Traveller reviews", rev_demo: "Sample reviews, fictitious, for the demo.", rev_lang: "Review written in French",
-  date: "Date", time: "Time", adults: "Adults", adults_s: "18+", children: "Children", children_s: "{a}–17 years", total: "Total", pers: "people", choose_time: "Choose a time to continue.", only_left: "Only {n} place(s) left at {t}. Reduce the number of people or choose another time.", add: "Add to cart", full: "Full", left: "{n} left", cancel: "Free cancellation up to {h} h before", instant: "Instant confirmation", secure: "Secure payment",
-  checkin: "Arrival date", nights: "Nights", guests: "Guests", estimate: "Estimated total", req_b: "Send booking request", req_note: "We confirm availability within 24 h. No payment now.", req_sent: "Request sent! We will reply within 24 h (simulation: nothing was sent).", name: "Name", email: "Email",
-  ct: "Complete your booking", items: "Your bookings", remove: "Remove", details: "Your details", first: "First name", last: "Last name", phone: "Phone (WhatsApp)", terms: "I accept the terms and conditions", pay_sim: "Simulated payment: on the real site, a secure payment page (e.g. Stripe) would open here. No card details are requested in this demo.", pay_b: "Confirm and pay {x} (simulation)", summary: "Summary", empty: "Your cart is empty", empty_d: "Add an offer from the catalogue.", see: "See offers", e_first: "Please enter your first name.", e_last: "Please enter your last name.", e_email: "Invalid email address.", e_terms: "Please accept the terms and conditions.",
-  conf_eb: "Booking confirmed", thanks: "Thank you {name}, see you soon in Rome!", ref: "Your booking reference:", paid: "Total paid (simulation)", email_sim: "On the real site, a confirmation email would be sent to {email}. Nothing is sent here.", another: "Book another experience",
-  q_t: "Your stay in Italy, designed with you", q_d: "3 minutes to describe your project. Free and no obligation.", arr: "Arrival", dep: "Departure", trav: "Travellers", budget: "Budget per person (excluding flights)", interests: "Your interests", project: "Your project in a few words", q_send: "Send my request (simulation)", q_thanks: "Thank you {name}!", q_reply: "An advisor will contact you within 48 h with a first proposal.", q_sim: "Simulation: the request was not sent anywhere.", q_again: "Make another request", e_dates: "Departure must be after arrival.",
-  added: "Added to cart", c_d: "Photos from Wikimedia Commons, used under their licences. CC BY and CC BY-SA licences require crediting the author and the licence, which this page does.", c_photo: "Photo", c_author: "Author", c_lic: "Licence", c_src: "Source", footer: "Local travel agency in Rome" },
-it: { req_ok: "Richiesta inviata! Ti rispondiamo entro 24 h via e-mail.", q_ok: "La tua richiesta è stata ricevuta.", demo: "Simulazione dimostrativa: luoghi e consigli pratici reali; prezzi, guide, recensioni, cifre e dati dell'agenzia sono fittizi. Nessun pagamento reale, nessun dato inviato.", top_left: "Agenzia locale con sede a Roma · consulenti multilingue", top_right: "WhatsApp: +39 333 000 4521 · tutti i giorni 8–21", nav_offers: "Esperienze", nav_custom: "Viaggi su misura", nav_faq: "FAQ", cart: "Carrello", lang: "Lingua",
+  from: "from", pp: "/ person", pn: "/ night", guided: "Multilingual guide", fullday: "Full day", days: "days",
+  hl: "Highlights", prog: "Itinerary", incl: "Included", notincl: "Not included", meet: "Meeting point", gtk: "Good to know", 
+  date: "Date", time: "Time", 
+  checkin: "Arrival date", nights: "Nights", email: "Email",
+  phone: "Phone (WhatsApp)", e_email: "Invalid email address.", 
+  
+  q_t: "Your stay in Italy, designed with you", q_d: "3 minutes to describe your project. Free and no obligation.", arr: "Arrival", dep: "Departure", trav: "Travellers", budget: "Budget per person (excluding flights)", interests: "Your interests", project: "Your project in a few words", q_send: "Send my request (simulation)", q_reply: "An advisor will contact you within 48 h with a first proposal.", q_again: "Make another request", e_dates: "Departure must be after arrival.",
+  c_d: "Photos from Wikimedia Commons, used under their licences. CC BY and CC BY-SA licences require crediting the author and the licence, which this page does.", c_photo: "Photo", c_author: "Author", c_lic: "Licence", c_src: "Source", footer: "Local travel agency in Rome" },
+it: { q_ok: "La tua richiesta è stata ricevuta.", demo: "Simulazione dimostrativa: luoghi e consigli pratici reali; prezzi, guide, recensioni, cifre e dati dell'agenzia sono fittizi. Nessun pagamento reale, nessun dato inviato.", top_left: "Agenzia locale con sede a Roma · consulenti multilingue", nav_offers: "Esperienze", nav_custom: "Viaggi su misura", nav_faq: "FAQ", lang: "Lingua",
   hero_eb: "La tua agenzia locale a Roma", hero_t: "Tutto per il tuo soggiorno a Roma, prenotato con chi ci vive.", hero_d: "Visite guidate, tour in bus, circuiti in Italia, hotel e ristoranti: un solo team locale, una sola prenotazione.", s_cat: "Cosa cerchi?", s_all: "Tutto", s_where: "Dove?", s_any: "Ovunque", s_btn: "Cerca",
-  st_years: "anni a Roma", st_trav: "viaggiatori accolti", st_rev: "1.284 recensioni (fittizie)", st_reply: "tempo medio di risposta", sec_cat: "Cosa organizziamo", offers: "offerte", sec_top: "I più prenotati a Roma", see_all: "Vedi tutte le offerte",
+  sec_cat: "Cosa organizziamo", offers: "offerte", sec_top: "I più prenotati a Roma", see_all: "Vedi tutte le offerte",
   why_eb: "Perché un'agenzia locale", why_t: "Viviamo a Roma. E il tuo viaggio cambia.", why1t: "Guide che conosciamo di persona.", why1d: "Selezionate, formate e seguite dal nostro team.", why2t: "Un consulente sul posto.", why2d: "Ritardo, pioggia, cambio di programma: risposta in giornata, nella tua lingua.", why3t: "Nessun intermediario.", why3d: "Prenoti direttamente con chi organizza il tuo soggiorno.",
   sec_trips: "Circuiti e gite da Roma", sec_stay: "Hotel e ristoranti che consigliamo", cta_eb: "Viaggi su misura", cta_t: "Più giorni in Italia, un gruppo o un viaggio di nozze?", cta_d: "Indicaci date, desideri e budget: un consulente ti invia un programma gratuito e senza impegno entro 48 ore.", cta_b: "Richiedi il mio programma",
   faq_t: "Domande frequenti", f1q: "Perché prenotare con un'agenzia locale?", f1a: "Parli direttamente con il team che organizza la visita, prima e durante il soggiorno, nella tua lingua.", f2q: "I biglietti d'ingresso sono inclusi?", f2a: "Sì, per tutte le visite a monumenti e musei: acquistiamo i biglietti salta-fila e la guida li consegna al punto d'incontro.", f3q: "Posso annullare?", f3a: "Sì: cancellazione gratuita e rimborso completo fino a 24 ore prima (72 ore per circuiti e gite in treno).", f4q: "Come funzionano le prenotazioni di hotel e ristoranti?", f4a: "Invia una richiesta: verifichiamo la disponibilità con i partner e confermiamo entro 24 ore. Nessun addebito prima della conferma.",
   credits: "Crediti fotografici", home: "Home", cat_t: "Visite, tour in bus, circuiti, hotel e ristoranti", cat_d: "Tutto organizzato dal nostro team a Roma.", f_cat: "Categoria", f_dest: "Destinazione", f_all: "Tutte", f_dur: "Durata", d_short: "Meno di 3 h", d_mid: "Da 3 a 5 h", d_long: "Giornata intera o più", reset: "Azzera i filtri", results: "risultati", sort: "Ordina per", so_pop: "Più prenotati", so_low: "Prezzo crescente", so_high: "Prezzo decrescente", so_dur: "Durata", none: "Nessuna offerta corrisponde ai filtri.", none_hint: "Togli un filtro o richiedi un programma su misura.",
-  from: "da", pp: "/ persona", pn: "/ notte", reviews: "recensioni", no_rev: "Novità · ancora nessuna recensione", guided: "Guida multilingue", fullday: "Giornata intera", days: "giorni",
-  hl: "Punti forti", prog: "Programma", incl: "Incluso", notincl: "Non incluso", meet: "Punto d'incontro", gtk: "Da sapere", rev_t: "Recensioni dei viaggiatori", rev_demo: "Recensioni di esempio, fittizie, per la demo.", rev_lang: "Recensione scritta in francese",
-  date: "Data", time: "Orario", adults: "Adulti", adults_s: "18+", children: "Bambini", children_s: "{a}–17 anni", total: "Totale", pers: "persone", choose_time: "Scegli un orario per continuare.", only_left: "Restano solo {n} posti alle {t}. Riduci il numero di persone o scegli un altro orario.", add: "Aggiungi al carrello", full: "Completo", left: "{n} posti", cancel: "Cancellazione gratuita fino a {h} h prima", instant: "Conferma immediata", secure: "Pagamento sicuro",
-  checkin: "Data di arrivo", nights: "Notti", guests: "Ospiti", estimate: "Totale stimato", req_b: "Invia la richiesta di prenotazione", req_note: "Confermiamo la disponibilità entro 24 h. Nessun pagamento ora.", req_sent: "Richiesta inviata! Ti rispondiamo entro 24 h (simulazione: nulla è stato inviato).", name: "Nome", email: "E-mail",
-  ct: "Completa la prenotazione", items: "Le tue prenotazioni", remove: "Rimuovi", details: "I tuoi dati", first: "Nome", last: "Cognome", phone: "Telefono (WhatsApp)", terms: "Accetto i termini e le condizioni", pay_sim: "Pagamento simulato: sul sito reale qui si aprirebbe una pagina di pagamento sicura (ad es. Stripe). In questa demo non viene richiesta nessuna carta.", pay_b: "Conferma e paga {x} (simulazione)", summary: "Riepilogo", empty: "Il carrello è vuoto", empty_d: "Aggiungi un'offerta dal catalogo.", see: "Vedi le offerte", e_first: "Inserisci il nome.", e_last: "Inserisci il cognome.", e_email: "Indirizzo e-mail non valido.", e_terms: "Accetta i termini e le condizioni.",
-  conf_eb: "Prenotazione confermata", thanks: "Grazie {name}, a presto a Roma!", ref: "Il tuo codice di prenotazione:", paid: "Totale pagato (simulazione)", email_sim: "Sul sito reale una e-mail di conferma verrebbe inviata a {email}. Qui non viene inviato nulla.", another: "Prenota un'altra esperienza",
-  q_t: "Il tuo soggiorno in Italia, pensato con te", q_d: "3 minuti per descrivere il tuo progetto. Gratuito e senza impegno.", arr: "Arrivo", dep: "Partenza", trav: "Viaggiatori", budget: "Budget a persona (voli esclusi)", interests: "I tuoi interessi", project: "Il tuo progetto in poche parole", q_send: "Invia la richiesta (simulazione)", q_thanks: "Grazie {name}!", q_reply: "Un consulente ti contatterà entro 48 h con una prima proposta.", q_sim: "Simulazione: la richiesta non è stata inviata.", q_again: "Fai un'altra richiesta", e_dates: "La partenza deve essere dopo l'arrivo.",
-  added: "Aggiunto al carrello", c_d: "Foto da Wikimedia Commons, usate secondo le loro licenze. Le licenze CC BY e CC BY-SA richiedono di citare autore e licenza, come fa questa pagina.", c_photo: "Foto", c_author: "Autore", c_lic: "Licenza", c_src: "Fonte", footer: "Agenzia di viaggi locale a Roma" },
-fr: { req_ok: "Demande envoyée ! Nous vous répondons sous 24 h par e-mail.", q_ok: "Votre demande a bien été reçue.", demo: "Simulation de démonstration : lieux et conseils pratiques réels ; prix, guides, avis, chiffres et coordonnées de l'agence fictifs. Aucun paiement réel, aucune donnée envoyée.", top_left: "Agence locale basée à Rome · conseillers multilingues", top_right: "WhatsApp : +39 333 000 4521 · tous les jours 8 h–21 h", nav_offers: "Expériences", nav_custom: "Voyages sur-mesure", nav_faq: "FAQ", cart: "Panier", lang: "Langue",
+  from: "da", pp: "/ persona", pn: "/ notte", guided: "Guida multilingue", fullday: "Giornata intera", days: "giorni",
+  hl: "Punti forti", prog: "Programma", incl: "Incluso", notincl: "Non incluso", meet: "Punto d'incontro", gtk: "Da sapere", 
+  date: "Data", time: "Orario", 
+  checkin: "Data di arrivo", nights: "Notti", email: "E-mail",
+  phone: "Telefono (WhatsApp)", e_email: "Indirizzo e-mail non valido.", 
+  
+  q_t: "Il tuo soggiorno in Italia, pensato con te", q_d: "3 minuti per descrivere il tuo progetto. Gratuito e senza impegno.", arr: "Arrivo", dep: "Partenza", trav: "Viaggiatori", budget: "Budget a persona (voli esclusi)", interests: "I tuoi interessi", project: "Il tuo progetto in poche parole", q_send: "Invia la richiesta (simulazione)", q_reply: "Un consulente ti contatterà entro 48 h con una prima proposta.", q_again: "Fai un'altra richiesta", e_dates: "La partenza deve essere dopo l'arrivo.",
+  c_d: "Foto da Wikimedia Commons, usate secondo le loro licenze. Le licenze CC BY e CC BY-SA richiedono di citare autore e licenza, come fa questa pagina.", c_photo: "Foto", c_author: "Autore", c_lic: "Licenza", c_src: "Fonte", footer: "Agenzia di viaggi locale a Roma" },
+fr: { q_ok: "Votre demande a bien été reçue.", demo: "Simulation de démonstration : lieux et conseils pratiques réels ; prix, guides, avis, chiffres et coordonnées de l'agence fictifs. Aucun paiement réel, aucune donnée envoyée.", top_left: "Agence locale basée à Rome · conseillers multilingues", nav_offers: "Expériences", nav_custom: "Voyages sur-mesure", nav_faq: "FAQ", lang: "Langue",
   hero_eb: "Votre agence locale à Rome", hero_t: "Tout votre séjour à Rome, réservé avec ceux qui y vivent.", hero_d: "Visites guidées, bus touristiques, circuits en Italie, hôtels et restaurants : une seule équipe locale, une seule réservation.", s_cat: "Que cherchez-vous ?", s_all: "Tout", s_where: "Où ?", s_any: "Partout", s_btn: "Rechercher",
-  st_years: "ans à Rome", st_trav: "voyageurs accueillis", st_rev: "1 284 avis (fictifs)", st_reply: "délai moyen de réponse", sec_cat: "Ce que nous organisons", offers: "offres", sec_top: "Les plus réservés à Rome", see_all: "Voir toutes les offres",
+  sec_cat: "Ce que nous organisons", offers: "offres", sec_top: "Les plus réservés à Rome", see_all: "Voir toutes les offres",
   why_eb: "Pourquoi une agence locale", why_t: "On vit à Rome. Ça change votre voyage.", why1t: "Des guides qu'on connaît personnellement.", why1d: "Sélectionnés, formés et suivis par notre équipe.", why2t: "Un conseiller sur place.", why2d: "Retard, pluie, changement de programme : réponse le jour même, dans votre langue.", why3t: "Sans intermédiaire.", why3d: "Vous réservez directement auprès de ceux qui organisent votre séjour.",
   sec_trips: "Circuits & excursions au départ de Rome", sec_stay: "Hôtels & restaurants recommandés", cta_eb: "Voyages sur-mesure", cta_t: "Plusieurs jours en Italie, un groupe, un voyage de noces ?", cta_d: "Indiquez vos dates, vos envies et votre budget : un conseiller vous envoie un programme gratuit et sans engagement sous 48 h.", cta_b: "Demander mon programme",
   faq_t: "Questions fréquentes", f1q: "Pourquoi réserver avec une agence locale ?", f1a: "Vous échangez directement avec l'équipe qui organise votre visite, avant et pendant le séjour, dans votre langue.", f2q: "Les billets d'entrée sont-ils inclus ?", f2a: "Oui pour toutes les visites de monuments et musées : nous achetons les billets coupe-file et le guide vous les remet au point de rendez-vous.", f3q: "Puis-je annuler ?", f3a: "Oui : annulation gratuite et remboursement intégral jusqu'à 24 h avant (72 h pour les circuits et excursions en train).", f4q: "Comment fonctionnent les réservations d'hôtels et de restaurants ?", f4a: "Envoyez une demande : nous vérifions la disponibilité auprès de nos partenaires et confirmons sous 24 h. Rien n'est débité avant confirmation.",
   credits: "Crédits photos", home: "Accueil", cat_t: "Visites, bus, circuits, hôtels et restaurants", cat_d: "Tout est organisé par notre équipe à Rome.", f_cat: "Catégorie", f_dest: "Destination", f_all: "Toutes", f_dur: "Durée", d_short: "Moins de 3 h", d_mid: "3 à 5 h", d_long: "Journée ou plus", reset: "Réinitialiser les filtres", results: "résultats", sort: "Trier par", so_pop: "Les plus réservés", so_low: "Prix croissant", so_high: "Prix décroissant", so_dur: "Durée", none: "Aucune offre ne correspond à vos filtres.", none_hint: "Enlevez un filtre ou demandez un programme sur-mesure.",
-  from: "dès", pp: "/ pers.", pn: "/ nuit", reviews: "avis", no_rev: "Nouveau · pas encore d'avis", guided: "Guide multilingue", fullday: "Journée", days: "jours",
-  hl: "Points forts", prog: "Programme", incl: "Inclus", notincl: "Non inclus", meet: "Point de rendez-vous", gtk: "À savoir", rev_t: "Avis des voyageurs", rev_demo: "Avis d'exemple, fictifs, pour la démonstration.", rev_lang: "Avis rédigé en français",
-  date: "Date", time: "Horaire", adults: "Adultes", adults_s: "18 ans et +", children: "Enfants", children_s: "{a} à 17 ans", total: "Total", pers: "pers.", choose_time: "Choisissez un horaire pour continuer.", only_left: "Il ne reste que {n} place(s) à {t}. Réduisez le nombre de participants ou choisissez un autre horaire.", add: "Ajouter au panier", full: "Complet", left: "{n} places", cancel: "Annulation gratuite jusqu'à {h} h avant", instant: "Confirmation immédiate", secure: "Paiement sécurisé",
-  checkin: "Date d'arrivée", nights: "Nuits", guests: "Personnes", estimate: "Total estimé", req_b: "Envoyer la demande de réservation", req_note: "Nous confirmons la disponibilité sous 24 h. Aucun paiement maintenant.", req_sent: "Demande envoyée ! Réponse sous 24 h (simulation : rien n'a été envoyé).", name: "Nom", email: "E-mail",
-  ct: "Finaliser ma réservation", items: "Vos réservations", remove: "Retirer", details: "Vos coordonnées", first: "Prénom", last: "Nom", phone: "Téléphone (WhatsApp)", terms: "J'accepte les conditions générales de vente", pay_sim: "Paiement simulé : sur le vrai site, une page de paiement sécurisée (Stripe par exemple) s'ouvrirait ici. Aucune carte n'est demandée dans cette démonstration.", pay_b: "Confirmer et payer {x} (simulation)", summary: "Récapitulatif", empty: "Votre panier est vide", empty_d: "Ajoutez une offre depuis le catalogue.", see: "Voir les offres", e_first: "Indiquez votre prénom.", e_last: "Indiquez votre nom.", e_email: "Adresse e-mail invalide.", e_terms: "Vous devez accepter les conditions de vente.",
-  conf_eb: "Réservation confirmée", thanks: "Merci {name}, à bientôt à Rome !", ref: "Votre numéro de réservation :", paid: "Total payé (simulation)", email_sim: "Sur le vrai site, un e-mail de confirmation partirait vers {email}. Ici, rien n'est envoyé.", another: "Réserver une autre expérience",
-  q_t: "Votre séjour en Italie, construit avec vous", q_d: "3 minutes pour décrire votre projet. Gratuit et sans engagement.", arr: "Arrivée", dep: "Départ", trav: "Voyageurs", budget: "Budget par personne (hors vols)", interests: "Vos envies", project: "Votre projet en quelques mots", q_send: "Envoyer ma demande (simulation)", q_thanks: "Merci {name} !", q_reply: "Un conseiller vous recontacte sous 48 h avec une première proposition.", q_sim: "Simulation : la demande n'a été envoyée nulle part.", q_again: "Faire une autre demande", e_dates: "Le départ doit être après l'arrivée.",
-  added: "Ajouté au panier", c_d: "Photos issues de Wikimedia Commons, utilisées selon leur licence. Les licences CC BY et CC BY-SA imposent de citer l'auteur et la licence, ce que fait cette page.", c_photo: "Photo", c_author: "Auteur", c_lic: "Licence", c_src: "Source", footer: "Agence de voyages locale à Rome" },
-es: { req_ok: "¡Solicitud enviada! Te respondemos en 24 h por correo.", q_ok: "Hemos recibido tu solicitud.", demo: "Simulación de demostración: lugares y consejos prácticos reales; precios, guías, opiniones, cifras y datos de la agencia ficticios. Sin pago real, sin envío de datos.", top_left: "Agencia local con sede en Roma · asesores multilingües", top_right: "WhatsApp: +39 333 000 4521 · todos los días 8–21 h", nav_offers: "Experiencias", nav_custom: "Viajes a medida", nav_faq: "Preguntas", cart: "Carrito", lang: "Idioma",
+  from: "dès", pp: "/ pers.", pn: "/ nuit", guided: "Guide multilingue", fullday: "Journée", days: "jours",
+  hl: "Points forts", prog: "Programme", incl: "Inclus", notincl: "Non inclus", meet: "Point de rendez-vous", gtk: "À savoir", 
+  date: "Date", time: "Horaire", 
+  checkin: "Date d'arrivée", nights: "Nuits", email: "E-mail",
+  phone: "Téléphone (WhatsApp)", e_email: "Adresse e-mail invalide.", 
+  
+  q_t: "Votre séjour en Italie, construit avec vous", q_d: "3 minutes pour décrire votre projet. Gratuit et sans engagement.", arr: "Arrivée", dep: "Départ", trav: "Voyageurs", budget: "Budget par personne (hors vols)", interests: "Vos envies", project: "Votre projet en quelques mots", q_send: "Envoyer ma demande (simulation)", q_reply: "Un conseiller vous recontacte sous 48 h avec une première proposition.", q_again: "Faire une autre demande", e_dates: "Le départ doit être après l'arrivée.",
+  c_d: "Photos issues de Wikimedia Commons, utilisées selon leur licence. Les licences CC BY et CC BY-SA imposent de citer l'auteur et la licence, ce que fait cette page.", c_photo: "Photo", c_author: "Auteur", c_lic: "Licence", c_src: "Source", footer: "Agence de voyages locale à Rome" },
+es: { q_ok: "Hemos recibido tu solicitud.", demo: "Simulación de demostración: lugares y consejos prácticos reales; precios, guías, opiniones, cifras y datos de la agencia ficticios. Sin pago real, sin envío de datos.", top_left: "Agencia local con sede en Roma · asesores multilingües", nav_offers: "Experiencias", nav_custom: "Viajes a medida", nav_faq: "Preguntas", lang: "Idioma",
   hero_eb: "Tu agencia local en Roma", hero_t: "Todo para tu estancia en Roma, reservado con quienes viven aquí.", hero_d: "Visitas guiadas, autobuses turísticos, circuitos por Italia, hoteles y restaurantes: un solo equipo local, una sola reserva.", s_cat: "¿Qué buscas?", s_all: "Todo", s_where: "¿Dónde?", s_any: "En todas partes", s_btn: "Buscar",
-  st_years: "años en Roma", st_trav: "viajeros atendidos", st_rev: "1.284 opiniones (ficticias)", st_reply: "tiempo medio de respuesta", sec_cat: "Lo que organizamos", offers: "ofertas", sec_top: "Lo más reservado en Roma", see_all: "Ver todas las ofertas",
+  sec_cat: "Lo que organizamos", offers: "ofertas", sec_top: "Lo más reservado en Roma", see_all: "Ver todas las ofertas",
   why_eb: "Por qué una agencia local", why_t: "Vivimos en Roma. Y eso cambia tu viaje.", why1t: "Guías que conocemos personalmente.", why1d: "Seleccionados, formados y supervisados por nuestro equipo.", why2t: "Un asesor in situ.", why2d: "Retraso, lluvia, cambio de planes: respuesta el mismo día, en tu idioma.", why3t: "Sin intermediarios.", why3d: "Reservas directamente con quienes organizan tu estancia.",
   sec_trips: "Circuitos y excursiones desde Roma", sec_stay: "Hoteles y restaurantes recomendados", cta_eb: "Viajes a medida", cta_t: "¿Varios días en Italia, un grupo o una luna de miel?", cta_d: "Indícanos fechas, deseos y presupuesto: un asesor te envía un programa gratuito y sin compromiso en 48 horas.", cta_b: "Solicitar mi programa",
   faq_t: "Preguntas frecuentes", f1q: "¿Por qué reservar con una agencia local?", f1a: "Tratas directamente con el equipo que organiza la visita, antes y durante tu estancia, en tu idioma.", f2q: "¿Están incluidas las entradas?", f2a: "Sí, en todas las visitas a monumentos y museos: compramos entradas sin colas y el guía te las entrega en el punto de encuentro.", f3q: "¿Puedo cancelar?", f3a: "Sí: cancelación gratuita y reembolso total hasta 24 horas antes (72 horas para circuitos y excursiones en tren).", f4q: "¿Cómo funcionan las reservas de hoteles y restaurantes?", f4a: "Envía una solicitud: comprobamos la disponibilidad con nuestros socios y confirmamos en 24 horas. No se cobra nada antes de confirmar.",
   credits: "Créditos fotográficos", home: "Inicio", cat_t: "Visitas, autobuses, circuitos, hoteles y restaurantes", cat_d: "Todo organizado por nuestro equipo en Roma.", f_cat: "Categoría", f_dest: "Destino", f_all: "Todas", f_dur: "Duración", d_short: "Menos de 3 h", d_mid: "De 3 a 5 h", d_long: "Día completo o más", reset: "Restablecer filtros", results: "resultados", sort: "Ordenar por", so_pop: "Más reservados", so_low: "Precio: de menor a mayor", so_high: "Precio: de mayor a menor", so_dur: "Duración", none: "Ninguna oferta coincide con tus filtros.", none_hint: "Quita un filtro o solicita un programa a medida.",
-  from: "desde", pp: "/ persona", pn: "/ noche", reviews: "opiniones", no_rev: "Nuevo · aún sin opiniones", guided: "Guía multilingüe", fullday: "Día completo", days: "días",
-  hl: "Lo más destacado", prog: "Itinerario", incl: "Incluido", notincl: "No incluido", meet: "Punto de encuentro", gtk: "A tener en cuenta", rev_t: "Opiniones de viajeros", rev_demo: "Opiniones de ejemplo, ficticias, para la demo.", rev_lang: "Opinión escrita en francés",
-  date: "Fecha", time: "Hora", adults: "Adultos", adults_s: "18+", children: "Niños", children_s: "{a}–17 años", total: "Total", pers: "personas", choose_time: "Elige una hora para continuar.", only_left: "Solo quedan {n} plazas a las {t}. Reduce el número de personas o elige otra hora.", add: "Añadir al carrito", full: "Completo", left: "{n} plazas", cancel: "Cancelación gratuita hasta {h} h antes", instant: "Confirmación inmediata", secure: "Pago seguro",
-  checkin: "Fecha de llegada", nights: "Noches", guests: "Personas", estimate: "Total estimado", req_b: "Enviar solicitud de reserva", req_note: "Confirmamos la disponibilidad en 24 h. Sin pago ahora.", req_sent: "¡Solicitud enviada! Respondemos en 24 h (simulación: no se envió nada).", name: "Nombre", email: "Correo electrónico",
-  ct: "Completa tu reserva", items: "Tus reservas", remove: "Quitar", details: "Tus datos", first: "Nombre", last: "Apellido", phone: "Teléfono (WhatsApp)", terms: "Acepto los términos y condiciones", pay_sim: "Pago simulado: en el sitio real se abriría aquí una página de pago segura (p. ej. Stripe). En esta demo no se pide ninguna tarjeta.", pay_b: "Confirmar y pagar {x} (simulación)", summary: "Resumen", empty: "Tu carrito está vacío", empty_d: "Añade una oferta desde el catálogo.", see: "Ver ofertas", e_first: "Indica tu nombre.", e_last: "Indica tu apellido.", e_email: "Correo electrónico no válido.", e_terms: "Debes aceptar los términos y condiciones.",
-  conf_eb: "Reserva confirmada", thanks: "¡Gracias {name}, hasta pronto en Roma!", ref: "Tu código de reserva:", paid: "Total pagado (simulación)", email_sim: "En el sitio real se enviaría un correo de confirmación a {email}. Aquí no se envía nada.", another: "Reservar otra experiencia",
-  q_t: "Tu estancia en Italia, diseñada contigo", q_d: "3 minutos para describir tu proyecto. Gratis y sin compromiso.", arr: "Llegada", dep: "Salida", trav: "Viajeros", budget: "Presupuesto por persona (sin vuelos)", interests: "Tus intereses", project: "Tu proyecto en pocas palabras", q_send: "Enviar mi solicitud (simulación)", q_thanks: "¡Gracias {name}!", q_reply: "Un asesor te contactará en 48 h con una primera propuesta.", q_sim: "Simulación: la solicitud no se ha enviado.", q_again: "Hacer otra solicitud", e_dates: "La salida debe ser posterior a la llegada.",
-  added: "Añadido al carrito", c_d: "Fotos de Wikimedia Commons, usadas según sus licencias. Las licencias CC BY y CC BY-SA exigen citar al autor y la licencia, como hace esta página.", c_photo: "Foto", c_author: "Autor", c_lic: "Licencia", c_src: "Fuente", footer: "Agencia de viajes local en Roma" },
-de: { req_ok: "Anfrage gesendet! Wir antworten innerhalb von 24 Std. per E-Mail.", q_ok: "Ihre Anfrage ist eingegangen.", demo: "Demo-Simulation: echte Orte und praktische Tipps; Preise, Guides, Bewertungen, Zahlen und Agenturdaten sind fiktiv. Keine echte Zahlung, keine Datenübertragung.", top_left: "Lokale Agentur mit Sitz in Rom · mehrsprachige Beratung", top_right: "WhatsApp: +39 333 000 4521 · täglich 8–21 Uhr", nav_offers: "Erlebnisse", nav_custom: "Individuelle Reisen", nav_faq: "FAQ", cart: "Warenkorb", lang: "Sprache",
+  from: "desde", pp: "/ persona", pn: "/ noche", guided: "Guía multilingüe", fullday: "Día completo", days: "días",
+  hl: "Lo más destacado", prog: "Itinerario", incl: "Incluido", notincl: "No incluido", meet: "Punto de encuentro", gtk: "A tener en cuenta", 
+  date: "Fecha", time: "Hora", 
+  checkin: "Fecha de llegada", nights: "Noches", email: "Correo electrónico",
+  phone: "Teléfono (WhatsApp)", e_email: "Correo electrónico no válido.", 
+  
+  q_t: "Tu estancia en Italia, diseñada contigo", q_d: "3 minutos para describir tu proyecto. Gratis y sin compromiso.", arr: "Llegada", dep: "Salida", trav: "Viajeros", budget: "Presupuesto por persona (sin vuelos)", interests: "Tus intereses", project: "Tu proyecto en pocas palabras", q_send: "Enviar mi solicitud (simulación)", q_reply: "Un asesor te contactará en 48 h con una primera propuesta.", q_again: "Hacer otra solicitud", e_dates: "La salida debe ser posterior a la llegada.",
+  c_d: "Fotos de Wikimedia Commons, usadas según sus licencias. Las licencias CC BY y CC BY-SA exigen citar al autor y la licencia, como hace esta página.", c_photo: "Foto", c_author: "Autor", c_lic: "Licencia", c_src: "Fuente", footer: "Agencia de viajes local en Roma" },
+de: { q_ok: "Ihre Anfrage ist eingegangen.", demo: "Demo-Simulation: echte Orte und praktische Tipps; Preise, Guides, Bewertungen, Zahlen und Agenturdaten sind fiktiv. Keine echte Zahlung, keine Datenübertragung.", top_left: "Lokale Agentur mit Sitz in Rom · mehrsprachige Beratung", nav_offers: "Erlebnisse", nav_custom: "Individuelle Reisen", nav_faq: "FAQ", lang: "Sprache",
   hero_eb: "Ihre lokale Agentur in Rom", hero_t: "Alles für Ihren Rom-Aufenthalt, gebucht bei Menschen, die hier leben.", hero_d: "Führungen, Bustouren, Rundreisen durch Italien, Hotels und Restaurants: ein lokales Team, eine Buchung.", s_cat: "Was suchen Sie?", s_all: "Alles", s_where: "Wo?", s_any: "Überall", s_btn: "Suchen",
-  st_years: "Jahre in Rom", st_trav: "Reisende betreut", st_rev: "1.284 Bewertungen (fiktiv)", st_reply: "durchschnittliche Antwortzeit", sec_cat: "Was wir organisieren", offers: "Angebote", sec_top: "Am häufigsten gebucht in Rom", see_all: "Alle Angebote ansehen",
+  sec_cat: "Was wir organisieren", offers: "Angebote", sec_top: "Am häufigsten gebucht in Rom", see_all: "Alle Angebote ansehen",
   why_eb: "Warum eine lokale Agentur", why_t: "Wir leben in Rom. Das verändert Ihre Reise.", why1t: "Guides, die wir persönlich kennen.", why1d: "Von unserem Team ausgewählt, geschult und begleitet.", why2t: "Ein Berater vor Ort.", why2d: "Verspätung, Regen, Planänderung: Antwort am selben Tag, in Ihrer Sprache.", why3t: "Ohne Vermittler.", why3d: "Sie buchen direkt bei denen, die Ihren Aufenthalt organisieren.",
   sec_trips: "Rundreisen & Tagesausflüge ab Rom", sec_stay: "Empfohlene Hotels & Restaurants", cta_eb: "Individuelle Reisen", cta_t: "Mehrere Tage in Italien, eine Gruppe oder Flitterwochen?", cta_d: "Nennen Sie uns Daten, Wünsche und Budget: Ein Berater schickt Ihnen innerhalb von 48 Stunden ein kostenloses, unverbindliches Programm.", cta_b: "Mein Programm anfragen",
   faq_t: "Häufige Fragen", f1q: "Warum bei einer lokalen Agentur buchen?", f1a: "Sie sprechen direkt mit dem Team, das Ihre Tour organisiert – vor und während des Aufenthalts, in Ihrer Sprache.", f2q: "Sind Eintrittskarten inbegriffen?", f2a: "Ja, bei allen Denkmal- und Museumsführungen: Wir kaufen Tickets ohne Anstehen, Ihr Guide übergibt sie am Treffpunkt.", f3q: "Kann ich stornieren?", f3a: "Ja: kostenlose Stornierung und volle Erstattung bis 24 Stunden vorher (72 Stunden bei Rundreisen und Ausflügen mit dem Zug).", f4q: "Wie funktionieren Hotel- und Restaurantbuchungen?", f4a: "Senden Sie eine Anfrage: Wir prüfen die Verfügbarkeit bei unseren Partnern und bestätigen innerhalb von 24 Stunden. Vor der Bestätigung wird nichts berechnet.",
   credits: "Bildnachweise", home: "Startseite", cat_t: "Führungen, Bustouren, Rundreisen, Hotels und Restaurants", cat_d: "Alles organisiert von unserem Team in Rom.", f_cat: "Kategorie", f_dest: "Reiseziel", f_all: "Alle", f_dur: "Dauer", d_short: "Unter 3 Std.", d_mid: "3 bis 5 Std.", d_long: "Ganztägig oder länger", reset: "Filter zurücksetzen", results: "Ergebnisse", sort: "Sortieren nach", so_pop: "Meistgebucht", so_low: "Preis aufsteigend", so_high: "Preis absteigend", so_dur: "Dauer", none: "Kein Angebot entspricht Ihren Filtern.", none_hint: "Entfernen Sie einen Filter oder fragen Sie ein individuelles Programm an.",
-  from: "ab", pp: "/ Person", pn: "/ Nacht", reviews: "Bewertungen", no_rev: "Neu · noch keine Bewertungen", guided: "Mehrsprachiger Guide", fullday: "Ganztägig", days: "Tage",
-  hl: "Highlights", prog: "Ablauf", incl: "Inbegriffen", notincl: "Nicht inbegriffen", meet: "Treffpunkt", gtk: "Gut zu wissen", rev_t: "Bewertungen von Reisenden", rev_demo: "Beispielbewertungen, fiktiv, für die Demo.", rev_lang: "Bewertung auf Französisch",
-  date: "Datum", time: "Uhrzeit", adults: "Erwachsene", adults_s: "ab 18", children: "Kinder", children_s: "{a}–17 Jahre", total: "Gesamt", pers: "Personen", choose_time: "Wählen Sie eine Uhrzeit, um fortzufahren.", only_left: "Nur noch {n} Platz/Plätze um {t}. Verringern Sie die Personenzahl oder wählen Sie eine andere Uhrzeit.", add: "In den Warenkorb", full: "Ausgebucht", left: "{n} frei", cancel: "Kostenlose Stornierung bis {h} Std. vorher", instant: "Sofortige Bestätigung", secure: "Sichere Zahlung",
-  checkin: "Anreisedatum", nights: "Nächte", guests: "Gäste", estimate: "Geschätzter Gesamtpreis", req_b: "Buchungsanfrage senden", req_note: "Wir bestätigen die Verfügbarkeit innerhalb von 24 Std. Jetzt keine Zahlung.", req_sent: "Anfrage gesendet! Antwort innerhalb von 24 Std. (Simulation: nichts wurde gesendet).", name: "Name", email: "E-Mail",
-  ct: "Buchung abschließen", items: "Ihre Buchungen", remove: "Entfernen", details: "Ihre Angaben", first: "Vorname", last: "Nachname", phone: "Telefon (WhatsApp)", terms: "Ich akzeptiere die AGB", pay_sim: "Simulierte Zahlung: Auf der echten Website würde hier eine sichere Zahlungsseite (z. B. Stripe) geöffnet. In dieser Demo werden keine Kartendaten abgefragt.", pay_b: "Bestätigen und {x} zahlen (Simulation)", summary: "Übersicht", empty: "Ihr Warenkorb ist leer", empty_d: "Fügen Sie ein Angebot aus dem Katalog hinzu.", see: "Angebote ansehen", e_first: "Bitte geben Sie Ihren Vornamen ein.", e_last: "Bitte geben Sie Ihren Nachnamen ein.", e_email: "Ungültige E-Mail-Adresse.", e_terms: "Bitte akzeptieren Sie die AGB.",
-  conf_eb: "Buchung bestätigt", thanks: "Danke {name}, bis bald in Rom!", ref: "Ihre Buchungsnummer:", paid: "Gesamt bezahlt (Simulation)", email_sim: "Auf der echten Website würde eine Bestätigung an {email} gesendet. Hier wird nichts gesendet.", another: "Weiteres Erlebnis buchen",
-  q_t: "Ihr Italien-Aufenthalt, gemeinsam geplant", q_d: "3 Minuten, um Ihr Vorhaben zu beschreiben. Kostenlos und unverbindlich.", arr: "Anreise", dep: "Abreise", trav: "Reisende", budget: "Budget pro Person (ohne Flüge)", interests: "Ihre Interessen", project: "Ihr Vorhaben in wenigen Worten", q_send: "Anfrage senden (Simulation)", q_thanks: "Danke {name}!", q_reply: "Ein Berater meldet sich innerhalb von 48 Std. mit einem ersten Vorschlag.", q_sim: "Simulation: Die Anfrage wurde nicht gesendet.", q_again: "Neue Anfrage stellen", e_dates: "Die Abreise muss nach der Anreise liegen.",
-  added: "Zum Warenkorb hinzugefügt", c_d: "Fotos von Wikimedia Commons, gemäß ihren Lizenzen verwendet. CC BY und CC BY-SA verlangen die Nennung von Urheber und Lizenz, was diese Seite tut.", c_photo: "Foto", c_author: "Urheber", c_lic: "Lizenz", c_src: "Quelle", footer: "Lokale Reiseagentur in Rom" },
-pt: { req_ok: "Pedido enviado! Respondemos em 24 h por e-mail.", q_ok: "O seu pedido foi recebido.", demo: "Simulação de demonstração: locais e dicas práticas reais; preços, guias, avaliações, números e dados da agência fictícios. Nenhum pagamento real, nenhum dado enviado.", top_left: "Agência local sediada em Roma · consultores multilíngues", top_right: "WhatsApp: +39 333 000 4521 · todos os dias 8h–21h", nav_offers: "Experiências", nav_custom: "Viagens à medida", nav_faq: "FAQ", cart: "Carrinho", lang: "Idioma",
+  from: "ab", pp: "/ Person", pn: "/ Nacht", guided: "Mehrsprachiger Guide", fullday: "Ganztägig", days: "Tage",
+  hl: "Highlights", prog: "Ablauf", incl: "Inbegriffen", notincl: "Nicht inbegriffen", meet: "Treffpunkt", gtk: "Gut zu wissen", 
+  date: "Datum", time: "Uhrzeit", 
+  checkin: "Anreisedatum", nights: "Nächte", email: "E-Mail",
+  phone: "Telefon (WhatsApp)", e_email: "Ungültige E-Mail-Adresse.", 
+  
+  q_t: "Ihr Italien-Aufenthalt, gemeinsam geplant", q_d: "3 Minuten, um Ihr Vorhaben zu beschreiben. Kostenlos und unverbindlich.", arr: "Anreise", dep: "Abreise", trav: "Reisende", budget: "Budget pro Person (ohne Flüge)", interests: "Ihre Interessen", project: "Ihr Vorhaben in wenigen Worten", q_send: "Anfrage senden (Simulation)", q_reply: "Ein Berater meldet sich innerhalb von 48 Std. mit einem ersten Vorschlag.", q_again: "Neue Anfrage stellen", e_dates: "Die Abreise muss nach der Anreise liegen.",
+  c_d: "Fotos von Wikimedia Commons, gemäß ihren Lizenzen verwendet. CC BY und CC BY-SA verlangen die Nennung von Urheber und Lizenz, was diese Seite tut.", c_photo: "Foto", c_author: "Urheber", c_lic: "Lizenz", c_src: "Quelle", footer: "Lokale Reiseagentur in Rom" },
+pt: { q_ok: "O seu pedido foi recebido.", demo: "Simulação de demonstração: locais e dicas práticas reais; preços, guias, avaliações, números e dados da agência fictícios. Nenhum pagamento real, nenhum dado enviado.", top_left: "Agência local sediada em Roma · consultores multilíngues", nav_offers: "Experiências", nav_custom: "Viagens à medida", nav_faq: "FAQ", lang: "Idioma",
   hero_eb: "A sua agência local em Roma", hero_t: "Tudo para a sua estadia em Roma, reservado com quem cá vive.", hero_d: "Visitas guiadas, autocarros turísticos, circuitos por Itália, hotéis e restaurantes: uma só equipa local, uma só reserva.", s_cat: "O que procura?", s_all: "Tudo", s_where: "Onde?", s_any: "Em qualquer lugar", s_btn: "Pesquisar",
-  st_years: "anos em Roma", st_trav: "viajantes recebidos", st_rev: "1.284 avaliações (fictícias)", st_reply: "tempo médio de resposta", sec_cat: "O que organizamos", offers: "ofertas", sec_top: "Os mais reservados em Roma", see_all: "Ver todas as ofertas",
+  sec_cat: "O que organizamos", offers: "ofertas", sec_top: "Os mais reservados em Roma", see_all: "Ver todas as ofertas",
   why_eb: "Porquê uma agência local", why_t: "Vivemos em Roma. Isso muda a sua viagem.", why1t: "Guias que conhecemos pessoalmente.", why1d: "Selecionados, formados e acompanhados pela nossa equipa.", why2t: "Um consultor no local.", why2d: "Atraso, chuva, mudança de planos: resposta no mesmo dia, na sua língua.", why3t: "Sem intermediários.", why3d: "Reserva diretamente com quem organiza a sua estadia.",
   sec_trips: "Circuitos e excursões a partir de Roma", sec_stay: "Hotéis e restaurantes recomendados", cta_eb: "Viagens à medida", cta_t: "Vários dias em Itália, um grupo ou uma lua de mel?", cta_d: "Indique datas, desejos e orçamento: um consultor envia-lhe um programa gratuito e sem compromisso em 48 horas.", cta_b: "Pedir o meu programa",
   faq_t: "Perguntas frequentes", f1q: "Porquê reservar com uma agência local?", f1a: "Fala diretamente com a equipa que organiza a visita, antes e durante a estadia, na sua língua.", f2q: "Os bilhetes de entrada estão incluídos?", f2a: "Sim, em todas as visitas a monumentos e museus: compramos bilhetes sem fila e o guia entrega-os no ponto de encontro.", f3q: "Posso cancelar?", f3a: "Sim: cancelamento gratuito e reembolso total até 24 horas antes (72 horas para circuitos e excursões de comboio).", f4q: "Como funcionam as reservas de hotéis e restaurantes?", f4a: "Envie um pedido: verificamos a disponibilidade com os parceiros e confirmamos em 24 horas. Nada é cobrado antes da confirmação.",
   credits: "Créditos das fotos", home: "Início", cat_t: "Visitas, autocarros, circuitos, hotéis e restaurantes", cat_d: "Tudo organizado pela nossa equipa em Roma.", f_cat: "Categoria", f_dest: "Destino", f_all: "Todas", f_dur: "Duração", d_short: "Menos de 3 h", d_mid: "3 a 5 h", d_long: "Dia inteiro ou mais", reset: "Repor filtros", results: "resultados", sort: "Ordenar por", so_pop: "Mais reservados", so_low: "Preço crescente", so_high: "Preço decrescente", so_dur: "Duração", none: "Nenhuma oferta corresponde aos filtros.", none_hint: "Retire um filtro ou peça um programa à medida.",
-  from: "desde", pp: "/ pessoa", pn: "/ noite", reviews: "avaliações", no_rev: "Novo · ainda sem avaliações", guided: "Guia multilíngue", fullday: "Dia inteiro", days: "dias",
-  hl: "Destaques", prog: "Programa", incl: "Incluído", notincl: "Não incluído", meet: "Ponto de encontro", gtk: "Bom saber", rev_t: "Avaliações dos viajantes", rev_demo: "Avaliações de exemplo, fictícias, para a demo.", rev_lang: "Avaliação escrita em francês",
-  date: "Data", time: "Hora", adults: "Adultos", adults_s: "18+", children: "Crianças", children_s: "{a}–17 anos", total: "Total", pers: "pessoas", choose_time: "Escolha uma hora para continuar.", only_left: "Só restam {n} lugares às {t}. Reduza o número de pessoas ou escolha outra hora.", add: "Adicionar ao carrinho", full: "Esgotado", left: "{n} lugares", cancel: "Cancelamento gratuito até {h} h antes", instant: "Confirmação imediata", secure: "Pagamento seguro",
-  checkin: "Data de chegada", nights: "Noites", guests: "Hóspedes", estimate: "Total estimado", req_b: "Enviar pedido de reserva", req_note: "Confirmamos a disponibilidade em 24 h. Sem pagamento agora.", req_sent: "Pedido enviado! Respondemos em 24 h (simulação: nada foi enviado).", name: "Nome", email: "E-mail",
-  ct: "Concluir a reserva", items: "As suas reservas", remove: "Remover", details: "Os seus dados", first: "Nome", last: "Apelido", phone: "Telefone (WhatsApp)", terms: "Aceito os termos e condições", pay_sim: "Pagamento simulado: no site real abriria aqui uma página de pagamento segura (ex.: Stripe). Nenhum cartão é pedido nesta demo.", pay_b: "Confirmar e pagar {x} (simulação)", summary: "Resumo", empty: "O carrinho está vazio", empty_d: "Adicione uma oferta a partir do catálogo.", see: "Ver ofertas", e_first: "Indique o seu nome.", e_last: "Indique o seu apelido.", e_email: "E-mail inválido.", e_terms: "Aceite os termos e condições.",
-  conf_eb: "Reserva confirmada", thanks: "Obrigado {name}, até breve em Roma!", ref: "O seu código de reserva:", paid: "Total pago (simulação)", email_sim: "No site real seria enviado um e-mail de confirmação para {email}. Aqui nada é enviado.", another: "Reservar outra experiência",
-  q_t: "A sua estadia em Itália, pensada consigo", q_d: "3 minutos para descrever o seu projeto. Gratuito e sem compromisso.", arr: "Chegada", dep: "Partida", trav: "Viajantes", budget: "Orçamento por pessoa (sem voos)", interests: "Os seus interesses", project: "O seu projeto em poucas palavras", q_send: "Enviar o pedido (simulação)", q_thanks: "Obrigado {name}!", q_reply: "Um consultor contacta-o em 48 h com uma primeira proposta.", q_sim: "Simulação: o pedido não foi enviado.", q_again: "Fazer outro pedido", e_dates: "A partida deve ser depois da chegada.",
-  added: "Adicionado ao carrinho", c_d: "Fotos do Wikimedia Commons, usadas segundo as suas licenças. As licenças CC BY e CC BY-SA exigem a citação do autor e da licença, o que esta página faz.", c_photo: "Foto", c_author: "Autor", c_lic: "Licença", c_src: "Fonte", footer: "Agência de viagens local em Roma" },
-nl: { req_ok: "Aanvraag verstuurd! We antwoorden binnen 24 uur per e-mail.", q_ok: "Uw aanvraag is ontvangen.", demo: "Demosimulatie: echte plekken en praktische tips; prijzen, gidsen, reviews, cijfers en bureaugegevens zijn fictief. Geen echte betaling, geen gegevens verzonden.", top_left: "Lokaal reisbureau in Rome · meertalige adviseurs", top_right: "WhatsApp: +39 333 000 4521 · dagelijks 8–21 uur", nav_offers: "Belevenissen", nav_custom: "Reizen op maat", nav_faq: "FAQ", cart: "Winkelwagen", lang: "Taal",
+  from: "desde", pp: "/ pessoa", pn: "/ noite", guided: "Guia multilíngue", fullday: "Dia inteiro", days: "dias",
+  hl: "Destaques", prog: "Programa", incl: "Incluído", notincl: "Não incluído", meet: "Ponto de encontro", gtk: "Bom saber", 
+  date: "Data", time: "Hora", 
+  checkin: "Data de chegada", nights: "Noites", email: "E-mail",
+  phone: "Telefone (WhatsApp)", e_email: "E-mail inválido.", 
+  
+  q_t: "A sua estadia em Itália, pensada consigo", q_d: "3 minutos para descrever o seu projeto. Gratuito e sem compromisso.", arr: "Chegada", dep: "Partida", trav: "Viajantes", budget: "Orçamento por pessoa (sem voos)", interests: "Os seus interesses", project: "O seu projeto em poucas palavras", q_send: "Enviar o pedido (simulação)", q_reply: "Um consultor contacta-o em 48 h com uma primeira proposta.", q_again: "Fazer outro pedido", e_dates: "A partida deve ser depois da chegada.",
+  c_d: "Fotos do Wikimedia Commons, usadas segundo as suas licenças. As licenças CC BY e CC BY-SA exigem a citação do autor e da licença, o que esta página faz.", c_photo: "Foto", c_author: "Autor", c_lic: "Licença", c_src: "Fonte", footer: "Agência de viagens local em Roma" },
+nl: { q_ok: "Uw aanvraag is ontvangen.", demo: "Demosimulatie: echte plekken en praktische tips; prijzen, gidsen, reviews, cijfers en bureaugegevens zijn fictief. Geen echte betaling, geen gegevens verzonden.", top_left: "Lokaal reisbureau in Rome · meertalige adviseurs", nav_offers: "Belevenissen", nav_custom: "Reizen op maat", nav_faq: "FAQ", lang: "Taal",
   hero_eb: "Uw lokale reisbureau in Rome", hero_t: "Alles voor uw verblijf in Rome, geboekt bij mensen die hier wonen.", hero_d: "Rondleidingen, bustours, rondreizen door Italië, hotels en restaurants: één lokaal team, één boeking.", s_cat: "Wat zoekt u?", s_all: "Alles", s_where: "Waar?", s_any: "Overal", s_btn: "Zoeken",
-  st_years: "jaar in Rome", st_trav: "reizigers ontvangen", st_rev: "1.284 reviews (fictief)", st_reply: "gemiddelde reactietijd", sec_cat: "Wat wij organiseren", offers: "aanbiedingen", sec_top: "Meest geboekt in Rome", see_all: "Bekijk alle aanbiedingen",
+  sec_cat: "Wat wij organiseren", offers: "aanbiedingen", sec_top: "Meest geboekt in Rome", see_all: "Bekijk alle aanbiedingen",
   why_eb: "Waarom een lokaal reisbureau", why_t: "Wij wonen in Rome. Dat verandert uw reis.", why1t: "Gidsen die we persoonlijk kennen.", why1d: "Geselecteerd, opgeleid en begeleid door ons team.", why2t: "Een adviseur ter plaatse.", why2d: "Vertraging, regen, ander plan: antwoord dezelfde dag, in uw taal.", why3t: "Geen tussenpersoon.", why3d: "U boekt rechtstreeks bij wie uw verblijf organiseert.",
   sec_trips: "Rondreizen & dagtrips vanuit Rome", sec_stay: "Aanbevolen hotels & restaurants", cta_eb: "Reizen op maat", cta_t: "Meerdere dagen in Italië, een groep of een huwelijksreis?", cta_d: "Geef uw data, wensen en budget door: een adviseur stuurt u binnen 48 uur een gratis, vrijblijvend programma.", cta_b: "Mijn programma aanvragen",
   faq_t: "Veelgestelde vragen", f1q: "Waarom boeken bij een lokaal reisbureau?", f1a: "U heeft direct contact met het team dat uw tour verzorgt, voor en tijdens uw verblijf, in uw taal.", f2q: "Zijn toegangskaarten inbegrepen?", f2a: "Ja, bij alle monument- en museumtours: wij kopen voorrangstickets en uw gids geeft ze bij het verzamelpunt.", f3q: "Kan ik annuleren?", f3a: "Ja: gratis annuleren en volledige terugbetaling tot 24 uur vooraf (72 uur voor rondreizen en dagtrips per trein).", f4q: "Hoe werken hotel- en restaurantboekingen?", f4a: "Stuur een aanvraag: wij controleren de beschikbaarheid bij onze partners en bevestigen binnen 24 uur. Vóór bevestiging wordt niets afgeschreven.",
   credits: "Fotoverantwoording", home: "Home", cat_t: "Rondleidingen, bustours, rondreizen, hotels en restaurants", cat_d: "Alles georganiseerd door ons team in Rome.", f_cat: "Categorie", f_dest: "Bestemming", f_all: "Alle", f_dur: "Duur", d_short: "Minder dan 3 uur", d_mid: "3 tot 5 uur", d_long: "Hele dag of langer", reset: "Filters wissen", results: "resultaten", sort: "Sorteren op", so_pop: "Meest geboekt", so_low: "Prijs: laag naar hoog", so_high: "Prijs: hoog naar laag", so_dur: "Duur", none: "Geen aanbod past bij uw filters.", none_hint: "Verwijder een filter of vraag een programma op maat aan.",
-  from: "vanaf", pp: "/ persoon", pn: "/ nacht", reviews: "reviews", no_rev: "Nieuw · nog geen reviews", guided: "Meertalige gids", fullday: "Hele dag", days: "dagen",
-  hl: "Hoogtepunten", prog: "Programma", incl: "Inbegrepen", notincl: "Niet inbegrepen", meet: "Verzamelpunt", gtk: "Goed om te weten", rev_t: "Reviews van reizigers", rev_demo: "Voorbeeldreviews, fictief, voor de demo.", rev_lang: "Review in het Frans geschreven",
-  date: "Datum", time: "Tijd", adults: "Volwassenen", adults_s: "18+", children: "Kinderen", children_s: "{a}–17 jaar", total: "Totaal", pers: "personen", choose_time: "Kies een tijd om verder te gaan.", only_left: "Nog maar {n} plaats(en) om {t}. Verminder het aantal personen of kies een andere tijd.", add: "In winkelwagen", full: "Vol", left: "{n} vrij", cancel: "Gratis annuleren tot {h} uur vooraf", instant: "Directe bevestiging", secure: "Veilig betalen",
-  checkin: "Aankomstdatum", nights: "Nachten", guests: "Gasten", estimate: "Geschat totaal", req_b: "Boekingsaanvraag versturen", req_note: "Wij bevestigen de beschikbaarheid binnen 24 uur. Nu geen betaling.", req_sent: "Aanvraag verstuurd! We antwoorden binnen 24 uur (simulatie: er is niets verzonden).", name: "Naam", email: "E-mail",
-  ct: "Uw boeking afronden", items: "Uw boekingen", remove: "Verwijderen", details: "Uw gegevens", first: "Voornaam", last: "Achternaam", phone: "Telefoon (WhatsApp)", terms: "Ik ga akkoord met de algemene voorwaarden", pay_sim: "Gesimuleerde betaling: op de echte site zou hier een beveiligde betaalpagina (bijv. Stripe) openen. In deze demo wordt geen kaart gevraagd.", pay_b: "Bevestigen en {x} betalen (simulatie)", summary: "Overzicht", empty: "Uw winkelwagen is leeg", empty_d: "Voeg een aanbieding toe uit de catalogus.", see: "Bekijk aanbiedingen", e_first: "Vul uw voornaam in.", e_last: "Vul uw achternaam in.", e_email: "Ongeldig e-mailadres.", e_terms: "Ga akkoord met de algemene voorwaarden.",
-  conf_eb: "Boeking bevestigd", thanks: "Bedankt {name}, tot snel in Rome!", ref: "Uw boekingsnummer:", paid: "Totaal betaald (simulatie)", email_sim: "Op de echte site zou een bevestiging naar {email} gaan. Hier wordt niets verzonden.", another: "Nog een belevenis boeken",
-  q_t: "Uw verblijf in Italië, samen met u ontworpen", q_d: "3 minuten om uw plan te beschrijven. Gratis en vrijblijvend.", arr: "Aankomst", dep: "Vertrek", trav: "Reizigers", budget: "Budget per persoon (zonder vluchten)", interests: "Uw interesses", project: "Uw plan in een paar woorden", q_send: "Aanvraag versturen (simulatie)", q_thanks: "Bedankt {name}!", q_reply: "Een adviseur neemt binnen 48 uur contact op met een eerste voorstel.", q_sim: "Simulatie: de aanvraag is nergens naartoe verzonden.", q_again: "Nieuwe aanvraag", e_dates: "Vertrek moet na aankomst zijn.",
-  added: "Toegevoegd aan winkelwagen", c_d: "Foto's van Wikimedia Commons, gebruikt volgens hun licenties. CC BY en CC BY-SA vereisen vermelding van maker en licentie, wat deze pagina doet.", c_photo: "Foto", c_author: "Maker", c_lic: "Licentie", c_src: "Bron", footer: "Lokaal reisbureau in Rome" },
-zh: { req_ok: "申请已提交！我们将在24小时内通过电子邮件回复。", q_ok: "我们已收到您的申请。", demo: "演示模拟：地点和实用建议为真实信息；价格、导游、评价、数据和旅行社信息均为虚构。不会产生真实付款，也不会发送任何数据。", top_left: "总部位于罗马的本地旅行社 · 多语种顾问", top_right: "WhatsApp：+39 333 000 4521 · 每天 8:00–21:00", nav_offers: "体验项目", nav_custom: "定制旅行", nav_faq: "常见问题", cart: "购物车", lang: "语言",
+  from: "vanaf", pp: "/ persoon", pn: "/ nacht", guided: "Meertalige gids", fullday: "Hele dag", days: "dagen",
+  hl: "Hoogtepunten", prog: "Programma", incl: "Inbegrepen", notincl: "Niet inbegrepen", meet: "Verzamelpunt", gtk: "Goed om te weten", 
+  date: "Datum", time: "Tijd", 
+  checkin: "Aankomstdatum", nights: "Nachten", email: "E-mail",
+  phone: "Telefoon (WhatsApp)", e_email: "Ongeldig e-mailadres.", 
+  
+  q_t: "Uw verblijf in Italië, samen met u ontworpen", q_d: "3 minuten om uw plan te beschrijven. Gratis en vrijblijvend.", arr: "Aankomst", dep: "Vertrek", trav: "Reizigers", budget: "Budget per persoon (zonder vluchten)", interests: "Uw interesses", project: "Uw plan in een paar woorden", q_send: "Aanvraag versturen (simulatie)", q_reply: "Een adviseur neemt binnen 48 uur contact op met een eerste voorstel.", q_again: "Nieuwe aanvraag", e_dates: "Vertrek moet na aankomst zijn.",
+  c_d: "Foto's van Wikimedia Commons, gebruikt volgens hun licenties. CC BY en CC BY-SA vereisen vermelding van maker en licentie, wat deze pagina doet.", c_photo: "Foto", c_author: "Maker", c_lic: "Licentie", c_src: "Bron", footer: "Lokaal reisbureau in Rome" },
+zh: { q_ok: "我们已收到您的申请。", demo: "演示模拟：地点和实用建议为真实信息；价格、导游、评价、数据和旅行社信息均为虚构。不会产生真实付款，也不会发送任何数据。", top_left: "总部位于罗马的本地旅行社 · 多语种顾问", nav_offers: "体验项目", nav_custom: "定制旅行", nav_faq: "常见问题", lang: "语言",
   hero_eb: "您在罗马的本地旅行社", hero_t: "罗马之行的一切，交给在这里生活的人来安排。", hero_d: "导览游、观光巴士、意大利线路游、酒店和餐厅：一个本地团队，一次预订。", s_cat: "您在找什么？", s_all: "全部", s_where: "在哪里？", s_any: "不限", s_btn: "搜索",
-  st_years: "年扎根罗马", st_trav: "位旅客", st_rev: "1,284 条评价（虚构）", st_reply: "平均回复时间", sec_cat: "我们的服务", offers: "项", sec_top: "罗马最受欢迎", see_all: "查看全部",
+  sec_cat: "我们的服务", offers: "项", sec_top: "罗马最受欢迎", see_all: "查看全部",
   why_eb: "为什么选择本地旅行社", why_t: "我们住在罗马，您的旅行因此不同。", why1t: "我们亲自了解的导游。", why1d: "由我们团队挑选、培训和跟进。", why2t: "当地顾问随时在线。", why2d: "延误、下雨、行程变更：当天用您的语言答复。", why3t: "没有中间商。", why3d: "直接向安排您行程的人预订。",
   sec_trips: "罗马出发的线路与一日游", sec_stay: "推荐酒店与餐厅", cta_eb: "定制旅行", cta_t: "在意大利待几天、团体出行或蜜月旅行？", cta_d: "告诉我们日期、愿望和预算：顾问将在 48 小时内免费为您提供方案，无需承诺。", cta_b: "获取我的方案",
   faq_t: "常见问题", f1q: "为什么通过本地旅行社预订？", f1a: "您可以在行前和旅途中，用您的语言直接与负责行程的团队沟通。", f2q: "门票包含在内吗？", f2a: "所有古迹和博物馆游览都包含：我们购买免排队门票，导游在集合点交给您。", f3q: "可以取消吗？", f3a: "可以：开始前 24 小时免费取消并全额退款（线路游和火车一日游为 72 小时）。", f4q: "酒店和餐厅如何预订？", f4a: "提交申请：我们向合作伙伴确认是否有空位，并在 24 小时内确认。确认前不收取任何费用。",
   credits: "图片来源", home: "首页", cat_t: "导览、巴士、线路游、酒店与餐厅", cat_d: "全部由我们在罗马的团队安排。", f_cat: "类别", f_dest: "目的地", f_all: "全部", f_dur: "时长", d_short: "3 小时以内", d_mid: "3–5 小时", d_long: "一整天或更长", reset: "重置筛选", results: "个结果", sort: "排序", so_pop: "最受欢迎", so_low: "价格从低到高", so_high: "价格从高到低", so_dur: "时长", none: "没有符合筛选条件的项目。", none_hint: "请删除一个筛选条件，或申请定制方案。",
-  from: "起价", pp: "/ 人", pn: "/ 晚", reviews: "条评价", no_rev: "新项目 · 暂无评价", guided: "多语种导游", fullday: "全天", days: "天",
-  hl: "亮点", prog: "行程", incl: "包含", notincl: "不包含", meet: "集合地点", gtk: "须知", rev_t: "旅客评价", rev_demo: "示例评价，为演示虚构。", rev_lang: "评价原文为法语",
-  date: "日期", time: "时间", adults: "成人", adults_s: "18 岁及以上", children: "儿童", children_s: "{a}–17 岁", total: "总计", pers: "人", choose_time: "请选择时间以继续。", only_left: "{t} 仅剩 {n} 个名额。请减少人数或选择其他时间。", add: "加入购物车", full: "已满", left: "剩 {n} 位", cancel: "开始前 {h} 小时可免费取消", instant: "即时确认", secure: "安全支付",
-  checkin: "入住日期", nights: "晚数", guests: "人数", estimate: "预估总价", req_b: "提交预订申请", req_note: "我们会在 24 小时内确认是否有空位。现在无需付款。", req_sent: "申请已提交！我们将在 24 小时内回复（模拟：未发送任何内容）。", name: "姓名", email: "电子邮箱",
-  ct: "完成预订", items: "您的预订", remove: "移除", details: "您的信息", first: "名", last: "姓", phone: "电话（WhatsApp）", terms: "我接受条款与条件", pay_sim: "模拟付款：在正式网站上，这里会打开安全支付页面（例如 Stripe）。本演示不要求任何银行卡信息。", pay_b: "确认并支付 {x}（模拟）", summary: "订单摘要", empty: "购物车是空的", empty_d: "请从目录中添加项目。", see: "查看项目", e_first: "请输入名。", e_last: "请输入姓。", e_email: "电子邮箱无效。", e_terms: "请接受条款与条件。",
-  conf_eb: "预订已确认", thanks: "谢谢您，{name}，罗马见！", ref: "您的预订编号：", paid: "已付总额（模拟）", email_sim: "在正式网站上，确认邮件将发送至 {email}。此处不会发送任何内容。", another: "预订其他体验",
-  q_t: "与您一起规划意大利之旅", q_d: "用 3 分钟描述您的计划。免费且无需承诺。", arr: "抵达", dep: "离开", trav: "旅客人数", budget: "每人预算（不含机票）", interests: "您的兴趣", project: "简单描述您的计划", q_send: "提交申请（模拟）", q_thanks: "谢谢您，{name}！", q_reply: "顾问将在 48 小时内联系您并提供初步方案。", q_sim: "模拟：申请未被发送。", q_again: "再次提交申请", e_dates: "离开日期必须晚于抵达日期。",
-  added: "已加入购物车", c_d: "图片来自 Wikimedia Commons，按其许可使用。CC BY 和 CC BY-SA 许可要求注明作者和许可，本页即为此用途。", c_photo: "图片", c_author: "作者", c_lic: "许可", c_src: "来源", footer: "罗马本地旅行社" },
-ja: { req_ok: "リクエストを送信しました！24時間以内にメールでご連絡します。", q_ok: "リクエストを受け付けました。", demo: "デモ用シミュレーション：場所と実用情報は実在のものですが、料金・ガイド・口コミ・数値・旅行会社の情報は架空です。実際の決済やデータ送信は行われません。", top_left: "ローマを拠点とする地元の旅行会社 · 多言語対応", top_right: "WhatsApp：+39 333 000 4521 · 毎日 8:00〜21:00", nav_offers: "体験", nav_custom: "オーダーメイド旅行", nav_faq: "よくある質問", cart: "カート", lang: "言語",
+  from: "起价", pp: "/ 人", pn: "/ 晚", guided: "多语种导游", fullday: "全天", days: "天",
+  hl: "亮点", prog: "行程", incl: "包含", notincl: "不包含", meet: "集合地点", gtk: "须知", 
+  date: "日期", time: "时间", 
+  checkin: "入住日期", nights: "晚数", email: "电子邮箱",
+  phone: "电话（WhatsApp）", e_email: "电子邮箱无效。", 
+  
+  q_t: "与您一起规划意大利之旅", q_d: "用 3 分钟描述您的计划。免费且无需承诺。", arr: "抵达", dep: "离开", trav: "旅客人数", budget: "每人预算（不含机票）", interests: "您的兴趣", project: "简单描述您的计划", q_send: "提交申请（模拟）", q_reply: "顾问将在 48 小时内联系您并提供初步方案。", q_again: "再次提交申请", e_dates: "离开日期必须晚于抵达日期。",
+  c_d: "图片来自 Wikimedia Commons，按其许可使用。CC BY 和 CC BY-SA 许可要求注明作者和许可，本页即为此用途。", c_photo: "图片", c_author: "作者", c_lic: "许可", c_src: "来源", footer: "罗马本地旅行社" },
+ja: { q_ok: "リクエストを受け付けました。", demo: "デモ用シミュレーション：場所と実用情報は実在のものですが、料金・ガイド・口コミ・数値・旅行会社の情報は架空です。実際の決済やデータ送信は行われません。", top_left: "ローマを拠点とする地元の旅行会社 · 多言語対応", nav_offers: "体験", nav_custom: "オーダーメイド旅行", nav_faq: "よくある質問", lang: "言語",
   hero_eb: "ローマの地元旅行会社", hero_t: "ローマ滞在のすべてを、ここに暮らす私たちと。", hero_d: "ガイドツアー、観光バス、イタリア周遊、ホテル、レストラン。地元チーム1つで、予約も1回で。", s_cat: "何をお探しですか？", s_all: "すべて", s_where: "どこで？", s_any: "指定なし", s_btn: "検索",
-  st_years: "年 ローマで営業", st_trav: "名以上のお客様", st_rev: "1,284件の口コミ（架空）", st_reply: "平均返信時間", sec_cat: "私たちが手配するもの", offers: "件", sec_top: "ローマで人気No.1", see_all: "すべて見る",
+  sec_cat: "私たちが手配するもの", offers: "件", sec_top: "ローマで人気No.1", see_all: "すべて見る",
   why_eb: "地元の旅行会社を選ぶ理由", why_t: "私たちはローマに住んでいます。だから旅が変わります。", why1t: "顔の見えるガイド。", why1d: "私たちのチームが選び、育て、サポートしています。", why2t: "現地に担当者がいます。", why2d: "遅延、雨、予定変更にも、当日中にあなたの言語で対応します。", why3t: "中間業者なし。", why3d: "滞在を手配する私たちに直接予約できます。",
   sec_trips: "ローマ発の周遊ツアー＆日帰り旅行", sec_stay: "おすすめのホテル＆レストラン", cta_eb: "オーダーメイド旅行", cta_t: "イタリアに数日間、グループ旅行、新婚旅行をご検討ですか？", cta_d: "日程・ご希望・ご予算をお知らせください。担当者が48時間以内に無料でプランをお送りします（ご契約の義務はありません）。", cta_b: "プランを依頼する",
   faq_t: "よくある質問", f1q: "なぜ地元の旅行会社で予約するのですか？", f1a: "旅行前も滞在中も、ツアーを運営するチームとあなたの言語で直接やり取りできます。", f2q: "入場券は含まれていますか？", f2a: "はい。すべての遺跡・美術館ツアーで優先入場券を当社が手配し、ガイドが集合場所でお渡しします。", f3q: "キャンセルできますか？", f3a: "はい。開始24時間前まで無料でキャンセルでき、全額返金されます（周遊ツアーと列車の日帰り旅行は72時間前まで）。", f4q: "ホテルやレストランの予約はどうなりますか？", f4a: "リクエストを送信してください。提携先に空き状況を確認し、24時間以内にご連絡します。確定前に料金は発生しません。",
   credits: "写真クレジット", home: "ホーム", cat_t: "ツアー、バス、周遊、ホテル、レストラン", cat_d: "すべてローマの私たちのチームが手配します。", f_cat: "カテゴリー", f_dest: "目的地", f_all: "すべて", f_dur: "所要時間", d_short: "3時間未満", d_mid: "3〜5時間", d_long: "1日以上", reset: "絞り込みをリセット", results: "件", sort: "並べ替え", so_pop: "人気順", so_low: "価格の安い順", so_high: "価格の高い順", so_dur: "所要時間", none: "条件に合うプランはありません。", none_hint: "条件を1つ外すか、オーダーメイドプランをご依頼ください。",
-  from: "", pp: "〜 / 1名", pn: "〜 / 1泊", reviews: "件の口コミ", no_rev: "新着 · 口コミはまだありません", guided: "多言語ガイド", fullday: "1日", days: "日間",
-  hl: "見どころ", prog: "行程", incl: "含まれるもの", notincl: "含まれないもの", meet: "集合場所", gtk: "注意事項", rev_t: "旅行者の口コミ", rev_demo: "デモ用の架空の口コミです。", rev_lang: "フランス語で書かれた口コミ",
-  date: "日付", time: "時間", adults: "大人", adults_s: "18歳以上", children: "子ども", children_s: "{a}〜17歳", total: "合計", pers: "名", choose_time: "続けるには時間を選択してください。", only_left: "{t} の残りは {n} 名分のみです。人数を減らすか、別の時間を選んでください。", add: "カートに追加", full: "満席", left: "残り{n}", cancel: "{h}時間前まで無料キャンセル", instant: "即時確定", secure: "安全な決済",
-  checkin: "到着日", nights: "泊数", guests: "人数", estimate: "合計（目安）", req_b: "予約リクエストを送信", req_note: "24時間以内に空き状況をご連絡します。今はお支払い不要です。", req_sent: "リクエストを送信しました！24時間以内にご連絡します（シミュレーション：実際には送信されていません）。", name: "お名前", email: "メールアドレス",
-  ct: "予約を完了する", items: "ご予約内容", remove: "削除", details: "お客様情報", first: "名", last: "姓", phone: "電話番号（WhatsApp）", terms: "利用規約に同意します", pay_sim: "決済のシミュレーション：実際のサイトでは、ここで安全な決済ページ（Stripeなど）が開きます。このデモではカード情報は不要です。", pay_b: "確定して {x} を支払う（シミュレーション）", summary: "ご注文内容", empty: "カートは空です", empty_d: "カタログからプランを追加してください。", see: "プランを見る", e_first: "名を入力してください。", e_last: "姓を入力してください。", e_email: "メールアドレスが正しくありません。", e_terms: "利用規約に同意してください。",
-  conf_eb: "予約が確定しました", thanks: "{name}様、ありがとうございます。ローマでお会いしましょう！", ref: "予約番号：", paid: "お支払い合計（シミュレーション）", email_sim: "実際のサイトでは確認メールが {email} に送信されます。ここでは何も送信されません。", another: "別の体験を予約する",
-  q_t: "あなたと一緒につくるイタリア滞在", q_d: "3分でご希望をお聞かせください。無料・義務なし。", arr: "到着", dep: "出発", trav: "人数", budget: "お一人様のご予算（航空券を除く）", interests: "ご興味", project: "ご希望を簡単に", q_send: "リクエストを送信（シミュレーション）", q_thanks: "{name}様、ありがとうございます！", q_reply: "担当者が48時間以内に最初のご提案をお送りします。", q_sim: "シミュレーション：リクエストは送信されていません。", q_again: "別のリクエストをする", e_dates: "出発日は到着日より後にしてください。",
-  added: "カートに追加しました", c_d: "写真は Wikimedia Commons のもので、各ライセンスに従って使用しています。CC BY および CC BY-SA では作者とライセンスの表記が必要なため、このページで記載しています。", c_photo: "写真", c_author: "作者", c_lic: "ライセンス", c_src: "出典", footer: "ローマの地元旅行会社" },
-ko: { req_ok: "요청을 보냈습니다! 24시간 안에 이메일로 답변드립니다.", q_ok: "요청이 접수되었습니다.", demo: "데모 시뮬레이션: 장소와 실용 정보는 실제이며, 가격·가이드·후기·수치·여행사 정보는 가상입니다. 실제 결제나 데이터 전송은 없습니다.", top_left: "로마 현지 여행사 · 다국어 상담", top_right: "WhatsApp: +39 333 000 4521 · 매일 8:00–21:00", nav_offers: "체험", nav_custom: "맞춤 여행", nav_faq: "자주 묻는 질문", cart: "장바구니", lang: "언어",
+  from: "", pp: "〜 / 1名", pn: "〜 / 1泊", guided: "多言語ガイド", fullday: "1日", days: "日間",
+  hl: "見どころ", prog: "行程", incl: "含まれるもの", notincl: "含まれないもの", meet: "集合場所", gtk: "注意事項", 
+  date: "日付", time: "時間", 
+  checkin: "到着日", nights: "泊数", email: "メールアドレス",
+  phone: "電話番号（WhatsApp）", e_email: "メールアドレスが正しくありません。", 
+  
+  q_t: "あなたと一緒につくるイタリア滞在", q_d: "3分でご希望をお聞かせください。無料・義務なし。", arr: "到着", dep: "出発", trav: "人数", budget: "お一人様のご予算（航空券を除く）", interests: "ご興味", project: "ご希望を簡単に", q_send: "リクエストを送信（シミュレーション）", q_reply: "担当者が48時間以内に最初のご提案をお送りします。", q_again: "別のリクエストをする", e_dates: "出発日は到着日より後にしてください。",
+  c_d: "写真は Wikimedia Commons のもので、各ライセンスに従って使用しています。CC BY および CC BY-SA では作者とライセンスの表記が必要なため、このページで記載しています。", c_photo: "写真", c_author: "作者", c_lic: "ライセンス", c_src: "出典", footer: "ローマの地元旅行会社" },
+ko: { q_ok: "요청이 접수되었습니다.", demo: "데모 시뮬레이션: 장소와 실용 정보는 실제이며, 가격·가이드·후기·수치·여행사 정보는 가상입니다. 실제 결제나 데이터 전송은 없습니다.", top_left: "로마 현지 여행사 · 다국어 상담", nav_offers: "체험", nav_custom: "맞춤 여행", nav_faq: "자주 묻는 질문", lang: "언어",
   hero_eb: "로마의 현지 여행사", hero_t: "로마 여행의 모든 것, 이곳에 사는 사람들과 함께 예약하세요.", hero_d: "가이드 투어, 시티 버스, 이탈리아 투어 코스, 호텔과 레스토랑까지: 하나의 현지 팀, 한 번의 예약.", s_cat: "무엇을 찾으세요?", s_all: "전체", s_where: "어디로?", s_any: "어디든", s_btn: "검색",
-  st_years: "년간 로마에서", st_trav: "명의 여행객", st_rev: "후기 1,284개 (가상)", st_reply: "평균 답변 시간", sec_cat: "저희가 준비하는 것", offers: "개", sec_top: "로마 인기 예약", see_all: "전체 보기",
+  sec_cat: "저희가 준비하는 것", offers: "개", sec_top: "로마 인기 예약", see_all: "전체 보기",
   why_eb: "현지 여행사를 선택하는 이유", why_t: "저희는 로마에 삽니다. 그래서 여행이 달라집니다.", why1t: "직접 아는 가이드.", why1d: "저희 팀이 선발하고 교육하며 관리합니다.", why2t: "현지 상담사.", why2d: "지연, 비, 일정 변경도 당일에 여러분의 언어로 답변합니다.", why3t: "중개인 없음.", why3d: "여행을 준비하는 사람들에게 직접 예약하세요.",
   sec_trips: "로마 출발 투어 코스 & 당일 여행", sec_stay: "추천 호텔 & 레스토랑", cta_eb: "맞춤 여행", cta_t: "이탈리아에서 며칠, 단체 여행, 신혼여행을 계획 중이신가요?", cta_d: "날짜, 원하는 것, 예산을 알려 주세요. 상담사가 48시간 안에 무료로 일정을 보내드립니다(부담 없음).", cta_b: "일정 요청하기",
   faq_t: "자주 묻는 질문", f1q: "왜 현지 여행사로 예약하나요?", f1a: "여행 전과 여행 중에 투어를 운영하는 팀과 여러분의 언어로 직접 소통할 수 있습니다.", f2q: "입장권이 포함되나요?", f2a: "네, 모든 유적지·박물관 투어에 포함됩니다. 줄 서지 않는 입장권을 저희가 구매하고 가이드가 집합 장소에서 전달합니다.", f3q: "취소할 수 있나요?", f3a: "네. 시작 24시간 전까지 무료 취소 및 전액 환불됩니다(투어 코스와 기차 당일 여행은 72시간 전).", f4q: "호텔과 레스토랑 예약은 어떻게 하나요?", f4a: "요청을 보내 주세요. 제휴처에 예약 가능 여부를 확인하고 24시간 안에 확정해 드립니다. 확정 전에는 결제되지 않습니다.",
   credits: "사진 출처", home: "홈", cat_t: "투어, 버스, 투어 코스, 호텔, 레스토랑", cat_d: "모두 로마의 저희 팀이 준비합니다.", f_cat: "카테고리", f_dest: "목적지", f_all: "전체", f_dur: "소요 시간", d_short: "3시간 미만", d_mid: "3–5시간", d_long: "하루 이상", reset: "필터 초기화", results: "개 결과", sort: "정렬", so_pop: "예약 많은 순", so_low: "낮은 가격순", so_high: "높은 가격순", so_dur: "소요 시간", none: "조건에 맞는 상품이 없습니다.", none_hint: "필터를 하나 해제하거나 맞춤 일정을 요청하세요.",
-  from: "", pp: "부터 / 1인", pn: "부터 / 1박", reviews: "개 후기", no_rev: "신규 · 아직 후기 없음", guided: "다국어 가이드", fullday: "종일", days: "일",
-  hl: "하이라이트", prog: "일정", incl: "포함", notincl: "불포함", meet: "집합 장소", gtk: "알아 두기", rev_t: "여행객 후기", rev_demo: "데모용 가상 후기입니다.", rev_lang: "프랑스어로 작성된 후기",
-  date: "날짜", time: "시간", adults: "성인", adults_s: "18세 이상", children: "어린이", children_s: "{a}–17세", total: "합계", pers: "명", choose_time: "계속하려면 시간을 선택하세요.", only_left: "{t}에 {n}자리만 남았습니다. 인원을 줄이거나 다른 시간을 선택하세요.", add: "장바구니에 담기", full: "마감", left: "{n}석 남음", cancel: "{h}시간 전까지 무료 취소", instant: "즉시 확정", secure: "안전한 결제",
-  checkin: "도착일", nights: "숙박 일수", guests: "인원", estimate: "예상 합계", req_b: "예약 요청 보내기", req_note: "24시간 안에 예약 가능 여부를 알려드립니다. 지금은 결제하지 않습니다.", req_sent: "요청을 보냈습니다! 24시간 안에 답변드립니다 (시뮬레이션: 실제로 전송되지 않음).", name: "이름", email: "이메일",
-  ct: "예약 완료하기", items: "예약 내역", remove: "삭제", details: "고객 정보", first: "이름", last: "성", phone: "전화번호 (WhatsApp)", terms: "이용 약관에 동의합니다", pay_sim: "결제 시뮬레이션: 실제 사이트에서는 여기에서 안전한 결제 페이지(예: Stripe)가 열립니다. 이 데모에서는 카드 정보를 요구하지 않습니다.", pay_b: "확인 후 {x} 결제 (시뮬레이션)", summary: "주문 요약", empty: "장바구니가 비어 있습니다", empty_d: "카탈로그에서 상품을 추가하세요.", see: "상품 보기", e_first: "이름을 입력하세요.", e_last: "성을 입력하세요.", e_email: "이메일 주소가 올바르지 않습니다.", e_terms: "이용 약관에 동의해 주세요.",
-  conf_eb: "예약 확정", thanks: "{name}님, 감사합니다. 로마에서 만나요!", ref: "예약 번호:", paid: "결제 금액 (시뮬레이션)", email_sim: "실제 사이트에서는 확인 이메일이 {email}(으)로 발송됩니다. 여기서는 아무것도 발송되지 않습니다.", another: "다른 체험 예약하기",
-  q_t: "함께 만드는 이탈리아 여행", q_d: "3분이면 계획을 알려 주실 수 있습니다. 무료, 부담 없음.", arr: "도착", dep: "출발", trav: "인원", budget: "1인당 예산 (항공권 제외)", interests: "관심사", project: "간단한 여행 계획", q_send: "요청 보내기 (시뮬레이션)", q_thanks: "{name}님, 감사합니다!", q_reply: "상담사가 48시간 안에 첫 제안을 보내드립니다.", q_sim: "시뮬레이션: 요청이 전송되지 않았습니다.", q_again: "다른 요청하기", e_dates: "출발일은 도착일 이후여야 합니다.",
-  added: "장바구니에 담았습니다", c_d: "사진은 Wikimedia Commons에서 가져왔으며 각 라이선스에 따라 사용합니다. CC BY와 CC BY-SA는 저작자와 라이선스 표기를 요구하며, 이 페이지가 그 역할을 합니다.", c_photo: "사진", c_author: "저작자", c_lic: "라이선스", c_src: "출처", footer: "로마 현지 여행사" }
+  from: "", pp: "부터 / 1인", pn: "부터 / 1박", guided: "다국어 가이드", fullday: "종일", days: "일",
+  hl: "하이라이트", prog: "일정", incl: "포함", notincl: "불포함", meet: "집합 장소", gtk: "알아 두기", 
+  date: "날짜", time: "시간", 
+  checkin: "도착일", nights: "숙박 일수", email: "이메일",
+  phone: "전화번호 (WhatsApp)", e_email: "이메일 주소가 올바르지 않습니다.", 
+  
+  q_t: "함께 만드는 이탈리아 여행", q_d: "3분이면 계획을 알려 주실 수 있습니다. 무료, 부담 없음.", arr: "도착", dep: "출발", trav: "인원", budget: "1인당 예산 (항공권 제외)", interests: "관심사", project: "간단한 여행 계획", q_send: "요청 보내기 (시뮬레이션)", q_reply: "상담사가 48시간 안에 첫 제안을 보내드립니다.", q_again: "다른 요청하기", e_dates: "출발일은 도착일 이후여야 합니다.",
+  c_d: "사진은 Wikimedia Commons에서 가져왔으며 각 라이선스에 따라 사용합니다. CC BY와 CC BY-SA는 저작자와 라이선스 표기를 요구하며, 이 페이지가 그 역할을 합니다.", c_photo: "사진", c_author: "저작자", c_lic: "라이선스", c_src: "출처", footer: "로마 현지 여행사" }
 };
+Object.keys(UI2).forEach(l => Object.assign(UI[l], UI2[l]));
 let LANG = 'en';
 function tr(k, vars) {
   let s = (UI[LANG] && UI[LANG][k] != null) ? UI[LANG][k] : (UI.en[k] != null ? UI.en[k] : k);
@@ -508,53 +659,11 @@ const ACTIVITIES = [
 ACTIVITIES.forEach(a => { a.envies = [a.type]; if (a.child === undefined) a.child = a.adult; if (!a.times) a.times = []; });
 const isReq = a => a.type === 'hotel' || a.type === 'restaurant';
 
-/* ----- Contenu fictif (guides, avis, notes) : à remplacer par le vrai ----- */
-const GUIDES = [
-  { name: 'Giulia Marchetti', role: "Historienne de l'art, guide officielle depuis 2015", langs: 'FR · IT · EN', spec: 'Vatican, Rome baroque', color: '#C9B8A6' },
-  { name: 'Lorenzo Bianchi', role: 'Archéologue, ancien chercheur sur le Palatin', langs: 'FR · IT', spec: 'Colisée, Forum, Ostia', color: '#B8A88F' },
-  { name: 'Camille Rossi', role: 'Franco-romaine, née à Lyon, à Rome depuis 12 ans', langs: 'FR · IT · EN', spec: 'Trastevere, gastronomie', color: '#D4B9A0' },
-  { name: 'Matteo Ferraro', role: 'Guide nature et accompagnateur', langs: 'FR · IT · ES', spec: 'Excursions Campanie et Toscane', color: '#A9B49A' }
-];
-const RATINGS = {
-  'colisee-forum-palatin': [4.9, 512], 'colisee-souterrains': [4.9, 187], 'vatican-sixtine': [4.8, 436],
-  'food-tour-trastevere': [5.0, 298], 'rome-by-night': [4.8, 164], 'pompei-naples-journee': [4.7, 121],
-  'florence-journee': [4.8, 89], 'amalfi-journee': [4.9, 74]
-};
-const GUIDE_OF = { 'colisee-forum-palatin': 1, 'colisee-souterrains': 1, 'vatican-sixtine': 0, 'food-tour-trastevere': 2, 'rome-by-night': 2, 'pompei-naples-journee': 3, 'florence-journee': 0, 'amalfi-journee': 3 };
-const REVIEWS = {
-  'colisee-forum-palatin': [
-    ['Nathalie', 'Nantes', 'oct. 2026', 5, "Lorenzo a rendu le Forum vivant : on voyait presque les sénateurs. Les billets coupe-file nous ont fait gagner au moins une heure."],
-    ['Karim', 'Bruxelles', 'sept. 2026', 5, "Visite parfaite avec nos deux enfants de 9 et 11 ans, qui ont posé mille questions. Le guide a répondu à toutes avec patience."],
-    ['Hélène', 'Québec', 'août 2026', 4, "Très bonne visite, guide passionnant. Il faisait 34 °C : prenez vraiment de l'eau et un chapeau pour le Palatin."]],
-  'colisee-souterrains': [
-    ['Pierre', 'Toulouse', 'oct. 2026', 5, "Les souterrains valent largement le supplément. Groupe de 10, on entendait tout sans écouteurs."],
-    ['Amina', 'Casablanca', 'sept. 2026', 5, "Mon meilleur moment à Rome. Voir les monte-charges des fauves, c'est impressionnant."]],
-  'vatican-sixtine': [
-    ['Sophie', 'Lille', 'oct. 2026', 5, "Giulia connaît chaque fresque par cœur. On a évité 2 h de queue. Pensez aux épaules couvertes, deux personnes ont été refoulées devant nous."],
-    ['Marc', 'Genève', 'sept. 2026', 4, "Très riche, un peu dense à la fin, mais la chapelle Sixtine expliquée avant d'y entrer change tout."],
-    ['Inès', 'Tunis', 'août 2026', 5, "Organisation au top, réponse sur WhatsApp en 5 minutes la veille pour confirmer le point de rendez-vous."]],
-  'food-tour-trastevere': [
-    ['Julien', 'Paris', 'oct. 2026', 5, "On a fini sans faim pour le dîner ! Les supplì de la deuxième adresse étaient incroyables. Camille est adorable."],
-    ['Claire', 'Bordeaux', 'oct. 2026', 5, "Ma fille est cœliaque : tout a été adapté sans qu'on ait à le rappeler. Merci !"],
-    ['Thomas', 'Lausanne', 'sept. 2026', 5, "Des adresses où on n'aurait jamais mis les pieds seuls. Que des Romains autour de nous."]],
-  'rome-by-night': [
-    ['Laura', 'Montréal', 'sept. 2026', 5, "La fontaine de Trevi à 21 h, presque vide : magique. La glace à la fin est un vrai plus."],
-    ['Yanis', 'Marseille', 'août 2026', 4, "Belle balade, rythme tranquille, parfait pour un premier soir à Rome."]],
-  'pompei-naples-journee': [
-    ['Véronique', 'Rennes', 'oct. 2026', 5, "Longue journée mais tout était calé à la minute près. Matteo nous a fait voir des villas que les autres groupes ignoraient."],
-    ['David', 'Liège', 'sept. 2026', 4, "Pompéi superbe. Le passage à Naples est un peu court, on aurait aimé 30 minutes de plus."]],
-  'florence-journee': [
-    ['Anne', 'Strasbourg', 'oct. 2026', 5, "Florence en une journée, j'étais sceptique : c'est faisable et sans stress grâce au train rapide."]],
-  'amalfi-journee': [
-    ['Sarah', 'Nice', 'sept. 2026', 5, "Positano depuis le bateau, c'est la carte postale. Arrêt baignade en septembre, l'eau était parfaite."]]
-};
 const TIPS = [
   { t: 'À quelle heure visiter le Colisée ?', d: "Le premier créneau du matin ou le dernier de l'après-midi : moins de groupes et une lumière plus douce sur les pierres. En été, évitez 12 h–15 h sur le Palatin, peu ombragé.", c: '#C8A27A', k: 'colosseum', p: 'colosseum2' },
   { t: 'Le code vestimentaire du Vatican', d: "Épaules et genoux couverts pour les musées et la basilique Saint-Pierre. Un foulard dans le sac suffit pour couvrir les épaules.", c: '#9DA58A', k: 'dome', p: 'stpeterSquare' },
   { t: "Le supplì, l'en-cas romain", d: "Une boulette de riz frite au cœur de mozzarella filante, la version romaine de l'arancino sicilien. Il se mange chaud, debout, dans une friggitoria.", c: '#D9A07F', k: 'food', p: 'trastevere' }
 ];
-const stars = n => '★★★★★'.slice(0, Math.round(n)) + '☆☆☆☆☆'.slice(0, 5 - Math.round(n));
-const fr1 = n => n.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const bySlug = Object.fromEntries(ACTIVITIES.map(a => [a.slug, a]));
 
 /* ===================== État ===================== */
@@ -568,8 +677,6 @@ const state = {
   palette: 'bordeaux',
   logo: 'arche'
 };
-try { const s = JSON.parse(localStorage.getItem('tc-cart') || '[]'); if (Array.isArray(s)) state.cart = s.filter(i => bySlug[i.slug]); } catch (e) {}
-function saveCart() { try { localStorage.setItem('tc-cart', JSON.stringify(state.cart)); } catch (e) {} }
 
 /* ===================== Utilitaires ===================== */
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -581,7 +688,7 @@ function nextDays(n) {
 }
 const iso = d => d.toISOString().slice(0, 10);
 function hash(str) { let h = 0; for (const c of str) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; }
-function seatsLeft(a, date, time) {
+function seatsLeft_unused(a, date, time) {
   const key = a.slug + '|' + date + '|' + time;
   const pre = hash(key) % (a.max + 3);            // réservations « existantes » simulées
   const taken = Math.min(a.max, pre) + (state.booked[key] || 0)
@@ -671,14 +778,14 @@ function applyPalette(id) {
   const r = document.documentElement.style;
   r.setProperty('--accent', p.accent); r.setProperty('--accent-dark', p.dark); r.setProperty('--accent-light', p.light);
   r.setProperty('--cream', p.soft); r.setProperty('--cream-line', p.line); r.setProperty('--hero', p.hero); document.documentElement.dataset.pal = p.id;
-  state.palette = p.id; try { localStorage.setItem('tc-palette2', p.id); } catch (e) {}
+  state.palette = p.id;
   const dot = $('#palDot'); if (dot) { dot.innerHTML = `<i style="background:${p.accent}"></i><i style="background:${p.hero}"></i>`; renderPalPanel(); }
 }
 const swatch = p => `<span class="sw" aria-hidden="true"><i style="background:${p.accent}"></i><i style="background:${p.light}"></i><i style="background:${p.hero}"></i></span>`;
 function renderPalPanel() {
   $('#palPanel').innerHTML = `<strong style="font-size:14px">Coloris de la maquette</strong>` + PALETTES.map(p => `<button type="button" class="pal" data-pal="${p.id}" aria-pressed="${state.palette === p.id}">${swatch(p)}<span style="margin-left:6px">${p.name}</span></button>`).join('') + `<a href="#identite" style="font-size:14px;font-weight:700">Voir l'identité visuelle complète</a>`;
 }
-function setLogo(id) { state.logo = id; try { localStorage.setItem('tc-logo', id); } catch (e) {} $('.logo').innerHTML = logoSVG(id); }
+function setLogo(id) { state.logo = id; $('.logo').innerHTML = logoSVG(id); }
 
 function pageIdentite() {
   return `<div class="wrap">
@@ -755,46 +862,6 @@ const PHOTO_ENVIE = { 'rome-antique': 'colosseum', 'vatican-art': 'stpeter', 'ga
 const actPic = (slug, i) => pic(PHOTO_OF[slug][i], ILLO_OF[slug][i]);
 
 
-/* ===================== Espace pro (simulation) =====================
-   Démo uniquement : aucune vraie authentification ici. Sur le vrai site,
-   la connexion passe par Supabase Auth et les droits par la base (fichier 04). */
-const STAFF = [
-  { email: 'marco@turismoclub-demo.it', name: 'Marco Conti', role: 'admin', title: 'Gérant' },
-  { email: 'sara@turismoclub-demo.it', name: 'Sara Esposito', role: 'conseiller', title: 'Conseillère voyages' },
-  { email: 'lorenzo@turismoclub-demo.it', name: 'Lorenzo Bianchi', role: 'guide', title: 'Guide', guide: 1 },
-  { email: 'giulia@turismoclub-demo.it', name: 'Giulia Marchetti', role: 'guide', title: 'Guide', guide: 0 }
-];
-const DEMO_PASSWORD = 'demo2026';
-const ROLE_LABEL = { admin: 'Administrateur', conseiller: 'Conseiller', guide: 'Guide' };
-const STATUS_LABEL = { confirmed: 'Confirmée', pending: 'En attente', cancelled: 'Annulée', refunded: 'Remboursée' };
-const STATUS_STYLE = { confirmed: 'background:#DCFCE7;color:#166534', pending: 'background:#FEF3C7;color:#92400E', cancelled: 'background:#FEE2E2;color:#991B1B', refunded: 'background:#E0E7FF;color:#3730A3' };
-
-// Réservations fictives de démonstration
-const DEMO_CLIENTS = [['Nathalie', 'Martin', 'Nantes'], ['Karim', 'Benali', 'Bruxelles'], ['Hélène', 'Gagnon', 'Québec'], ['Pierre', 'Lefèvre', 'Toulouse'], ['Sophie', 'Durand', 'Lille'], ['Marc', 'Keller', 'Genève'], ['Inès', 'Trabelsi', 'Tunis'], ['Julien', 'Moreau', 'Paris'], ['Claire', 'Roux', 'Bordeaux'], ['Thomas', 'Favre', 'Lausanne'], ['Laura', 'Tremblay', 'Montréal'], ['Yanis', 'Haddad', 'Marseille'], ['Véronique', 'Petit', 'Rennes'], ['David', 'Lambert', 'Liège']];
-function isoPlus(n) { const d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() + n); return iso(d); }
-const pro = {
-  user: null, view: 'tableau', open: null, q: '', status: 'tous', loginError: '',
-  bookings: DEMO_CLIENTS.map((c, i) => {
-    const SLOTS = ACTIVITIES.filter(x => !isReq(x)); const a = SLOTS[i % SLOTS.length];
-    const adults = 1 + (i % 3), children = i % 4 === 0 ? 1 : 0;
-    return {
-      id: 1000 + i, ref: 'TC-' + (hash(c[1] + i).toString(36).toUpperCase() + 'XXXXXX').slice(0, 6),
-      first: c[0], last: c[1], city: c[2], email: c[0].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '') + '@exemple.fr',
-      phone: '+33 6 ' + String(10 + i).padStart(2, '0') + ' 00 00 ' + String(20 + i),
-      slug: a.slug, date: isoPlus(i % 5), time: a.times[i % a.times.length], adults, children,
-      total: adults * a.adult + children * (a.child ?? a.adult),
-      status: i === 4 ? 'pending' : i === 9 ? 'cancelled' : 'confirmed', checkedIn: false,
-      created: isoPlus(-(i % 6)), log: i === 1 ? [{ who: 'Sara Esposito', at: 'hier 17:42', msg: 'Client rappelé : enfant de 8 ans, prévoir le parcours famille.' }] : []
-    };
-  }),
-  quotes: [
-    { id: 1, name: 'Émilie R.', email: 'emilie@exemple.fr', dates: '12 → 19 mai', pax: 2, budget: '1 000 à 2 000 €', msg: 'Voyage de noces : 4 jours à Rome puis côte amalfitaine.', status: 'new', owner: '' },
-    { id: 2, name: 'Lycée Jean-Moulin', email: 'voyage@exemple.fr', dates: '3 → 6 avril', pax: 34, budget: '500 à 1 000 €', msg: 'Voyage scolaire latin-grec, 2 classes de seconde.', status: 'in_progress', owner: 'Sara Esposito' },
-    { id: 3, name: 'Famille Ndiaye', email: 'ndiaye@exemple.fr', dates: '20 → 27 juillet', pax: 5, budget: '500 à 1 000 €', msg: 'Rome + Florence avec 3 enfants (6, 9, 13 ans).', status: 'new', owner: '' }
-  ]
-};
-// Persistance de la démo : le site public et /pro/ partagent ces données via le navigateur
-const STORE_KEY = 'tc-demo-v2';
 /* ===================== Base de données Supabase =====================
    Clé PUBLIQUE : faite pour être dans le navigateur. Les droits (RLS) limitent
    le site à lire les offres publiées et à déposer des demandes. */
@@ -816,7 +883,8 @@ async function syncFromDb() {
       if (row) { a.adult = row.price_adult_cents / 100; a.child = row.price_child_cents != null ? row.price_child_cents / 100 : a.adult; a.published = true; }
       else a.published = false;
     });
-    state.dbOk = true; rerender();
+    state.dbOk = true;
+    if (!state.typing) rerender(); // ne pas effacer un formulaire en cours de saisie
   } catch (e) {}
 }
 async function sendRequestToDb(payload) {
@@ -825,176 +893,12 @@ async function sendRequestToDb(payload) {
     return r.ok;
   } catch (e) { return false; }
 }
-function loadStore() {
-  try {
-    const d = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
-    if (!d) return;
-    if (Array.isArray(d.bookings)) pro.bookings = d.bookings;
-    if (Array.isArray(d.quotes)) pro.quotes = d.quotes;
-    if (d.catalog) for (const [slug, o] of Object.entries(d.catalog)) if (bySlug[slug]) Object.assign(bySlug[slug], o);
-    if (d.staff) d.staff.forEach((act, i) => { if (STAFF[i]) STAFF[i].active = act; });
-  } catch (e) {}
-}
-function saveStore() {
-  try {
-    const catalog = Object.fromEntries(ACTIVITIES.map(a => [a.slug, { adult: a.adult, child: a.child, published: a.published !== false }]));
-    localStorage.setItem(STORE_KEY, JSON.stringify({ bookings: pro.bookings, quotes: pro.quotes, catalog, staff: STAFF.map(x => x.active !== false) }));
-  } catch (e) {}
-}
-const QUOTE_LABEL = { new: 'Nouveau', in_progress: 'En cours', sent: 'Proposition envoyée', won: 'Gagné', lost: 'Perdu' };
-const fmtDay = isoStr => { const t = isoPlus(0); return isoStr === t ? "aujourd'hui" : isoStr === isoPlus(1) ? 'demain' : longDate(isoStr); };
-const badge = st => `<span class="pbadge" style="${STATUS_STYLE[st]}">${STATUS_LABEL[st]}</span>`;
-
-function proNav() {
-  const r = pro.user.role;
-  const items = r === 'guide' ? [['mes-departs', 'Mes départs']] :
-    [['tableau', 'Tableau de bord'], ['reservations', 'Réservations'], ['devis', 'Devis']].concat(r === 'admin' ? [['catalogue', 'Catalogue & prix'], ['equipe', 'Équipe']] : []);
-  return `<nav class="pnav" aria-label="Menu espace pro">${items.map(([v, l]) => `<button type="button" data-pro-view="${v}" aria-current="${pro.view === v ? 'page' : 'false'}">${l}</button>`).join('')}</nav>`;
-}
-
-function proLogin() {
-  return `<div class="wrap" style="max-width:520px;padding-top:48px">
-    <p class="eyebrow">Espace pro</p>
-    <h1 style="font-size:34px;margin:8px 0 6px">Connexion de l'équipe</h1>
-    <p style="margin:0 0 24px;color:var(--ink-2)">Réservé au personnel de Turismo Club.</p>
-    <form class="panel form" id="proLogin" novalidate>
-      <div class="field"><label for="pl-email">E-mail professionnel</label><input id="pl-email" type="email" autocomplete="username" required></div>
-      <div class="field"><label for="pl-pass">Mot de passe</label><input id="pl-pass" type="password" autocomplete="current-password" required></div>
-      ${pro.loginError ? `<p class="warn" role="alert" style="margin:0">${esc(pro.loginError)}</p>` : ''}
-      <button type="submit" class="btn">Se connecter</button>
-    </form>
-    <div class="sim" style="margin-top:20px"><strong>Comptes de démonstration</strong> (mot de passe : <code>${DEMO_PASSWORD}</code>)
-      <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">${STAFF.map(s => `<button type="button" class="pal" data-demo-login="${s.email}"><strong>${esc(s.name)}</strong>&nbsp;· ${ROLE_LABEL[s.role]}</button>`).join('')}</div>
-      <p style="margin:10px 0 0">Sur le vrai site : connexion sécurisée Supabase, double authentification pour l'admin, et les droits vérifiés par la base de données.</p>
-    </div></div>`;
-}
-
-function proBookingRow(b) {
-  const a = bySlug[b.slug];
-  return `<tr><td><button type="button" class="linkbtn" data-pro-open="${b.id}">${b.ref}</button></td><td>${esc(b.first)} ${esc(b.last)}</td><td>${esc(L(a.title))}</td><td>${fmtDay(b.date)} · ${b.time}</td><td>${b.adults + b.children}</td><td>${eur(b.total)}</td><td>${badge(b.status)}</td></tr>`;
-}
-
-function proTableau() {
-  const today = isoPlus(0);
-  const active = pro.bookings.filter(b => b.status === 'confirmed' || b.status === 'pending');
-  const todayList = active.filter(b => b.date === today).sort((x, y) => x.time.localeCompare(y.time));
-  const pax7 = active.filter(b => b.date >= today && b.date <= isoPlus(7)).reduce((s, b) => s + b.adults + b.children, 0);
-  const ca = pro.bookings.filter(b => b.status === 'confirmed').reduce((s, b) => s + b.total, 0);
-  return `<h1 class="ph1">Bonjour ${esc(pro.user.name.split(' ')[0])}</h1>
-    <div class="stats">
-      <div class="stat"><strong>${todayList.length}</strong><span>départs clients aujourd'hui</span></div>
-      <div class="stat"><strong>${pax7}</strong><span>voyageurs sur 7 jours</span></div>
-      <div class="stat"><strong>${eur(ca)}</strong><span>réservations confirmées</span></div>
-      <div class="stat"><strong>${pro.quotes.filter(q => q.status === 'new').length}</strong><span>devis à traiter</span></div>
-    </div>
-    <section class="panel" style="margin-top:24px"><h2 class="ph2">Aujourd'hui</h2>
-      ${todayList.length ? `<div class="tscroll"><table class="ptable"><thead><tr><th scope="col">Réf.</th><th scope="col">Client</th><th scope="col">Activité</th><th scope="col">Quand</th><th scope="col">Pers.</th><th scope="col">Montant</th><th scope="col">Statut</th></tr></thead><tbody>${todayList.map(proBookingRow).join('')}</tbody></table></div>` : '<p>Aucun départ aujourd\'hui.</p>'}
-    </section>
-    ${pro.bookings.some(b => b.status === 'pending') ? `<p class="warn" style="margin-top:16px">${pro.bookings.filter(b => b.status === 'pending').length} réservation(s) en attente de confirmation. <button type="button" class="linkbtn" data-pro-view="reservations" data-pro-filter="pending">Les voir</button></p>` : ''}`;
-}
-
-function proReservations() {
-  const q = pro.q.trim().toLowerCase();
-  const list = pro.bookings.filter(b => (pro.status === 'tous' || b.status === pro.status) &&
-    (!q || (b.ref + ' ' + b.first + ' ' + b.last + ' ' + b.email).toLowerCase().includes(q)))
-    .sort((x, y) => (x.date + x.time).localeCompare(y.date + y.time));
-  const open = pro.bookings.find(b => b.id === pro.open);
-  return `<h1 class="ph1">Réservations</h1>
-    <div class="toolbar">
-      <div class="field" style="flex:1 1 280px"><label for="pr-q">Rechercher (référence, nom, e-mail)</label><input id="pr-q" type="search" value="${esc(pro.q)}" placeholder="TC-…, Martin…"></div>
-      <div class="field"><label for="pr-st">Statut</label><select id="pr-st">${[['tous', 'Tous'], ...Object.entries(STATUS_LABEL)].map(([v, l]) => `<option value="${v}" ${pro.status === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
-    </div>
-    <p aria-live="polite" style="margin:0 0 10px;color:var(--muted)">${list.length} réservation(s)</p>
-    <div class="layout" style="padding-top:0">
-      <div class="results"><div class="panel tscroll" style="padding:8px 16px"><table class="ptable"><thead><tr><th scope="col">Réf.</th><th scope="col">Client</th><th scope="col">Activité</th><th scope="col">Quand</th><th scope="col">Pers.</th><th scope="col">Montant</th><th scope="col">Statut</th></tr></thead><tbody>${list.map(proBookingRow).join('') || '<tr><td colspan="7">Aucun résultat.</td></tr>'}</tbody></table></div></div>
-      ${open ? proDetail(open) : ''}
-    </div>`;
-}
-
-function proDetail(b) {
-  const a = bySlug[b.slug];
-  return `<aside class="book" aria-label="Détail de la réservation ${b.ref}" style="top:24px">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h2 class="ph2" style="margin:0">${b.ref}</h2><button type="button" class="linkbtn" data-pro-close>Fermer</button></div>
-    ${badge(b.status)}
-    <p style="margin:0"><strong>${esc(b.first)} ${esc(b.last)}</strong> · ${esc(b.city)}<br><span style="color:var(--muted);font-size:14px">${esc(b.email)} · ${esc(b.phone)}</span></p>
-    <p style="margin:0">${esc(L(a.title))}<br><span style="color:var(--muted);font-size:14px">${fmtDay(b.date)} à ${b.time} · ${b.adults} adulte(s)${b.children ? ', ' + b.children + ' enfant(s)' : ''} · ${eur(b.total)}</span></p>
-    <div style="display:flex;flex-wrap:wrap;gap:8px">
-      ${b.status === 'pending' ? `<button type="button" class="btn" data-pro-status="confirmed" data-id="${b.id}">Confirmer</button>` : ''}
-      ${b.status === 'confirmed' || b.status === 'pending' ? `<button type="button" class="btn ghost" data-pro-status="cancelled" data-id="${b.id}">Annuler</button>` : ''}
-      ${b.status === 'cancelled' ? `<button type="button" class="btn ghost" data-pro-status="refunded" data-id="${b.id}">Rembourser (simulation)</button>` : ''}
-    </div>
-    <div><h3 style="margin:8px 0">Journal</h3>
-      ${b.log.length ? b.log.map(l => `<p style="margin:0 0 8px;font-size:14px"><strong>${esc(l.who)}</strong> · ${esc(l.at)}<br>${esc(l.msg)}</p>`).join('') : '<p style="margin:0;font-size:14px;color:var(--muted)">Aucune note.</p>'}
-      <form id="proNote" data-id="${b.id}" class="form" style="gap:8px;margin-top:8px"><div class="field"><label for="pn-msg">Ajouter une note interne</label><textarea id="pn-msg" style="min-height:70px" required></textarea></div><button type="submit" class="btn ghost">Enregistrer la note</button></form>
-    </div></aside>`;
-}
-
-function proDevis() {
-  return `<h1 class="ph1">Demandes de devis</h1>
-    <div class="cards">${pro.quotes.map(q => `<article class="panel" style="flex:1 1 300px;display:flex;flex-direction:column;gap:10px">
-      <div style="display:flex;justify-content:space-between;gap:8px"><strong>${esc(q.name)}</strong><span class="pbadge" style="background:var(--cream);color:var(--ink)">${QUOTE_LABEL[q.status]}</span></div>
-      <span style="color:var(--muted);font-size:14px">${esc(q.dates)} · ${q.pax} pers. · ${esc(q.budget)}</span>
-      <p style="margin:0">${esc(q.msg)}</p>
-      <div class="field"><label for="qs-${q.id}">Statut</label><select id="qs-${q.id}" data-quote-status="${q.id}">${Object.entries(QUOTE_LABEL).map(([v, l]) => `<option value="${v}" ${q.status === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
-      ${q.owner ? `<span style="font-size:14px">Suivi par <strong>${esc(q.owner)}</strong></span>` : `<button type="button" class="btn ghost" data-quote-take="${q.id}">Je prends ce devis</button>`}
-    </article>`).join('')}</div>`;
-}
-
-function proMesDeparts() {
-  const g = pro.user.guide;
-  const days = [isoPlus(0), isoPlus(1)];
-  const mine = pro.bookings.filter(b => b.status === 'confirmed' && GUIDE_OF[b.slug] === g && days.includes(b.date));
-  const groups = {};
-  mine.forEach(b => { const k = b.date + '|' + b.time + '|' + b.slug; (groups[k] = groups[k] || []).push(b); });
-  const keys = Object.keys(groups).sort();
-  return `<h1 class="ph1">Mes départs</h1>
-    <p style="margin:0 0 20px;color:var(--ink-2)">Aujourd'hui et demain. Vous ne voyez que vos propres groupes.</p>
-    ${keys.length ? keys.map(k => { const [d, t, s] = k.split('|'); const list = groups[k]; const pax = list.reduce((n, b) => n + b.adults + b.children, 0); const here = list.filter(b => b.checkedIn).reduce((n, b) => n + b.adults + b.children, 0);
-      return `<section class="panel" style="margin-bottom:16px"><h2 class="ph2" style="margin:0">${fmtDay(d)} · ${t} — ${esc(L(bySlug[s].title))}</h2>
-        <p style="margin:4px 0 12px;color:var(--muted);font-size:14px">RDV : ${esc(bySlug[s].meeting)} · ${here}/${pax} présents</p>
-        ${list.map(b => `<label class="check" style="padding:10px 0;border-top:1px solid var(--line);min-height:44px;align-items:center"><input type="checkbox" data-checkin="${b.id}" ${b.checkedIn ? 'checked' : ''}> <span><strong>${esc(b.first)} ${esc(b.last)}</strong> · ${b.adults + b.children} pers. · ${esc(b.phone)}${b.log.length ? `<br><span style="font-size:13px;color:var(--accent-dark)">Note : ${esc(b.log[b.log.length - 1].msg)}</span>` : ''}</span></label>`).join('')}
-      </section>`; }).join('') : '<p class="panel">Aucun départ prévu pour vous aujourd\'hui ni demain.</p>'}`;
-}
-
-function proCatalogue() {
-  return `<h1 class="ph1">Catalogue & prix</h1>
-    <p style="margin:0 0 16px;color:var(--ink-2)">Les modifications s'appliquent immédiatement au site public.</p>
-    <div class="panel tscroll"><table class="ptable"><thead><tr><th scope="col">Activité</th><th scope="col">Prix adulte (€)</th><th scope="col">Prix enfant (€)</th><th scope="col">Publiée</th></tr></thead><tbody>
-    ${ACTIVITIES.map(a => `<tr><td>${esc(L(a.title))}</td>
-      <td><label class="sr" for="pa-${a.slug}">Prix adulte ${esc(L(a.title))}</label><input id="pa-${a.slug}" type="number" min="0" step="1" value="${a.adult}" data-price="adult" data-slug="${a.slug}" style="width:96px;border:1px solid #D1D5DB;border-radius:8px;padding:8px;min-height:40px"></td>
-      <td><label class="sr" for="pc-${a.slug}">Prix enfant ${esc(L(a.title))}</label><input id="pc-${a.slug}" type="number" min="0" step="1" value="${a.child}" data-price="child" data-slug="${a.slug}" style="width:96px;border:1px solid #D1D5DB;border-radius:8px;padding:8px;min-height:40px"></td>
-      <td><label class="check" style="align-items:center"><input type="checkbox" data-publish="${a.slug}" ${a.published !== false ? 'checked' : ''}><span class="sr">Publier ${esc(L(a.title))}</span></label></td></tr>`).join('')}
-    </tbody></table></div>`;
-}
-
-function proEquipe() {
-  return `<h1 class="ph1">Équipe</h1>
-    <div class="panel tscroll"><table class="ptable"><thead><tr><th scope="col">Nom</th><th scope="col">Rôle</th><th scope="col">E-mail</th><th scope="col">Accès actif</th></tr></thead><tbody>
-    ${STAFF.map((s, i) => `<tr><td>${esc(s.name)}</td><td>${ROLE_LABEL[s.role]}</td><td>${esc(s.email)}</td><td><label class="check" style="align-items:center"><input type="checkbox" data-staff-active="${i}" ${s.active !== false ? 'checked' : ''} ${s.email === pro.user.email ? 'disabled' : ''}><span class="sr">Accès de ${esc(s.name)}</span></label></td></tr>`).join('')}
-    </tbody></table></div>
-    <p class="sim" style="margin-top:16px">Quand quelqu'un quitte l'agence, on désactive son accès au lieu de supprimer son compte : l'historique de ses actions reste consultable.</p>`;
-}
-
-function pagePro() {
-  if (!pro.user) return proLogin();
-  const views = { tableau: proTableau, reservations: proReservations, devis: proDevis, 'mes-departs': proMesDeparts, catalogue: proCatalogue, equipe: proEquipe };
-  const allowed = pro.user.role === 'guide' ? ['mes-departs'] : pro.user.role === 'conseiller' ? ['tableau', 'reservations', 'devis'] : Object.keys(views).filter(v => v !== 'mes-departs');
-  if (!allowed.includes(pro.view)) pro.view = allowed[0];
-  return `<div class="wrap" style="padding-top:24px">
-    <div class="pbar"><span><strong>Espace pro</strong> · ${esc(pro.user.name)} (${ROLE_LABEL[pro.user.role]})</span><span style="display:flex;gap:16px;align-items:center"><a href="../">Voir le site public</a><button type="button" class="linkbtn" data-pro-logout>Se déconnecter</button></span></div>
-    ${proNav()}
-    <div style="padding-top:20px">${views[pro.view]()}</div>
-  </div>`;
-}
-
 /* ===================== Pages ===================== */
 /* ===================== Correspondances photos / notes des nouvelles offres ===================== */
 Object.assign(ILLO_OF, { 'hop-on-hop-off': ['rome', 'colosseum', 'dome'], 'bus-night': ['night', 'dome', 'rome'], 'italy-5-days': ['florence', 'hills', 'coast'], 'hotel-trevi': ['rome', 'night', 'dome'], 'hotel-family': ['rome', 'hills', 'colosseum'], 'trattoria-trastevere': ['food', 'night', 'rome'], 'rooftop-dinner': ['dome', 'night', 'food'] });
 Object.assign(PHOTO_OF, { 'hop-on-hop-off': ['colosseum2', 'stpeter', 'treviDay'], 'bus-night': ['treviNight', 'colosseum', 'stpeter'], 'italy-5-days': ['florence', 'tuscany', 'positano'], 'hotel-trevi': ['treviDay', 'treviNight', 'trastevere'], 'hotel-family': ['stpeterSquare', 'colosseum2', 'treviDay'], 'trattoria-trastevere': ['trastevere', 'trastevereChurch', 'treviNight'], 'rooftop-dinner': ['stpeter', 'stpeterSquare', 'treviNight'] });
 Object.assign(PHOTO_ENVIE, { activity: 'colosseum', bus: 'colosseum2', circuit: 'positano', hotel: 'treviDay', restaurant: 'trastevere' });
 Object.assign(ILLO_ENVIE, { activity: 'colosseum', bus: 'rome', circuit: 'coast', hotel: 'night', restaurant: 'food' });
-Object.assign(RATINGS, { 'hop-on-hop-off': [4.6, 389], 'bus-night': [4.7, 142], 'italy-5-days': [4.9, 38], 'hotel-trevi': [4.8, 211], 'hotel-family': [4.6, 97], 'trattoria-trastevere': [4.7, 256], 'rooftop-dinner': [4.9, 118] });
-Object.assign(GUIDE_OF, { 'hop-on-hop-off': 2, 'bus-night': 2, 'italy-5-days': 3 });
 const ALT_EN = { colosseum: 'The Colosseum and the Roman Forum from above', colosseum2: 'The Colosseum on a sunny day', hypogeum: 'The underground passages of the Colosseum', stpeter: "St Peter's Basilica seen from the Vittorio Emanuele II bridge", stpeterSquare: "St Peter's Square seen from the dome", treviNight: 'The Trevi Fountain lit up at night', treviDay: 'The Trevi Fountain by day', trastevere: 'A typical street in Trastevere', trastevereChurch: 'The Basilica of Santa Maria in Trastevere', pompeii: 'The Forum of Pompeii with Mount Vesuvius behind', positano: 'Positano on its cliff', amalfi: 'Amalfi seen from the sea', florence: 'Florence and the Duomo from Piazzale Michelangelo', tuscany: "Hills of the Val d'Orcia in Tuscany in autumn" };
 Object.entries(ALT_EN).forEach(([k, v]) => { if (PHOTOS[k]) PHOTOS[k].alt = v; });
 
@@ -1009,8 +913,7 @@ function durTxt(a) {
   if (m >= 600) return tr('fullday');
   return Math.floor(m / 60) + ' h' + (m % 60 ? ' ' + (m % 60) : '');
 }
-function priceTxt(a) { return `${tr('from')} <strong>${eur(a.adult)}</strong> <span>${a.type === 'hotel' ? tr('pn') : tr('pp')}</span>`; }
-function ratingTxt(a) { const r = RATINGS[a.slug]; return r ? `<span style="color:var(--accent)" aria-hidden="true">★</span> ${r[0].toLocaleString(LOCALE(), { minimumFractionDigits: 1 })} · ${r[1].toLocaleString(LOCALE())} ${tr('reviews')}` : tr('no_rev'); }
+function priceTxt(a) { return `${tr('from')} <strong>${eur(a.adult)}</strong> <span>${a.type === 'hotel' ? tr('pn') : tr('pp')} · ${tr('indic')}</span>`; }
 const catName = slug => L(ENVIES.find(e => e.slug === slug).name);
 
 function card(a) {
@@ -1020,7 +923,6 @@ function card(a) {
     <div class="body">
       <span class="meta">${esc(meta)}</span>
       <strong class="t">${esc(L(a.title))}</strong>
-      <span style="font-size:14px;color:var(--ink-2)">${ratingTxt(a)}</span>
       <span class="price">${priceTxt(a)}</span>
     </div></a>`;
 }
@@ -1047,13 +949,6 @@ function pageAccueil() {
     </form>
   </section>
   <div class="wrap">
-    <section class="stats" aria-label="Key figures">
-      <div class="stat"><strong>8</strong><span>${tr('st_years')}</span></div>
-      <div class="stat"><strong>23,000+</strong><span>${tr('st_trav')}</span></div>
-      <div class="stat"><strong>★ 4.9/5</strong><span>${tr('st_rev')}</span></div>
-      <div class="stat"><strong>12 min</strong><span>${tr('st_reply')}</span></div>
-    </section>
-
     <section class="section">
       <div class="row-head"><h2>${tr('sec_cat')}</h2></div>
       <div class="tiles">${ENVIES.map(e => {
@@ -1149,69 +1044,11 @@ function pageCatalogue() {
     </div></div>`;
 }
 
-function counterRow(label, sub, key, val, min, maxed) {
-  return `<div class="counter"><span><strong style="display:block">${label}</strong>${sub ? `<span style="font-size:13px;color:var(--muted)">${sub}</span>` : ''}</span>
-    <div class="ctl"><button type="button" data-count="${key}" data-step="-1" aria-label="${label} −" ${val <= min ? 'disabled' : ''}>−</button><span aria-live="polite" style="min-width:20px;text-align:center;font-weight:700">${val}</span><button type="button" data-count="${key}" data-step="1" aria-label="${label} +" ${maxed ? 'disabled' : ''}>+</button></div></div>`;
-}
-
-function requestBox(a) {
-  const p = state.pick[a.slug] || (state.pick[a.slug] = { date: iso(nextDays(1)[0]), time: a.times[0] || null, adults: 2, children: 0, nights: 2 });
-  if (p.sent) return `<aside class="book" aria-label="Booking request"><p class="ok" role="status" style="margin:0">${tr(p.dbSent ? 'req_ok' : 'req_sent')}</p><button type="button" class="btn ghost" data-req-again>${tr('q_again')}</button></aside>`;
-  const isHotel = a.type === 'hotel';
-  const total = isHotel ? a.adult * p.nights : a.adult * p.adults;
-  return `<aside class="book" aria-label="Booking request">
-    <p style="margin:0;color:var(--muted)">${priceTxt(a)}</p>
-    <form id="reqForm" data-slug="${a.slug}" class="form" style="gap:14px" novalidate>
-      <div class="field"><label for="rq-date">${isHotel ? tr('checkin') : tr('date')}</label><input id="rq-date" type="date" value="${p.date}" min="${iso(nextDays(1)[0])}" required></div>
-      ${!isHotel ? `<div class="field"><label for="rq-time">${tr('time')}</label><select id="rq-time">${a.times.map(x => `<option ${p.time === x ? 'selected' : ''}>${x}</option>`).join('')}</select></div>` : ''}
-      ${isHotel ? counterRow(tr('nights'), '', 'nights', p.nights, 1, p.nights >= 14) : ''}
-      ${counterRow(tr('guests'), '', 'adults', p.adults, 1, p.adults >= a.max)}
-      <div class="total"><span>${tr('estimate')}</span><strong>${eur(total)}</strong></div>
-      <div class="field"><label for="rq-name">${tr('name')}</label><input id="rq-name" autocomplete="name" required><span class="err" id="erq-name"></span></div>
-      <div class="field"><label for="rq-email">${tr('email')}</label><input id="rq-email" type="email" autocomplete="email" required><span class="err" id="erq-email"></span></div>
-      <button type="submit" class="btn">${tr('req_b')}</button>
-      <p style="margin:0;font-size:14px;color:var(--ink-2)">${tr('req_note')}</p>
-    </form>
-  </aside>`;
-}
-
-function slotBox(a) {
-  const days = nextDays(14);
-  const p = state.pick[a.slug] || (state.pick[a.slug] = { date: iso(days[0]), time: null, adults: 2, children: 0 });
-  const childPrice = a.child ?? a.adult;
-  const total = p.adults * a.adult + p.children * childPrice;
-  const left = p.time ? seatsLeft(a, p.date, p.time) : null;
-  const tooMany = p.time && (p.adults + p.children) > left;
-  const loc = LOCALE();
-  return `<aside class="book" aria-label="Booking">
-    <p style="margin:0;color:var(--muted)">${priceTxt(a)}</p>
-    <div><h3 id="lbl-date">${tr('date')}</h3>
-      <div class="chips" role="group" aria-labelledby="lbl-date" style="margin-top:8px">
-        ${days.map(d => { const v = iso(d); return `<button type="button" class="chip" data-date="${v}" aria-pressed="${p.date === v}"><span>${d.toLocaleDateString(loc, { weekday: 'short' })}</span><b>${d.getDate()}</b><span>${d.toLocaleDateString(loc, { month: 'short' })}</span></button>`; }).join('')}
-      </div></div>
-    <div><h3 id="lbl-heure">${tr('time')}</h3>
-      <div class="slots" role="group" aria-labelledby="lbl-heure" style="margin-top:8px">
-        ${a.times.map(x => { const n = seatsLeft(a, p.date, x); return `<button type="button" class="slot" data-time="${x}" aria-pressed="${p.time === x}" ${n === 0 ? 'disabled' : ''}>${x}<small>${n === 0 ? tr('full') : tr('left', { n })}</small></button>`; }).join('')}
-      </div></div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      ${counterRow(tr('adults'), tr('adults_s') + ' · ' + eur(a.adult), 'adults', p.adults, 1, p.adults + p.children >= a.max)}
-      ${counterRow(tr('children'), tr('children_s', { a: a.childAge || 0 }) + ' · ' + eur(childPrice), 'children', p.children, 0, p.adults + p.children >= a.max)}
-    </div>
-    <div class="total"><span>${tr('total')} (${p.adults + p.children} ${tr('pers')})</span><strong>${eur(total)}</strong></div>
-    ${!p.time ? `<p class="warn" style="margin:0;background:#FFFBEB;color:#92400E">${tr('choose_time')}</p>` : ''}
-    ${tooMany ? `<p class="warn" style="margin:0">${tr('only_left', { n: left, t: p.time })}</p>` : ''}
-    <button type="button" class="btn" id="addCart" ${!p.time || tooMany ? 'disabled' : ''}>${tr('add')}</button>
-    <p style="margin:0;font-size:14px;color:var(--ink-2)">✓ ${tr('instant')}<br>✓ ${tr('cancel', { h: a.minutes > 300 ? 72 : 24 })}<br>✓ ${tr('secure')}</p>
-  </aside>`;
-}
-
 function pageFiche(a) {
-  const revs = REVIEWS[a.slug] || [];
-  const r = RATINGS[a.slug];
   return `<div class="wrap">
     <nav class="crumb" aria-label="Breadcrumb"><a href="#accueil">${tr('home')}</a> › <a href="#catalogue">${tr('nav_offers')}</a> › ${esc(catName(a.type))}</nav>
     <h1 style="font-size:clamp(26px,4vw,38px);margin:10px 0 6px">${esc(L(a.title))}</h1>
-    <p style="margin:0;color:var(--ink-2)">${ratingTxt(a)} · ${esc(L(DESTINATIONS[a.dest]))}${durTxt(a) ? ' · ' + durTxt(a) : ''}</p>
+    <p style="margin:0;color:var(--ink-2)">${esc(L(DESTINATIONS[a.dest]))}${durTxt(a) ? ' · ' + durTxt(a) : ''}</p>
     <div class="gallery">
       <div class="big" style="position:relative;overflow:hidden">${actPic(a.slug, 0)}</div>
       <div class="side"><div style="position:relative;overflow:hidden">${actPic(a.slug, 1)}</div><div style="position:relative;overflow:hidden">${actPic(a.slug, 2)}</div></div>
@@ -1227,103 +1064,152 @@ function pageFiche(a) {
         </section>
         <section><h2>${tr('meet')}</h2><div class="map" lang="en">${esc(a.meeting)}</div></section>
         <section><h2>${tr('gtk')}</h2><p style="margin:0;color:var(--ink-2)" lang="en">${esc(a.info)}</p></section>
-        ${revs.length ? `<section id="avis"><h2>${tr('rev_t')}${r ? ` · ★ ${r[0]} (${r[1]})` : ''}</h2>
-          <p style="margin:0 0 14px;font-size:13px;color:var(--muted)">${tr('rev_demo')}</p>
-          ${revs.map(x => `<blockquote lang="fr" style="margin:0 0 14px;border:1px solid var(--line);border-radius:var(--radius);padding:18px"><span style="color:var(--accent)" aria-label="${x[3]}/5">${stars(x[3])}</span><p style="margin:8px 0">${esc(x[4])}</p><footer style="font-size:14px;color:var(--muted)">${esc(x[0])}, ${esc(x[1])} · ${x[2]} · <span lang="${LANG}">${tr('rev_lang')}</span></footer></blockquote>`).join('')}
-        </section>` : ''}
       </div>
-      ${isReq(a) ? requestBox(a) : slotBox(a)}
+      ${bookingBox(a)}
     </div></div>`;
 }
 
-function pagePanier() {
-  const total = state.cart.reduce((s, i) => s + i.total, 0);
-  if (!state.cart.length) return `<div class="wrap"><div class="success"><h1>${tr('empty')}</h1><p style="color:var(--muted)">${tr('empty_d')}</p><a class="btn" href="#catalogue">${tr('see')}</a></div></div>`;
-  return `<div class="wrap">
-    <nav class="crumb" aria-label="Breadcrumb"><a href="#accueil">${tr('home')}</a> › ${tr('cart')}</nav>
-    <h1 style="font-size:36px;margin:10px 0 0">${tr('ct')}</h1>
-    <div class="layout">
-      <div class="results" style="display:flex;flex-direction:column;gap:24px">
-        <section class="panel"><h2 style="margin:0 0 4px;font-size:22px">${tr('items')}</h2>
-          ${state.cart.map(i => { const a = bySlug[i.slug]; return `<div class="line-item">
-            <div class="thumb" style="position:relative;overflow:hidden">${actPic(a.slug, 0)}</div>
-            <div class="info"><strong>${esc(L(a.title))}</strong><br><span style="color:var(--muted);font-size:14px">${longDate(i.date)} · ${i.time} · ${i.adults + i.children} ${tr('pers')}</span></div>
-            <strong>${eur(i.total)}</strong>
-            <button type="button" class="linkbtn" data-remove="${i.id}">${tr('remove')}</button></div>`; }).join('')}
-        </section>
-        <form class="panel form" id="checkout" novalidate>
-          <h2 style="margin:0;font-size:22px">${tr('details')}</h2>
-          <div class="row">
-            <div class="field"><label for="c-prenom">${tr('first')}</label><input id="c-prenom" autocomplete="given-name" required><span class="err" id="e-prenom"></span></div>
-            <div class="field"><label for="c-nom">${tr('last')}</label><input id="c-nom" autocomplete="family-name" required><span class="err" id="e-nom"></span></div>
-          </div>
-          <div class="row">
-            <div class="field"><label for="c-email">${tr('email')}</label><input id="c-email" type="email" autocomplete="email" required><span class="err" id="e-email"></span></div>
-            <div class="field"><label for="c-tel">${tr('phone')}</label><input id="c-tel" type="tel" autocomplete="tel"><span class="err"></span></div>
-          </div>
-          <label class="check"><input type="checkbox" id="c-cgv" required> ${tr('terms')}</label>
-          <span class="err" id="e-cgv" style="color:#B91C1C;font-size:13px"></span>
-          <p class="sim" style="margin:0">${tr('pay_sim')}</p>
-          <button type="submit" class="btn">${tr('pay_b', { x: eur(total) })}</button>
-        </form>
-      </div>
-      <aside class="book" aria-label="${tr('summary')}">
-        <h2 style="margin:0;font-size:20px">${tr('summary')}</h2>
-        ${state.cart.map(i => `<div style="display:flex;justify-content:space-between;gap:12px;font-size:15px"><span>${esc(L(bySlug[i.slug].title))}</span><span>${eur(i.total)}</span></div>`).join('')}
-        <div class="total"><span>${tr('total')}</span><strong>${eur(total)}</strong></div>
-      </aside>
-    </div></div>`;
+/* ===================== Demandes de réservation (réelles, sans paiement) =====================
+   Envoi dans Supabase (table quote_requests). Si la base ne répond pas, la demande n'est pas perdue :
+   on affiche les boutons WhatsApp / e-mail avec le récapitulatif. Anti-spam : champ piège + délai minimum. */
+const MIN_FILL_MS = 4000;
+const today1 = () => iso(nextDays(1)[0]);
+function langOptions(sel) { return LANGS.map(l => `<option value="${l.c}" ${l.c === sel ? 'selected' : ''} lang="${l.c}">${l.n}</option>`).join(''); }
+function honeypot(id) {
+  return `<div aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden"><label for="${id}">Website</label><input id="${id}" name="website" type="text" tabindex="-1" autocomplete="off"></div>`;
+}
+function consentField(id) {
+  return `<div class="field"><label class="check" for="${id}" style="font-weight:400"><input type="checkbox" id="${id}" required aria-describedby="e${id}"> <span>${tr('consent', { link: `<a href="#privacy">${tr('privacy')}</a>` })}</span></label><span class="err" id="e${id}" role="alert"></span></div>`;
+}
+function waLink(text) { return CONFIG.whatsappLink + '?text=' + encodeURIComponent(text); }
+function mailLink(subject, body) { return 'mailto:' + CONFIG.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body); }
+// Récapitulatif + boutons de contact direct (affichés après l'envoi, ou à la place si la base ne répond pas)
+function resultBox(r) {
+  const msg = tr('wa_msg', { offer: r.offer, date: r.date || '—', n: r.pax, name: r.name });
+  const body = msg + (r.extra ? '\n\n' + r.extra : '');
+  const wa = CONFIG.whatsappLink ? `<a class="btn${r.ok ? ' ghost' : ''}" id="waBtn" href="${esc(waLink(msg))}" target="_blank" rel="noopener">${tr(r.ok ? 'br_wa' : 'br_wa2')}</a>` : '';
+  const mail = CONFIG.email ? `<a class="btn ghost" id="mailBtn" href="${esc(mailLink(tr('br_t') + ' — ' + r.offer, body))}">${tr('br_mail')}</a>` : '';
+  return `<div class="form" style="gap:12px">
+    <p class="${r.ok ? 'ok' : 'warn'}" role="${r.ok ? 'status' : 'alert'}" tabindex="-1" id="reqResult" style="margin:0">${tr(r.ok ? 'br_ok' : 'br_fail')}</p>
+    <p style="margin:0;font-size:14px;color:var(--ink-2);white-space:pre-line">${esc(msg)}</p>
+    ${wa}${mail}
+    <button type="button" class="linkbtn" data-req-again>${tr('br_new')}</button></div>`;
+}
+async function sendRequest(target, payload, recap) {
+  // target : objet d'état qui reçoit le résultat (state.pick[slug] ou state.quote)
+  const ok = await sendRequestToDb(payload);
+  target.result = Object.assign({ ok }, recap);
+  rerender();
+  const r = $('#reqResult'); if (r) r.focus();
 }
 
-function pageConfirmation() {
-  const o = state.lastOrder;
-  if (!o) { location.hash = 'accueil'; return ''; }
-  return `<div class="wrap"><div class="success">
-    <p class="eyebrow">${tr('conf_eb')}</p>
-    <h1 style="font-size:36px;margin:0">${tr('thanks', { name: esc(o.prenom) })}</h1>
-    <p style="color:var(--ink-2);margin:0">${tr('ref')}</p>
-    <p class="ref">${o.ref}</p>
-    <div class="panel" style="width:100%;text-align:left">
-      ${o.items.map(i => `<p style="margin:0 0 10px"><strong>${esc(L(bySlug[i.slug].title))}</strong><br><span style="color:var(--muted)">${longDate(i.date)} · ${i.time} · ${i.adults + i.children} ${tr('pers')} · ${tr('meet')}: ${esc(bySlug[i.slug].meeting)}</span></p>`).join('')}
-      <div class="total"><span>${tr('paid')}</span><strong>${eur(o.total)}</strong></div>
-    </div>
-    <p class="sim" style="margin:0">${tr('email_sim', { email: esc(o.email) })}</p>
-    <a class="btn ghost" href="#catalogue">${tr('another')}</a>
-  </div></div>`;
+function bookingBox(a) {
+  const p = state.pick[a.slug] || (state.pick[a.slug] = { t0: Date.now() });
+  if (p.result) return `<aside class="book" aria-label="${tr('br_t')}">${resultBox(p.result)}</aside>`;
+  const isHotel = a.type === 'hotel';
+  return `<aside class="book" aria-label="${tr('br_t')}">
+    <p style="margin:0;color:var(--muted)">${priceTxt(a)}</p>
+    <h2 style="margin:0;font-size:20px">${tr('br_t')}</h2>
+    <p style="margin:0;font-size:14px;color:var(--ink-2)">${tr('br_d')}</p>
+    <form id="reqForm" data-slug="${a.slug}" class="form" style="gap:14px;position:relative" novalidate>
+      <div class="field"><label for="rq-offer">${tr('f_offer')}</label><input id="rq-offer" value="${esc(L(a.title))}" readonly></div>
+      <div class="field"><label for="rq-name">${tr('f_name')}</label><input id="rq-name" autocomplete="name" required aria-describedby="erq-name"><span class="err" id="erq-name"></span></div>
+      <div class="field"><label for="rq-email">${tr('email')}</label><input id="rq-email" type="email" autocomplete="email" required aria-describedby="erq-email"><span class="err" id="erq-email"></span></div>
+      <div class="field"><label for="rq-phone">${tr('phone')}</label><input id="rq-phone" type="tel" autocomplete="tel"></div>
+      <div class="field"><label for="rq-date">${isHotel ? tr('checkin') : tr('f_date')}</label><input id="rq-date" type="date" min="${today1()}" required aria-describedby="erq-date"><span class="err" id="erq-date"></span></div>
+      ${!isHotel && a.times.length ? `<div class="field"><label for="rq-time">${tr('time')}</label><select id="rq-time">${a.times.map(x => `<option>${x}</option>`).join('')}</select></div>` : ''}
+      ${isHotel ? `<div class="field"><label for="rq-nights">${tr('nights')}</label><input id="rq-nights" type="number" min="1" max="30" value="2" inputmode="numeric"></div>` : ''}
+      <div class="field"><label for="rq-pax">${tr('f_pax')}</label><input id="rq-pax" type="number" min="1" max="99" value="2" inputmode="numeric" required aria-describedby="erq-pax"><span class="err" id="erq-pax"></span></div>
+      <div class="field"><label for="rq-lang">${tr('f_lang')}</label><select id="rq-lang">${langOptions(LANG)}</select></div>
+      <div class="field"><label for="rq-msg">${tr('f_msg')}</label><textarea id="rq-msg" maxlength="1500"></textarea></div>
+      ${honeypot('rq-web')}
+      ${consentField('rq-ok')}
+      <span class="err" id="erq-form" role="alert"></span>
+      <button type="submit" class="btn">${tr('br_send')}</button>
+    </form>
+  </aside>`;
 }
 
 function pageDevis() {
-  if (state.quoteSent) {
-    const q = state.quoteSent;
-    return `<div class="wrap"><div class="success">
-      <p class="eyebrow">${tr('cta_eb')}</p>
-      <h1 style="font-size:34px;margin:0">${tr('q_thanks', { name: esc(q.prenom) })}</h1>
-      <p style="color:var(--ink-2)">${tr('q_reply')}</p>
-      <p class="${q.dbSent ? 'ok' : 'sim'}" role="status">${tr(q.dbSent ? 'q_ok' : 'q_sim')}</p>
-      <button type="button" class="btn ghost" id="newQuote">${tr('q_again')}</button>
-    </div></div>`;
-  }
+  const q = state.quote || (state.quote = { t0: Date.now() });
+  if (q.result) return `<div class="wrap" style="max-width:720px"><div class="success" style="align-items:stretch;text-align:left">
+      <p class="eyebrow">${tr('cta_eb')}</p>${resultBox(q.result)}</div></div>`;
   return `<div class="wrap" style="max-width:860px">
     <nav class="crumb" aria-label="Breadcrumb"><a href="#accueil">${tr('home')}</a> › ${tr('nav_custom')}</nav>
     <h1 style="font-size:clamp(28px,4vw,40px);margin:10px 0 6px">${tr('q_t')}</h1>
     <p style="margin:0 0 28px;color:var(--ink-2);font-size:17px">${tr('q_d')}</p>
-    <form class="panel form" id="quote" novalidate>
+    <form class="panel form" id="quote" novalidate style="position:relative">
       <div class="row">
-        <div class="field"><label for="q-prenom">${tr('first')}</label><input id="q-prenom" autocomplete="given-name" required><span class="err" id="eq-prenom"></span></div>
-        <div class="field"><label for="q-email">${tr('email')}</label><input id="q-email" type="email" autocomplete="email" required><span class="err" id="eq-email"></span></div>
+        <div class="field"><label for="q-prenom">${tr('f_name')}</label><input id="q-prenom" autocomplete="name" required aria-describedby="eq-prenom"><span class="err" id="eq-prenom"></span></div>
+        <div class="field"><label for="q-email">${tr('email')}</label><input id="q-email" type="email" autocomplete="email" required aria-describedby="eq-email"><span class="err" id="eq-email"></span></div>
       </div>
       <div class="row">
-        <div class="field"><label for="q-du">${tr('arr')}</label><input id="q-du" type="date"></div>
-        <div class="field"><label for="q-au">${tr('dep')}</label><input id="q-au" type="date"><span class="err" id="eq-au"></span></div>
-        <div class="field"><label for="q-nb">${tr('trav')}</label><input id="q-nb" type="number" min="1" value="2"></div>
+        <div class="field"><label for="q-tel">${tr('phone')}</label><input id="q-tel" type="tel" autocomplete="tel"></div>
+        <div class="field"><label for="q-lang">${tr('f_lang')}</label><select id="q-lang">${langOptions(LANG)}</select></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="q-du">${tr('arr')}</label><input id="q-du" type="date" min="${today1()}"></div>
+        <div class="field"><label for="q-au">${tr('dep')}</label><input id="q-au" type="date" min="${today1()}" aria-describedby="eq-au"><span class="err" id="eq-au"></span></div>
+        <div class="field"><label for="q-nb">${tr('trav')}</label><input id="q-nb" type="number" min="1" max="99" value="2" inputmode="numeric"></div>
       </div>
       <div class="field"><label for="q-budget">${tr('budget')}</label>
         <select id="q-budget"><option>&lt; 500 €</option><option selected>500–1000 €</option><option>1000–2000 €</option><option>&gt; 2000 €</option></select></div>
       <fieldset style="border:none;padding:0;margin:0"><legend style="font-weight:700;font-size:14px;margin-bottom:8px">${tr('interests')}</legend>
         <div style="display:flex;flex-wrap:wrap;gap:8px 20px">${ENVIES.map(e => `<label class="check"><input type="checkbox" value="${e.slug}" name="q-envie"> ${esc(L(e.name))}</label>`).join('')}</div></fieldset>
-      <div class="field"><label for="q-msg">${tr('project')}</label><textarea id="q-msg"></textarea></div>
+      <div class="field"><label for="q-msg">${tr('project')}</label><textarea id="q-msg" maxlength="1500"></textarea></div>
+      ${honeypot('q-web')}
+      ${consentField('q-ok')}
+      <span class="err" id="eq-form" role="alert"></span>
       <button type="submit" class="btn">${tr('q_send')}</button>
     </form></div>`;
+}
+
+function submitBooking(f) {
+  const a = bySlug[f.dataset.slug]; const p = state.pick[a.slug];
+  const nm = $('#rq-name'), em = $('#rq-email'), dt = $('#rq-date'), px = $('#rq-pax'), ok1 = $('#rq-ok');
+  const pax = Math.round(Number(px.value));
+  let ok = setErr(nm, $('#erq-name'), nm.value.trim() ? '' : tr('e_name'));
+  ok = setErr(em, $('#erq-email'), validEmail(em.value.trim()) ? '' : tr('e_email')) && ok;
+  ok = setErr(dt, $('#erq-date'), dt.value && dt.value >= today1() ? '' : tr('e_date')) && ok;
+  ok = setErr(px, $('#erq-pax'), pax >= 1 && pax <= 99 ? '' : tr('e_pax')) && ok;
+  ok = setErr(ok1, $('#erq-ok'), ok1.checked ? '' : tr('e_consent')) && ok;
+  if (!ok) { f.querySelector('[aria-invalid="true"]').focus(); return; }
+  if ($('#rq-web').value) { p.result = { ok: true, offer: L(a.title), date: dt.value, pax, name: nm.value.trim() }; rerender(); return; } // robot : on ne fait rien
+  if (Date.now() - p.t0 < MIN_FILL_MS) { $('#erq-form').textContent = tr('e_wait'); return; }
+  $('#erq-form').textContent = '';
+  const tm = $('#rq-time'), nights = $('#rq-nights');
+  const n = nights ? Math.max(1, Math.round(Number(nights.value) || 1)) : 0;
+  const extra = [tm ? tr('time') + ': ' + tm.value : '', n ? tr('nights') + ': ' + n : '', $('#rq-msg').value.trim()].filter(Boolean).join('\n');
+  const btn = f.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = tr('br_sending');
+  sendRequest(p, {
+    first_name: nm.value.trim().slice(0, 200), email: em.value.trim().slice(0, 200), phone: $('#rq-phone').value.trim().slice(0, 50) || null,
+    date_from: dt.value, date_to: n ? iso(new Date(new Date(dt.value + 'T12:00:00').getTime() + n * 864e5)) : null,
+    travelers: pax, interests: [a.type], offer_slug: a.slug, preferred_language: $('#rq-lang').value, consent_at: new Date().toISOString(),
+    message: [`${a.type} · ${a.slug} · ${a.title.en}`, tm ? 'time ' + tm.value : '', n ? n + ' night(s)' : '', $('#rq-msg').value.trim()].filter(Boolean).join(' · ').slice(0, 2000)
+  }, { offer: L(a.title), date: dt.value + (tm ? ' ' + tm.value : ''), pax, name: nm.value.trim(), extra });
+}
+
+function submitQuote(f) {
+  const q = state.quote;
+  const prenom = $('#q-prenom'), email = $('#q-email'), du = $('#q-du'), au = $('#q-au'), ok1 = $('#q-ok');
+  let ok = setErr(prenom, $('#eq-prenom'), prenom.value.trim() ? '' : tr('e_name'));
+  ok = setErr(email, $('#eq-email'), validEmail(email.value.trim()) ? '' : tr('e_email')) && ok;
+  ok = setErr(au, $('#eq-au'), du.value && au.value && au.value < du.value ? tr('e_dates') : '') && ok;
+  ok = setErr(ok1, $('#eq-ok'), ok1.checked ? '' : tr('e_consent')) && ok;
+  if (!ok) { f.querySelector('[aria-invalid="true"]').focus(); return; }
+  const pax = Math.min(99, Math.max(1, Math.round(Number($('#q-nb').value) || 1)));
+  const dates = (du.value || '?') + ' → ' + (au.value || '?');
+  const recap = { offer: tr('cta_eb'), date: dates, pax, name: prenom.value.trim(), extra: [`${tr('budget')}: ${$('#q-budget').value}`, $('#q-msg').value.trim()].filter(Boolean).join('\n') };
+  if ($('#q-web').value) { q.result = Object.assign({ ok: true }, recap); rerender(); return; }
+  if (Date.now() - q.t0 < MIN_FILL_MS) { $('#eq-form').textContent = tr('e_wait'); return; }
+  $('#eq-form').textContent = '';
+  const btn = f.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = tr('br_sending');
+  sendRequest(q, {
+    first_name: prenom.value.trim().slice(0, 200), email: email.value.trim().slice(0, 200), phone: $('#q-tel').value.trim().slice(0, 50) || null,
+    date_from: du.value || null, date_to: au.value || null, travelers: pax, preferred_language: $('#q-lang').value, consent_at: new Date().toISOString(),
+    interests: [...document.querySelectorAll('input[name=q-envie]:checked')].map(x => x.value), offer_slug: 'sur-mesure',
+    message: `[Budget ${$('#q-budget').value}] ${$('#q-msg').value.trim()}`.slice(0, 2000)
+  }, recap);
 }
 
 function pageCredits() {
@@ -1336,24 +1222,109 @@ function pageCredits() {
     </tbody></table></div></div>`;
 }
 
+/* ===================== Pages légales (anglais + italien ; les autres langues voient l'anglais) =====================
+   Brouillon à faire relire par un professionnel (commercialista / avvocato). */
+function legalLang() { return LANG === 'it' ? 'it' : 'en'; }
+function cfgLines(lg) {
+  const c = CONFIG, L2 = lg === 'it'
+    ? { co: 'Ragione sociale', vat: 'Partita IVA', rea: 'Numero REA', addr: 'Sede', mail: 'E-mail', wa: 'WhatsApp' }
+    : { co: 'Company name', vat: 'VAT number (P.IVA)', rea: 'REA number', addr: 'Address', mail: 'Email', wa: 'WhatsApp' };
+  return [[L2.co, esc(c.company)], [L2.vat, esc(c.vat)], [L2.rea, esc(c.rea)], [L2.addr, esc(c.address)],
+    [L2.mail, c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : ''],
+    [L2.wa, c.whatsapp ? `<a href="${esc(c.whatsappLink)}" rel="noopener">${esc(c.whatsapp)}</a>` : '']]
+    .filter(r => r[1]).map(r => `<li><strong>${r[0]}:</strong> ${r[1]}</li>`).join('');
+}
+function legalShell(title, lg, body) {
+  return `<div class="wrap legal" style="max-width:860px" lang="${lg}">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="#accueil" lang="${LANG}">${tr('home')}</a> › <span lang="${LANG}">${title}</span></nav>
+    <h1 style="font-size:clamp(28px,4vw,40px);margin:10px 0 6px">${title}</h1>
+    ${lg !== LANG ? `<p class="sim" lang="${LANG}">${tr('en_only')}</p>` : ''}
+    <div class="panel" style="display:flex;flex-direction:column;gap:6px">${body}</div></div>`;
+}
+const LEGAL_TXT = {
+  en: {
+    privacy: c => `
+      <p style="margin:0;color:var(--muted)">Last updated: ${esc(c.legalUpdated)}</p>
+      <h2>1. Who is responsible for your data</h2><ul>${cfgLines('en')}</ul>
+      <h2>2. What data we collect</h2>
+      <p>Only the data you send us with a booking request or a tailor-made trip request: name, email, phone / WhatsApp number (optional), requested offer, preferred date(s), number of people, preferred language, your message and the date of your consent. We do not ask for any payment card details on this website.</p>
+      <p>Our hosting provider also processes technical data (such as IP address and browser type) to deliver the website and protect it against abuse.</p>
+      <h2>3. Why we use it</h2>
+      <p>To answer your request, check availability, send you a proposal and, if you confirm, organise the services you booked. We do not use your data for advertising, we do not sell it and we do not send newsletters without your separate consent.</p>
+      <h2>4. Legal basis</h2>
+      <p>Steps taken at your request before a contract (Art. 6(1)(b) GDPR) and your consent given in the form (Art. 6(1)(a) GDPR). Technical security data: our legitimate interest in keeping the website safe (Art. 6(1)(f) GDPR).</p>
+      <h2>5. How long we keep it</h2>
+      <p>24 months after our last contact, then it is deleted. If you make a booking, the data needed for accounting and tax records is kept for the period required by Italian law.</p>
+      <h2>6. Service providers (processors)</h2>
+      <ul><li><strong>Supabase</strong>: database storing requests, hosted in the EU (Frankfurt, Germany).</li>
+        <li><strong>Cloudflare</strong>: website hosting and security.</li>
+        <li><strong>Wikimedia Commons</strong>: the photos are loaded from Wikimedia servers, which receive your IP address.</li>
+        <li><strong>Google Fonts</strong>: the website font is loaded from Google servers, which receive your IP address.</li>
+        <li>If you choose to write to us on <strong>WhatsApp</strong> or by email, the terms of those services also apply.</li></ul>
+      <p>Some of these providers may process data outside the European Union; such transfers are covered by the safeguards provided by the GDPR (European Commission adequacy decision or standard contractual clauses).</p>
+      <h2>7. Your rights</h2>
+      <p>You can ask to access, correct or delete your data, restrict or object to its use, receive it in a portable format, and withdraw your consent at any time. Write to ${c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : 'us'}. You can also lodge a complaint with the Italian data protection authority (Garante per la protezione dei dati personali, www.garanteprivacy.it).</p>
+      <h2>8. Cookies and local storage</h2>
+      <p>This website does not use advertising cookies, tracking cookies or analytics. The only thing stored in your browser is your language choice, so that the site opens in the same language next time.</p>`,
+    legal: c => `
+      <h2>Website publisher</h2><ul>${cfgLines('en')}</ul>
+      <h2>Hosting</h2><p>Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA.</p>
+      <h2>Photos</h2><p>Photos from Wikimedia Commons, used under their licences: see <a href="#credits">${tr('credits')}</a>.</p>
+      <h2>Prices and bookings</h2><p>Prices shown are indicative. A booking is only confirmed after our written reply. No payment is taken on this website.</p>`
+  },
+  it: {
+    privacy: c => `
+      <p style="margin:0;color:var(--muted)">Ultimo aggiornamento: ${esc(c.legalUpdated)}</p>
+      <h2>1. Titolare del trattamento</h2><ul>${cfgLines('it')}</ul>
+      <h2>2. Quali dati raccogliamo</h2>
+      <p>Solo i dati che ci invii con una richiesta di prenotazione o di viaggio su misura: nome, e-mail, numero di telefono / WhatsApp (facoltativo), offerta richiesta, data o date desiderate, numero di persone, lingua preferita, il tuo messaggio e la data del consenso. Su questo sito non chiediamo i dati di carte di pagamento.</p>
+      <p>Il nostro fornitore di hosting tratta inoltre dati tecnici (come indirizzo IP e tipo di browser) per erogare il sito e proteggerlo da abusi.</p>
+      <h2>3. Finalità</h2>
+      <p>Rispondere alla tua richiesta, verificare la disponibilità, inviarti una proposta e, se confermi, organizzare i servizi prenotati. Non usiamo i tuoi dati per pubblicità, non li vendiamo e non inviamo newsletter senza un tuo consenso separato.</p>
+      <h2>4. Base giuridica</h2>
+      <p>Misure precontrattuali adottate su tua richiesta (art. 6, par. 1, lett. b GDPR) e consenso espresso nel modulo (art. 6, par. 1, lett. a GDPR). Dati tecnici di sicurezza: legittimo interesse a proteggere il sito (art. 6, par. 1, lett. f GDPR).</p>
+      <h2>5. Conservazione</h2>
+      <p>24 mesi dall'ultimo contatto, poi i dati vengono cancellati. In caso di prenotazione, i dati necessari a fini contabili e fiscali sono conservati per il periodo previsto dalla legge italiana.</p>
+      <h2>6. Fornitori di servizi (responsabili del trattamento)</h2>
+      <ul><li><strong>Supabase</strong>: database delle richieste, ospitato nell'UE (Francoforte, Germania).</li>
+        <li><strong>Cloudflare</strong>: hosting e sicurezza del sito.</li>
+        <li><strong>Wikimedia Commons</strong>: le foto sono caricate dai server Wikimedia, che ricevono il tuo indirizzo IP.</li>
+        <li><strong>Google Fonts</strong>: il carattere del sito è caricato dai server Google, che ricevono il tuo indirizzo IP.</li>
+        <li>Se scegli di scriverci su <strong>WhatsApp</strong> o via e-mail, si applicano anche le condizioni di quei servizi.</li></ul>
+      <p>Alcuni di questi fornitori possono trattare dati al di fuori dell'Unione europea; tali trasferimenti sono coperti dalle garanzie previste dal GDPR (decisione di adeguatezza della Commissione europea o clausole contrattuali tipo).</p>
+      <h2>7. I tuoi diritti</h2>
+      <p>Puoi chiedere l'accesso, la rettifica o la cancellazione dei tuoi dati, la limitazione o l'opposizione al trattamento, la portabilità, e revocare il consenso in qualsiasi momento. Scrivi a ${c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : 'noi'}. Puoi anche proporre reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).</p>
+      <h2>8. Cookie e memoria locale</h2>
+      <p>Questo sito non usa cookie pubblicitari, cookie di tracciamento né strumenti di statistica. Nel tuo browser viene salvata solo la lingua scelta, per riaprire il sito nella stessa lingua.</p>`,
+    legal: c => `
+      <h2>Editore del sito</h2><ul>${cfgLines('it')}</ul>
+      <h2>Hosting</h2><p>Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA.</p>
+      <h2>Foto</h2><p>Foto da Wikimedia Commons, usate secondo le rispettive licenze: vedi <a href="#credits">${tr('credits')}</a>.</p>
+      <h2>Prezzi e prenotazioni</h2><p>I prezzi indicati sono indicativi. Una prenotazione è confermata solo dopo una nostra risposta scritta. Su questo sito non viene effettuato alcun pagamento.</p>`
+  }
+};
+function pagePrivacy() { const lg = legalLang(); return legalShell(tr('privacy'), lg, LEGAL_TXT[lg].privacy(CONFIG)); }
+function pageLegal() { const lg = legalLang(); return legalShell(lg === 'it' ? 'Note legali' : 'Legal notice', lg, LEGAL_TXT[lg].legal(CONFIG)); }
+
 /* ===================== En-tête, pied de page et sélecteur de langue ===================== */
 const GLOBE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>';
 function applyChrome() {
   document.documentElement.lang = LANG;
   $('.demo').textContent = tr('demo');
-  const tb = $('.topbar .wrap'); if (tb) tb.innerHTML = `<span>${tr('top_left')}</span><span>${tr('top_right')}</span>`;
+  const tb = $('.topbar .wrap'); if (tb) tb.innerHTML = `<span>${tr('top_left')}</span><span>${[CONFIG.whatsapp ? `WhatsApp: <a href="${esc(CONFIG.whatsappLink)}" style="color:inherit" rel="noopener">${esc(CONFIG.whatsapp)}</a>` : '', CONFIG.hours ? tr('hours_l') + ': ' + esc(CONFIG.hours) : ''].filter(Boolean).join(' · ')}</span>`;
   const nav = $('nav.main');
   if (nav) nav.innerHTML = `<a href="#catalogue" data-nav="catalogue" data-allcat>${tr('nav_offers')}</a><a href="#devis" data-nav="devis">${tr('nav_custom')}</a><a href="#accueil-faq" data-nav="faq">${tr('nav_faq')}</a>`;
   const right = $('.hdr-right');
   if (right) right.innerHTML = `<div class="langsel"><button type="button" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu" aria-label="${tr('lang')}: ${LANGS.find(l => l.c === LANG).n}">${GLOBE}<span>${LANG.toUpperCase()}</span></button>
-    <div id="langMenu" class="langmenu" hidden>${LANGS.map(l => `<button type="button" data-lang="${l.c}" lang="${l.c}" aria-current="${l.c === LANG}">${l.n}</button>`).join('')}</div></div>
-    <a class="cart-btn" href="#panier" data-nav="panier">${tr('cart')} <b id="cartCount">${state.cart.length}</b></a>`;
+    <div id="langMenu" class="langmenu" hidden>${LANGS.map(l => `<button type="button" data-lang="${l.c}" lang="${l.c}" aria-current="${l.c === LANG}">${l.n}</button>`).join('')}</div></div>`;
   const ft = $('footer.site .wrap');
-  if (ft) ft.innerHTML = `<span><strong style="color:var(--ink)">Turismo Club</strong> · ${tr('footer')} · Via Cavour 182, 00184 Roma · bonjour@turismoclub-demo.it</span><span>P.IVA IT00000000000 (demo) · <a href="#credits" style="color:var(--muted)">${tr('credits')}</a></span>`;
+  const ml = c => `<a href="${c[0]}" style="color:var(--muted)">${c[1]}</a>`;
+  if (ft) ft.innerHTML = `<span><strong style="color:var(--ink)">${esc(CONFIG.company)}</strong>${CONFIG.address ? ' · ' + esc(CONFIG.address) : ''}${CONFIG.vat ? ' · P.IVA ' + esc(CONFIG.vat) : ''}${CONFIG.email ? ' · ' + ml(['mailto:' + esc(CONFIG.email), esc(CONFIG.email)]) : ''}</span>`
+    + `<span>${[['#privacy', tr('privacy')], ['#legal', tr('legal')], ['#credits', tr('credits')]].map(ml).join(' · ')}</span>`;
 }
 function setLang(c) {
   if (!UI[c]) return;
-  LANG = c; try { localStorage.setItem('tc-lang', c); } catch (e) {}
+  LANG = c; try { localStorage.setItem('tc-lang', c); } catch (e) {} // seul stockage local : la langue
   applyChrome(); rerender();
 }
 
@@ -1362,24 +1333,21 @@ function render() {
   const h = (location.hash || '#accueil').slice(1);
   const app = $('#app');
   let html, nav = '';
-  if (MODE === 'pro') { html = pagePro(); }
-  else if (h === 'catalogue') { html = pageCatalogue(); nav = 'catalogue'; }
+  if (h === 'panier' || h === 'confirmation') { location.replace('#catalogue'); return; }
+  if (h === 'catalogue') { html = pageCatalogue(); nav = 'catalogue'; }
   else if (h.startsWith('activite-') && bySlug[h.slice(9)]) { html = pageFiche(bySlug[h.slice(9)]); nav = 'catalogue'; }
-  else if (h === 'panier') { html = pagePanier(); nav = 'panier'; }
-  else if (h === 'confirmation') { html = pageConfirmation(); }
   else if (h === 'devis') { html = pageDevis(); nav = 'devis'; }
-  else if (h === 'identite') { html = pageIdentite(); nav = 'identite'; }
   else if (h === 'credits') { html = pageCredits(); }
-
+  else if (h === 'privacy') { html = pagePrivacy(); }
+  else if (h === 'legal') { html = pageLegal(); }
   else { html = pageAccueil(); nav = h === 'accueil-faq' ? 'faq' : ''; }
   app.innerHTML = html;
-  if (MODE === 'pro') { saveStore(); document.title = 'Turismo Club — Espace pro'; }
   document.querySelectorAll('[data-nav]').forEach(a => { if (a.dataset.nav === nav) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   updateCartCount();
   if (h === 'accueil-faq') { const f = $('#faq'); if (f) f.scrollIntoView(); }
   else if (!render.keepScroll) window.scrollTo(0, 0);
   render.keepScroll = false;
-  if (MODE !== 'pro') document.title = 'Turismo Club — ' + ({ catalogue: tr('nav_offers'), panier: tr('cart'), devis: tr('nav_custom'), credits: tr('credits'), confirmation: tr('conf_eb') }[h] || (h.startsWith('activite-') && bySlug[h.slice(9)] ? L(bySlug[h.slice(9)].title) : tr('hero_eb')));
+  document.title = 'Turismo Club — ' + ({ catalogue: tr('nav_offers'), devis: tr('nav_custom'), credits: tr('credits'), privacy: tr('privacy'), legal: tr('legal') }[h] || (h.startsWith('activite-') && bySlug[h.slice(9)] ? L(bySlug[h.slice(9)].title) : tr('hero_eb')));
 }
 function rerender() { render.keepScroll = true; const y = window.scrollY; render(); window.scrollTo(0, y); }
 window.addEventListener('hashchange', render);
@@ -1392,56 +1360,20 @@ document.addEventListener('click', e => {
   if (t.id === 'langBtn') { const m = $('#langMenu'); m.hidden = !m.hidden; t.setAttribute('aria-expanded', String(!m.hidden)); if (!m.hidden) m.querySelector('[aria-current="true"]').focus(); return; }
   if (t.dataset.lang) { setLang(t.dataset.lang); toast(LANGS.find(l => l.c === t.dataset.lang).n); $('#langBtn').focus(); return; }
   if (t.hasAttribute('data-allcat')) { state.filters = { envies: [], dest: 'tous', duree: 'toutes', tri: 'populaires' }; }
-  if (t.hasAttribute('data-req-again')) { const a = bySlug[h.slice(9)]; state.pick[a.slug] = null; rerender(); return; }
-  if (t.id === 'palToggle') { const p = $('#palPanel'); p.hidden = !p.hidden; t.setAttribute('aria-expanded', String(!p.hidden)); return; }
-  if (t.dataset.pal) { applyPalette(t.dataset.pal); if (h === 'identite') rerender(); toast('Coloris : ' + PALETTES.find(p => p.id === t.dataset.pal).name); return; }
-  if (t.dataset.logo) { setLogo(t.dataset.logo); rerender(); toast('Logo : ' + LOGOS.find(l => l.id === t.dataset.logo).name); return; }
-  if (t.dataset.scroll) { e.preventDefault(); const el = document.getElementById(t.dataset.scroll); if (el) el.scrollIntoView({ behavior: 'smooth' }); return; }
+  if (t.hasAttribute('data-req-again')) { if (h === 'devis') state.quote = null; else if (h.startsWith('activite-')) state.pick[h.slice(9)] = null; rerender(); return; }
   if (t.dataset.envie) { state.filters = { envies: [t.dataset.envie], dest: 'tous', duree: 'toutes', tri: 'populaires' }; location.hash = 'catalogue'; return; }
   if (t.id === 'resetFilters') { state.filters = { envies: [], dest: 'tous', duree: 'toutes', tri: 'populaires' }; rerender(); return; }
-  if (h.startsWith('activite-')) {
-    const a = bySlug[h.slice(9)]; const p = state.pick[a.slug];
-    if (t.dataset.date) { p.date = t.dataset.date; if (p.time && seatsLeft(a, p.date, p.time) === 0) p.time = null; rerender(); return; }
-    if (t.dataset.time) { p.time = t.dataset.time; rerender(); return; }
-    if (t.dataset.count) { const k = t.dataset.count; p[k] = Math.max(k === 'children' ? 0 : 1, p[k] + Number(t.dataset.step)); const d = $('#rq-date'); if (d) p.date = d.value; const tm = $('#rq-time'); if (tm) p.time = tm.value; rerender(); return; }
-    if (t.id === 'addCart') {
-      const total = p.adults * a.adult + p.children * (a.child ?? a.adult);
-      state.cart.push({ id: Date.now(), slug: a.slug, date: p.date, time: p.time, adults: p.adults, children: p.children, total });
-      saveCart(); updateCartCount(); state.pick[a.slug] = null; toast(tr('added') + ' : ' + L(a.title)); location.hash = 'panier'; return;
-    }
-  }
-  if (t.dataset.remove) { state.cart = state.cart.filter(i => String(i.id) !== t.dataset.remove); saveCart(); rerender(); return; }
-  if (t.id === 'newQuote') { state.quoteSent = null; rerender(); return; }
-  if (t.dataset.demoLogin) { $('#pl-email').value = t.dataset.demoLogin; $('#pl-pass').value = DEMO_PASSWORD; $('#pl-pass').focus(); return; }
-  if (t.hasAttribute('data-pro-logout')) { pro.user = null; pro.open = null; rerender(); toast('Déconnecté'); return; }
-  if (t.dataset.proView) { pro.view = t.dataset.proView; pro.open = null; if (t.dataset.proFilter) pro.status = t.dataset.proFilter; rerender(); return; }
-  if (t.dataset.proOpen) { pro.open = Number(t.dataset.proOpen); if (pro.view !== 'reservations') pro.view = 'reservations'; rerender(); return; }
-  if (t.hasAttribute('data-pro-close')) { pro.open = null; rerender(); return; }
-  if (t.dataset.proStatus) {
-    const b = pro.bookings.find(x => x.id === Number(t.dataset.id)); const old = b.status; b.status = t.dataset.proStatus;
-    b.log.push({ who: pro.user.name, at: 'à l\'instant', msg: 'Statut : ' + STATUS_LABEL[old] + ' → ' + STATUS_LABEL[b.status] });
-    rerender(); toast('Réservation ' + b.ref + ' : ' + STATUS_LABEL[b.status]); return;
-  }
-  if (t.dataset.quoteTake) { const q = pro.quotes.find(x => x.id === Number(t.dataset.quoteTake)); q.owner = pro.user.name; if (q.status === 'new') q.status = 'in_progress'; rerender(); return; }
 });
 
 document.addEventListener('click', e => { const m = $('#langMenu'); if (m && !m.hidden && !e.target.closest('.langsel')) { m.hidden = true; $('#langBtn').setAttribute('aria-expanded', 'false'); } });
 document.addEventListener('keydown', e => { const m = $('#langMenu'); if (e.key === 'Escape' && m && !m.hidden) { m.hidden = true; $('#langBtn').setAttribute('aria-expanded', 'false'); $('#langBtn').focus(); } });
+document.addEventListener('input', e => { if (e.target.closest('#reqForm, #quote')) state.typing = true; });
 document.addEventListener('change', e => {
   const t = e.target; const f = state.filters;
   if (t.name === 'envie') { f.envies = [...document.querySelectorAll('input[name=envie]:checked')].map(x => x.value); rerender(); }
   else if (t.name === 'duree') { f.duree = t.value; rerender(); }
   else if (t.id === 'f-dest') { f.dest = t.value; rerender(); }
   else if (t.id === 'f-tri') { f.tri = t.value; rerender(); }
-  else if (t.id === 'pr-st') { pro.status = t.value; rerender(); }
-  else if (t.dataset.quoteStatus) { pro.quotes.find(x => x.id === Number(t.dataset.quoteStatus)).status = t.value; rerender(); }
-  else if (t.dataset.checkin) { const b = pro.bookings.find(x => x.id === Number(t.dataset.checkin)); b.checkedIn = t.checked; rerender(); }
-  else if (t.dataset.price) { const a = bySlug[t.dataset.slug]; const v = Math.max(0, Math.round(Number(t.value) || 0)); if (t.dataset.price === 'adult') a.adult = v; else a.child = v; saveStore(); toast('Prix mis à jour sur le site : ' + L(a.title)); }
-  else if (t.dataset.publish) { bySlug[t.dataset.publish].published = t.checked; saveStore(); toast(t.checked ? 'Activité publiée' : 'Activité retirée du site'); }
-  else if (t.dataset.staffActive) { STAFF[Number(t.dataset.staffActive)].active = t.checked; saveStore(); toast(t.checked ? 'Accès réactivé' : 'Accès désactivé'); }
-});
-document.addEventListener('input', e => {
-  if (e.target.id === 'pr-q') { pro.q = e.target.value; const pos = e.target.selectionStart; rerender(); const i = $('#pr-q'); if (i) { i.focus(); i.setSelectionRange(pos, pos); } }
 });
 
 function setErr(input, errEl, msg) { if (input) input.setAttribute('aria-invalid', msg ? 'true' : 'false'); if (errEl) errEl.textContent = msg || ''; return !msg; }
@@ -1450,80 +1382,18 @@ const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 document.addEventListener('submit', e => {
   e.preventDefault();
   const f = e.target;
-  if (f.id === 'proLogin') {
-    const em = $('#pl-email').value.trim().toLowerCase(), pw = $('#pl-pass').value;
-    const u = STAFF.find(x => x.email === em);
-    if (!u || pw !== DEMO_PASSWORD) { pro.loginError = 'E-mail ou mot de passe incorrect.'; rerender(); $('#pl-email').focus(); return; }
-    if (u.active === false) { pro.loginError = 'Cet accès a été désactivé par un administrateur.'; rerender(); return; }
-    pro.user = u; pro.loginError = ''; pro.view = u.role === 'guide' ? 'mes-departs' : 'tableau'; rerender(); toast('Connecté : ' + u.name); return;
-  }
-  if (f.id === 'proNote') {
-    const msg = $('#pn-msg').value.trim(); if (!msg) { $('#pn-msg').focus(); return; }
-    pro.bookings.find(x => x.id === Number(f.dataset.id)).log.push({ who: pro.user.name, at: "à l'instant", msg }); rerender(); return;
-  }
-  if (f.id === 'reqForm') {
-    const a = bySlug[f.dataset.slug]; const p = state.pick[a.slug];
-    const nm = $('#rq-name'), em = $('#rq-email');
-    let ok = setErr(nm, $('#erq-name'), nm.value.trim() ? '' : tr('e_first'));
-    ok = setErr(em, $('#erq-email'), validEmail(em.value.trim()) ? '' : tr('e_email')) && ok;
-    if (!ok) { f.querySelector('[aria-invalid="true"]').focus(); return; }
-    p.date = $('#rq-date').value; const tm = $('#rq-time'); if (tm) p.time = tm.value;
-    const what = a.type === 'hotel' ? `Hôtel · ${p.nights} nuit(s) · arrivée ${p.date}` : `Restaurant · ${p.date} à ${p.time}`;
-    pro.quotes.unshift({ id: Date.now(), name: nm.value.trim(), email: em.value.trim(), dates: p.date, pax: p.adults, budget: eur(a.type === 'hotel' ? a.adult * p.nights : a.adult * p.adults), msg: `Demande ${what} — ${L(a.title)} (langue du client : ${LANG.toUpperCase()})`, status: 'new', owner: '' });
-    saveStore();
-    const btn = f.querySelector('button[type=submit]'); btn.disabled = true;
-    sendRequestToDb({ first_name: nm.value.trim(), email: em.value.trim(), date_from: p.date || null, date_to: a.type === 'hotel' && p.date ? iso(new Date(new Date(p.date + 'T12:00:00').getTime() + p.nights * 864e5)) : null, travelers: p.adults, interests: [a.type], message: `${a.type.toUpperCase()} · ${a.slug} · ${L(a.title)} · ${a.type === 'hotel' ? p.nights + ' night(s)' : 'time ' + p.time} · ${p.adults} pers.` })
-      .then(okDb => { p.sent = true; p.dbSent = okDb; rerender(); });
-    return;
-  }
+  if (f.id === 'reqForm') { submitBooking(f); return; }
+  if (f.id === 'quote') { submitQuote(f); return; }
   if (f.id === 'heroSearch') {
     const env = $('#hs-envie').value;
     state.filters = { envies: env ? [env] : [], dest: $('#hs-dest').value, duree: 'toutes', tri: 'populaires' };
     location.hash = 'catalogue';
   }
-  if (f.id === 'checkout') {
-    const prenom = $('#c-prenom'), nom = $('#c-nom'), email = $('#c-email'), cgv = $('#c-cgv');
-    let ok = setErr(prenom, $('#e-prenom'), prenom.value.trim() ? '' : tr('e_first'));
-    ok = setErr(nom, $('#e-nom'), nom.value.trim() ? '' : tr('e_last')) && ok;
-    ok = setErr(email, $('#e-email'), validEmail(email.value.trim()) ? '' : tr('e_email')) && ok;
-    ok = setErr(null, $('#e-cgv'), cgv.checked ? '' : tr('e_terms')) && ok;
-    if (!ok) { const first = f.querySelector('[aria-invalid="true"]') || cgv; first.focus(); return; }
-    // le serveur revérifierait ici les places et recalculerait le total
-    for (const i of state.cart) { const k = i.slug + '|' + i.date + '|' + i.time; state.booked[k] = (state.booked[k] || 0) + i.adults + i.children; }
-    state.lastOrder = { ref: 'TC-' + Math.random().toString(36).slice(2, 10).toUpperCase(), prenom: prenom.value.trim(), email: email.value.trim(), items: state.cart, total: state.cart.reduce((s, i) => s + i.total, 0) };
-    state.cart.forEach((i, n) => pro.bookings.push({ id: Date.now() + n, ref: state.lastOrder.ref + (state.cart.length > 1 ? '-' + (n + 1) : ''), first: prenom.value.trim(), last: nom.value.trim(), city: 'Site web', email: email.value.trim(), phone: $('#c-tel').value.trim() || '—', slug: i.slug, date: i.date, time: i.time, adults: i.adults, children: i.children, total: i.total, status: 'confirmed', checkedIn: false, created: isoPlus(0), log: [{ who: 'Site web', at: "à l'instant", msg: 'Réservation en ligne (paiement simulé).' }] }));
-    state.cart = []; saveCart(); saveStore();
-    location.hash = 'confirmation';
-  }
-  if (f.id === 'quote') {
-    const prenom = $('#q-prenom'), email = $('#q-email'), du = $('#q-du'), au = $('#q-au');
-    let ok = setErr(prenom, $('#eq-prenom'), prenom.value.trim() ? '' : tr('e_first'));
-    ok = setErr(email, $('#eq-email'), validEmail(email.value.trim()) ? '' : tr('e_email')) && ok;
-    ok = setErr(au, $('#eq-au'), du.value && au.value && au.value < du.value ? tr('e_dates') : '') && ok;
-    if (!ok) { f.querySelector('[aria-invalid="true"]').focus(); return; }
-    state.quoteSent = { prenom: prenom.value.trim(), voyageurs: Math.max(1, Number($('#q-nb').value) || 1) };
-    pro.quotes.unshift({ id: Date.now(), name: prenom.value.trim(), email: email.value.trim(), dates: (du.value || '?') + ' → ' + (au.value || '?'), pax: state.quoteSent.voyageurs, budget: $('#q-budget').value, msg: $('#q-msg').value.trim() || '—', status: 'new', owner: '' });
-    const qs = state.quoteSent;
-    sendRequestToDb({ first_name: prenom.value.trim(), email: email.value.trim(), date_from: du.value || null, date_to: au.value || null, travelers: qs.voyageurs, interests: [...document.querySelectorAll('input[name=q-envie]:checked')].map(x => x.value), message: `[Budget ${$('#q-budget').value}] ${$('#q-msg').value.trim()}`.slice(0, 1900) })
-      .then(okDb => { qs.dbSent = okDb; if (state.quoteSent === qs) rerender(); });
-    saveStore();
-    rerender(); window.scrollTo(0, 0);
-  }
 });
 
-let savedPal = 'bordeaux', savedLogo = 'arche';
-try { savedLogo = localStorage.getItem('tc-logo') || savedLogo; } catch (e) {}
-applyPalette(savedPal); setLogo(savedLogo);
-loadStore();
-if (MODE === 'pro') LANG = 'fr';
-else { try { const sl = localStorage.getItem('tc-lang'); if (sl && UI[sl]) LANG = sl; } catch (e) {} applyChrome(); syncFromDb(); }
-window.addEventListener('storage', e => { if (e.key === STORE_KEY) { loadStore(); rerender(); } });
-if (MODE === 'pro') {
-  document.querySelectorAll('.topbar, nav.main, .hdr-right').forEach(el => el.remove());
-  const lg = $('.logo'); lg.setAttribute('href', './'); lg.setAttribute('aria-label', 'Turismo Club, espace pro');
-  $('.logo').insertAdjacentHTML('afterend', '<span style="font-weight:700;color:var(--ink-2)">Espace pro · accès réservé au personnel</span>');
-  $('footer.site .wrap').innerHTML = '<span><strong style="color:var(--ink)">Turismo Club</strong> · Espace pro</span><span>Démo : connexion non sécurisée, ne saisissez aucune donnée réelle.</span>';
-}
+applyPalette('bordeaux'); setLogo('arche');
+try { const sl = localStorage.getItem('tc-lang'); if (sl && UI[sl]) LANG = sl; } catch (e) {}
+applyChrome(); syncFromDb();
 render();
 </script>
 </body>

@@ -10,14 +10,15 @@ L'agence vend : visites guidées et activités à Rome, bus touristiques, circui
 - Langue principale du site : **anglais**. 10 langues proposées : en, it, fr, es, de, pt, nl, zh, ja, ko.
 - Langue de travail avec Selim : **français**. Répondre en français, expliquer les choix techniques simplement (Selim apprend).
 - Identité visuelle figée : palette **« Bordeaux & or »** (`accent #9F1239`, `dark #881337`, `light #FCD34D`, `hero #2B0F17`), logo **« L'Arche »** (SVG généré dans le code), police **Plus Jakarta Sans**.
-- Domaine prévu : **turismoclub.it** (à acheter au nom de l'agence chez Aruba ou Register.it, DNS gérés par Cloudflare).
+- Domaine : **turismoclub.it** et **www.turismoclub.it**, branchés sur Cloudflare Pages.
+- Agence : **Turismo Club di Riadh Mraihi**, P.IVA 18751221005. Toutes les coordonnées sont dans le bloc `CONFIG` de `site/index.html` (seule source).
 
 ## Structure du dépôt
 
 ```
 site/
   index.html        Site public (une seule page HTML : CSS + JS intégrés, routage par #hash)
-  pro/index.html    Espace pro (même code, <html data-mode="pro">, noindex) — accessible uniquement par /pro/
+  pro/index.html    Page simple « Espace équipe — en construction » (FR, noindex) : explique où voir les demandes dans Supabase
   _headers          En-têtes Cloudflare (noindex sur /pro, sécurité)
 supabase/
   migrations/       Historique de la base PostgreSQL, à appliquer dans l'ordre
@@ -25,20 +26,19 @@ supabase/
 README.md
 ```
 
-`site/pro/index.html` est une copie de `site/index.html` avec `<html lang="fr" data-mode="pro">`, le titre « Turismo Club — Espace pro » et `<meta name="robots" content="noindex, nofollow">`.
-**Après toute modification de `site/index.html`, régénérer `site/pro/index.html`** (même contenu, ces 3 différences seulement).
+`site/pro/index.html` est une page **indépendante** depuis le 20/11/2026 (l'ancienne démo avec mot de passe a été retirée) : inutile de la régénérer quand on modifie `site/index.html`. Garder `noindex` (meta + `_headers`).
 
 ## Organisation du code (site/index.html)
 
 Dans l'unique `<script>`, dans cet ordre :
-1. `MODE` (public / pro), puis **langues** : `LANGS`, `LOCALES`, `UI` (dictionnaire des textes par langue), `tr(clé, vars)`, `L(objetMultilingue)`.
+1. **`CONFIG`** (coordonnées réelles de l'agence ; champ vide = non affiché), `UI2` (textes ajoutés/corrigés, fusionnés dans `UI`), puis **langues** : `LANGS`, `LOCALES`, `UI`, `tr(clé, vars)`, `L(objetMultilingue)`.
 2. **Données** : `DESTINATIONS`, `ENVIES` (= les 5 catégories : activity, bus, circuit, hotel, restaurant), `ACTIVITIES` (14 offres ; `title`/`summary` traduits, détails des fiches en anglais), `isReq()` (hôtel/restaurant = demande, pas de paiement).
-3. Contenu fictif (`GUIDES`, `RATINGS`, `REVIEWS`), état (`state`), utilitaires.
+3. État (`state`), utilitaires. (Avis, notes, guides et chiffres fictifs supprimés le 20/11/2026 : ne pas en recréer.)
 4. Illustrations SVG (`ILLOS`), logos (`logoSVG`), palettes (`PALETTES`, `applyPalette`).
 5. Photos Wikimedia Commons (`PHOTOS`, `pic()`, `PHOTO_OF`) — crédits obligatoires sur la page `#credits`.
-6. Espace pro (`STAFF`, `pro`, `pagePro()`…), stockage local de démo (`loadStore/saveStore`), **Supabase** (`SUPA`, `syncFromDb`, `sendRequestToDb`).
-7. Pages publiques (`pageAccueil`, `pageCatalogue`, `pageFiche`, `pagePanier`, `pageConfirmation`, `pageDevis`, `pageCredits`), `applyChrome()` (en-tête/pied de page traduits), `setLang()`.
-8. Routeur `render()` et gestionnaires d'événements (délégation sur `document`).
+6. **Supabase** (`SUPA`, `syncFromDb` : prix des offres ; `sendRequestToDb` : envoi des demandes).
+7. Pages publiques (`pageAccueil`, `pageCatalogue`, `pageFiche`, `pageDevis`, `pageCredits`), **demandes de réservation** (`bookingBox`, `submitBooking`, `submitQuote`, `resultBox` : Supabase + repli WhatsApp/e-mail, anti-spam champ piège + délai 4 s), **pages légales** (`pagePrivacy`, `pageLegal`, textes en + it dans `LEGAL_TXT`), `applyChrome()` (en-tête/pied de page, lisent `CONFIG`), `setLang()`.
+8. Routeur `render()` (`#accueil`, `#catalogue`, `#activite-<slug>`, `#devis`, `#privacy`, `#legal`, `#credits`) et gestionnaires d'événements (délégation sur `document`).
 
 Règles :
 - Tout texte affiché au visiteur passe par `tr('clé')` et existe **dans les 10 langues** de `UI`. Pas de texte en dur dans les templates publics.
@@ -46,44 +46,52 @@ Règles :
 - Accessibilité : vrais `<button>`, `<a href>`, `<label>` ; cibles ≥ 44 px ; contraste ≥ 4,5:1 ; `aria-label` sur les boutons-icônes.
 - Pas de dépendance externe, pas de framework : le site doit rester un fichier statique déployable tel quel.
 - Échapper toute donnée saisie par l'utilisateur avec `esc()` avant de l'insérer dans le HTML.
+- **N'inventer aucune information sur l'agence** (avis, chiffres, adresse, licence, partenaires) : si elle manque, laisser le champ vide dans `CONFIG` et le signaler.
+- Aucun paiement en ligne tant que Stripe n'est pas branché : tout passe par une **demande** (aucune mention de carte ou de « payer »).
+- Seul stockage local autorisé : la langue (`tc-lang`), comme l'annonce la page Privacy.
 
 ## Base de données (Supabase / PostgreSQL)
 
 - Projet Supabase : **`turismo-club`**, réf. `dkocjkpcfneyevxexrsr`, région `eu-central-1` (Francfort). Actuellement dans l'organisation « Fidely » de Selim ; à transférer vers une organisation au nom de l'agence.
 - URL API : `https://dkocjkpcfneyevxexrsr.supabase.co`. Le site utilise la clé **publique** (`sb_publishable_…`, déjà dans `SUPA`) : c'est normal.
 - **Ne jamais** écrire dans le dépôt : la clé `service_role`, le mot de passe de la base, un fichier `.env`.
-- Ce que le site public fait : lire la vue `site_offers` (prix, offres publiées) ; insérer dans `quote_requests` (devis, demandes hôtel/restaurant). RLS : un visiteur ne peut rien lire d'autre ni modifier.
+- Ce que le site public fait : lire la vue `site_offers` (prix, offres publiées) ; insérer dans `quote_requests` **toutes les demandes** (activités, bus, circuits, hôtels, restaurants, sur-mesure), avec `offer_slug`, `preferred_language`, `consent_at` (migration 09). RLS : un visiteur peut insérer (consentement obligatoire, tailles limitées) mais ne peut rien lire ni modifier.
+- Le patron voit les demandes dans le tableau de bord Supabase (Table Editor → `quote_requests`) et change `status` (`new` → `in_progress` → `sent` → `won`/`lost`).
 - Rôles du personnel (table `staff`) : `admin`, `conseiller`, `guide`, avec droits ligne par ligne (fonctions `private.current_staff_role()` / `private.current_guide_id()`). Journal d'audit dans `audit_log`.
 - **Toute modification de la base = un nouveau fichier dans `supabase/migrations/`** (`AAAAMMJJHHMMSS_description.sql`). Ne jamais modifier une migration déjà appliquée. Après une migration, vérifier les alertes de sécurité Supabase (Advisors) : objectif 0 alerte.
 - Prix en **centimes** (`integer`), dates en `timestamptz`, heure de Rome (`Europe/Rome`) pour les créneaux.
 
 ## Déploiement
 
-- Hébergement : **Cloudflare Pages**, relié au dépôt GitHub `sshur0zz/turismo-club`.
+- Hébergement : **Cloudflare Pages** (projet `turismo-club`), relié au dépôt GitHub `sshur0zz/turismo-club` (intégration Git, pas de GitHub Actions ni de token).
   Réglages : Build command vide · Build output directory `site`.
+- En ligne : https://turismoclub.it, https://www.turismoclub.it, https://turismo-club.pages.dev.
+- La branche `refonte-v2` (portail SvelteKit, dossier `app/`) n'est **pas prête** : ne pas la fusionner dans `main`.
 - Push sur `main` = mise en ligne automatique. Une autre branche = adresse de prévisualisation `*.pages.dev`. Tester sur une branche avant de fusionner dans `main`.
 - Messages de commit en français, clairs (« Ajoute le circuit Toscane », « Corrige le prix du bus de nuit »).
 
-## Contenu fictif à remplacer avant le vrai lancement
+## Ce qui est réel / ce qui reste provisoire (20/11/2026)
 
-Bandeau « demo » en haut du site : il doit disparaître seulement quand tout ceci est réel :
-- prix (base + `ACTIVITIES`), avis (`REVIEWS`, `RATINGS`), chiffres de l'accueil, guides, coordonnées (WhatsApp, adresse, e-mail), P.IVA ;
-- hôtels et restaurants partenaires (actuellement génériques, sans nom) ;
-- conditions d'annulation, mentions légales, politique de confidentialité RGPD, CGV (fournies par l'agence, droit italien) ;
-- traductions relues par des natifs (priorité : zh, ja, ko).
+Réel : coordonnées (`CONFIG`), demandes de réservation → Supabase + WhatsApp/e-mail, pages Privacy & Note legali (brouillon), bandeau « Preview version ».
+Provisoire ou à valider :
+- prix des offres (indicatifs, affichés « à partir de · prix indicatif ») et contenu des fiches, à valider par l'agence ;
+- hôtels et restaurants (génériques, sans nom) ; conditions d'annulation à fournir par l'agence ;
+- adresse du siège, numéro REA, e-mail @turismoclub.it (`CONFIG.address`, `CONFIG.rea`, `CONFIG.email`) ;
+- pages légales : à faire relire par un commercialista ou un avocat ;
+- traductions à faire relire par des natifs (priorité : zh, ja, ko).
 
 ## Prochaines étapes (dans l'ordre)
 
-1. Brancher Cloudflare Pages sur ce dépôt et vérifier la mise en ligne automatique.
-2. Acheter `turismoclub.it` et le relier à Cloudflare Pages (Custom domains).
-3. Protéger `/pro/` (Cloudflare Access, accès par e-mail des employés).
-4. Anti-spam sur les formulaires (Cloudflare Turnstile) avant d'ouvrir le site au public.
-5. Relier l'espace pro à Supabase : connexion du personnel (Supabase Auth), lecture/écriture des réservations, devis et prix réels — remplace la démo `localStorage`.
-6. Paiement Stripe (mode test d'abord) pour les activités, bus et circuits ; le serveur recalcule le prix et revérifie les places avant d'encaisser.
-7. Pages légales (it + en), puis traduction complète des fiches.
+1. Compléter `CONFIG` : adresse du siège, REA, e-mail @turismoclub.it (Cloudflare Email Routing).
+2. Relecture juridique des pages légales ; conditions d'annulation et CGV fournies par l'agence.
+3. Vrai espace équipe avec connexion (Supabase Auth) — en cours dans `refonte-v2`.
+4. Anti-spam renforcé (Cloudflare Turnstile) si des demandes indésirables arrivent.
+5. Paiement Stripe (mode test d'abord) ; le serveur recalcule le prix et revérifie les places avant d'encaisser.
+6. Relecture des traductions par des natifs.
 
 ## Vérifier son travail
 
-- Ouvrir `site/index.html` dans un navigateur (ou `npx serve site`) : tester l'accueil, le catalogue, une fiche activité (créneau → panier → confirmation), une fiche hôtel (demande), le changement de langue, la vue mobile (390 px).
-- Ouvrir `/pro/` : se connecter avec un compte de démo (`demo2026`) et vérifier que la réservation faite sur le site apparaît.
+- Ouvrir le site (`python3 -m http.server -d site 8765`, puis http://127.0.0.1:8765) : accueil, catalogue, une fiche de chaque type, formulaire de demande (erreurs, consentement, confirmation, boutons WhatsApp/e-mail), changement de langue, vue mobile (390 px).
+- Vérifier en JavaScript : extraire le `<script>` et lancer `node --check`.
+- Après un test d'envoi réel, **supprimer la demande de test** dans Supabase.
 - Console du navigateur : zéro erreur JavaScript.
