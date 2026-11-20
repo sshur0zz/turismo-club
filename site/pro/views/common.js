@@ -1,0 +1,49 @@
+/* Espace équipe — outils communs aux écrans */
+window.TC = window.TC || {};
+(function (TC) {
+  const t = TC.t;
+  const U = TC.u = {};
+  U.$ = (s, r = document) => r.querySelector(s);
+  U.$$ = (s, r = document) => [...r.querySelectorAll(s)];
+  U.esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const eurF = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' });
+  U.eur = cents => eurF.format((cents || 0) / 100);
+  U.date = d => d ? new Date(String(d).length === 10 ? d + 'T12:00:00' : d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Europe/Rome' }) : '';
+  U.dateTime = d => d ? new Date(d).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' }) : '';
+  U.todayRome = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date());
+  U.hoursSince = d => (Date.now() - new Date(d).getTime()) / 36e5;
+  U.ago = d => {
+    const h = U.hoursSince(d);
+    if (h < 1) return t('ago_min', { n: Math.max(1, Math.round(h * 60)) });
+    if (h < 48) return t('ago_h', { n: Math.floor(h) });
+    return t('ago_d', { n: Math.floor(h / 24) });
+  };
+  U.name = r => [r.first_name, r.last_name].filter(Boolean).join(' ');
+  U.typeOf = r => r.activity ? r.activity.type : (r.offer_slug === 'sur-mesure' ? 'custom' : 'custom');
+  U.offerLabel = r => r.activity ? r.activity.title : t('custom_trip');
+  U.badge = s => `<span class="badge st-${s}">${t('st1_' + s)}</span>`;
+  U.src = s => `<span class="badge src">${U.esc(t('src_' + s))}</span>`;
+  U.langName = l => TC.LANGS[l] || (l || '').toUpperCase();
+  U.STATUSES = ['new', 'in_progress', 'sent', 'won', 'done', 'lost'];
+  U.toast = msg => { const el = U.$('#toast'); el.textContent = msg; el.hidden = false; clearTimeout(U.toast.tm); U.toast.tm = setTimeout(() => (el.hidden = true), 3000); };
+  U.errMsg = e => (e && (e.message || e.error_description)) || String(e);
+  U.cents = v => { const n = Number(String(v).replace(',', '.')); return Number.isFinite(n) ? Math.round(n * 100) : NaN; };
+
+  // Logo « L'Arche » (même dessin que le site public)
+  U.logo = () => `<svg viewBox="0 0 230 50" role="img" aria-label="Turismo Club" xmlns="http://www.w3.org/2000/svg"><path d="M4 48V22a20 20 0 0 1 40 0v26z" style="fill:var(--accent)"/><path d="M14 48V24a10 10 0 0 1 20 0v24z" style="fill:#FFFFFF"/><path d="M17 48a7 7 0 0 1 14 0z" style="fill:var(--accent)"/><text x="58" y="27" style="font:800 23px 'Plus Jakarta Sans',sans-serif;fill:var(--ink)">Turismo Club</text><text x="59" y="43" style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;letter-spacing:3.2px;fill:#6B7280">ROMA · ITALIA</text></svg>`;
+
+  // Cadre : menu latéral + contenu
+  U.shell = (active, content) => {
+    const me = TC.state.me;
+    const links = [['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount} nouvelles">${TC.state.newCount}</span>`], ['motdepasse', t('nav_password')]];
+    return `<div class="shell">
+      <aside class="side" aria-label="Menu">
+        <a class="brand" href="#/demandes">${U.logo()}<span class="tag">${t('tag')}</span></a>
+        <nav class="nav">${links.map(([k, l, extra]) => `<a href="#/${k}" ${active === k ? 'aria-current="page"' : ''}><span>${l}</span>${extra || ''}</a>`).join('')}</nav>
+        <div class="who"><div class="info"><strong>${U.esc(me.full_name)}</strong><span>${t('role_' + me.role)}</span></div>
+          <button type="button" class="btn quiet small" id="logout">${t('logout')}</button></div>
+      </aside>
+      <main id="main" tabindex="-1">${content}</main></div>`;
+  };
+  U.setCount = n => { TC.state.newCount = n; const c = U.$('#newCount'); if (c) { c.textContent = n; c.setAttribute('aria-label', n + ' nouvelles'); } };
+})(window.TC);

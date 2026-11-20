@@ -18,7 +18,12 @@ L'agence vend : visites guidées et activités à Rome, bus touristiques, circui
 ```
 site/
   index.html        Site public (une seule page HTML : CSS + JS intégrés, routage par #hash)
-  pro/index.html    Page simple « Espace équipe — en construction » (FR, noindex) : explique où voir les demandes dans Supabase
+  pro/              Espace équipe (FR, noindex) : application HTML/CSS/JS sans build
+    index.html      Page + CSS « rouge sur blanc » ; charge supabase-js 2.45.4 (CDN, version figée + SRI)
+    i18n.js         Textes de l'interface (dictionnaire, FR ; IT à ajouter) + messages au client en 10 langues
+    api.js          Tous les appels Supabase (clé publique ; droits = RLS)
+    app.js          Démarrage, connexion par lien magique (PKCE), rôles, navigation #/…, direct (Realtime)
+    views/          common.js (outils, menu), login.js, demandes.js (colonnes), dossier.js (fiche), nouvelle.js
   _headers          En-têtes Cloudflare (noindex sur /pro, sécurité)
 supabase/
   migrations/       Historique de la base PostgreSQL, à appliquer dans l'ordre
@@ -26,7 +31,16 @@ supabase/
 README.md
 ```
 
-`site/pro/index.html` est une page **indépendante** depuis le 20/11/2026 (l'ancienne démo avec mot de passe a été retirée) : inutile de la régénérer quand on modifie `site/index.html`. Garder `noindex` (meta + `_headers`).
+`site/pro/` est **indépendant** de `site/index.html` (plus de copie à régénérer). Garder `noindex` (meta + `_headers`).
+
+## Espace équipe (site/pro/)
+
+- Connexion : e-mail + mot de passe (`signInWithPassword`, choix de Selim le 20/11/2026), lien magique en option (`signInWithOtp`, `shouldCreateUser: false`). Aucun mot de passe dans le code. Page « Mon mot de passe » (12 caractères minimum).
+- Accès : compte présent et actif dans `staff`. Sinon « Accès non autorisé ». Rôle `guide` : écran « bientôt » (phase C).
+- Un **dossier** = une ligne de `quote_requests` (étapes `new` → `in_progress` → `sent` → `won` → `done`, `lost` = annulée). Référence `TC-AAMM-NNN`, client (`customers`) retrouvé par e-mail ou téléphone, première prestation créée automatiquement depuis l'offre du site (migrations 11-12).
+- Prestations : `request_items`. Paiements manuels : `payments` (`request_id`, `method`, `paid_on`). Historique automatique : `booking_events` (`request_id`) écrit par des triggers (étape, responsable, paiement, prestation, note), avec l'auteur ; journal complet dans `audit_log`.
+- Tous les textes passent par `TC.t('clé')` (i18n.js). Messages au client : `TC.ct(langue, clé)`.
+- Tests : comptes et données marqués `TEST`, supprimés après les tests (jamais de vraies données clients). Ne pas supprimer d'entrées de `audit_log`.
 
 ## Organisation du code (site/index.html)
 
@@ -84,7 +98,7 @@ Provisoire ou à valider :
 
 1. Compléter `CONFIG` : adresse du siège, REA, e-mail @turismoclub.it (Cloudflare Email Routing).
 2. Relecture juridique des pages légales ; conditions d'annulation et CGV fournies par l'agence.
-3. Vrai espace équipe avec connexion (Supabase Auth) — en cours dans `refonte-v2`.
+3. Espace équipe : phase A en ligne (demandes, fiche, paiements) ; phase B planning et guides ; phase C tableau de bord et vue guide.
 4. Anti-spam renforcé (Cloudflare Turnstile) si des demandes indésirables arrivent.
 5. Paiement Stripe (mode test d'abord) ; le serveur recalcule le prix et revérifie les places avant d'encaisser.
 6. Relecture des traductions par des natifs.

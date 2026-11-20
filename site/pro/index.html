@@ -5,41 +5,148 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Turismo Club — Espace équipe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--accent:#9F1239;--accent-dark:#881337;--ink:#111827;--ink-2:#374151;--muted:#4B5563;--line:#E5E7EB;--cream:#FFF1F2;--cream-line:#FECDD3}
+:root{
+  --bg:#F7F5F3; --card:#FFFFFF; --line:#E7E1DC; --radius:14px;
+  --accent:#9F1239; --accent-dark:#881337; --accent-soft:#FFF1F2;
+  --ink:#111827; --ink-2:#4B5563; --muted:#6B7280;
+  --ok:#047857; --ok-soft:#ECFDF5; --wait:#B45309; --wait-dot:#D97706; --wait-soft:#FFFBEB; --info:#2563EB; --info-soft:#EFF6FF;
+  --late:#B91C1C;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:#fff;line-height:1.55}
-main{max-width:720px;margin:0 auto;padding:48px 24px}
-h1{font-size:clamp(26px,5vw,36px);line-height:1.15;margin:0 0 12px}
-.eyebrow{margin:0;color:var(--accent);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase}
-.panel{border:1px solid var(--line);border-radius:16px;padding:24px;margin-top:24px}
-ol{margin:0;padding-left:22px}
-li+li{margin-top:10px}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:12px;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;margin-top:20px}
-.btn:hover{background:var(--accent-dark)}
-.btn:focus-visible,a:focus-visible{outline:3px solid #2563EB;outline-offset:2px}
-.note{background:var(--cream);border:1px solid var(--cream-line);border-radius:12px;padding:14px 16px;margin-top:24px;font-size:15px;color:var(--ink-2)}
-a{color:var(--accent)}
-code{background:#F3F4F6;border-radius:6px;padding:1px 6px}
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:15px}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--accent)} a:hover{color:var(--accent-dark)}
+:focus-visible{outline:3px solid #2563EB;outline-offset:2px}
+h1,h2,h3{line-height:1.2;letter-spacing:-.3px;margin:0}
+.sr{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.board,.qcard,.tscroll,.card{position:relative}
+[hidden]{display:none!important}
+
+/* Mise en page : menu à gauche, contenu à droite */
+.shell{display:flex;min-height:100vh}
+.side{width:248px;flex:0 0 248px;background:#fff;border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:18px;position:sticky;top:0;height:100vh}
+.brand{display:flex;flex-direction:column;gap:6px;padding:0 8px;text-decoration:none}
+.brand svg{height:38px;width:auto;display:block}
+.brand .tag{font-size:11px;font-weight:800;letter-spacing:1.6px;color:var(--accent)}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:0 12px;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600}
+.nav a:hover{background:var(--accent-soft);color:var(--accent-dark)}
+.nav a[aria-current="page"]{background:var(--accent);color:#fff}
+.count{min-width:22px;height:22px;border-radius:999px;background:var(--accent);color:#fff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+.nav a[aria-current="page"] .count{background:#fff;color:var(--accent)}
+.who{margin-top:auto;border-top:1px solid var(--line);padding:14px 8px 0;display:flex;flex-direction:column;gap:8px}
+.who strong{display:block}
+.who span{font-size:13px;color:var(--ink-2)}
+main{flex:1;min-width:0;padding:28px 32px 48px}
+.page-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.page-head h1{font-size:26px;font-weight:800}
+.sub{color:var(--ink-2);margin:4px 0 0}
+
+/* Éléments */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+.pad{padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:#fff;font-weight:700;text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn.ghost:hover{background:var(--accent-soft);color:var(--accent-dark)}
+.btn.quiet{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn.quiet:hover{background:var(--bg);color:var(--ink)}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.btn.small{min-height:36px;padding:0 12px;font-size:14px}
+.linkbtn{background:none;border:none;color:var(--accent);font-weight:700;cursor:pointer;min-height:44px;padding:0 4px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label,.lbl{font-weight:700;font-size:13px;color:var(--ink-2)}
+.field input,.field select,.field textarea,.inp{border:1px solid #CFC7C0;border-radius:10px;padding:10px 12px;min-height:44px;background:#fff;width:100%}
+.field textarea{min-height:96px;resize:vertical}
+.row{display:flex;flex-wrap:wrap;gap:14px}
+.row > *{flex:1 1 180px;min-width:0}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:700;white-space:nowrap}
+.st-new{background:var(--accent-soft);color:var(--accent)}
+.st-in_progress{background:var(--wait-soft);color:var(--wait)}
+.st-sent{background:var(--info-soft);color:var(--info)}
+.st-won{background:var(--ok-soft);color:var(--ok)}
+.st-done{background:#F3F4F6;color:#374151}
+.st-lost{background:#F3F4F6;color:#6B7280;text-decoration:line-through}
+.src{background:#F3F4F6;color:#374151}
+.err{color:var(--late);font-size:13px}
+.alert{border-radius:10px;padding:12px 14px;font-size:14px}
+.alert.bad{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}
+.alert.good{background:var(--ok-soft);color:var(--ok);border:1px solid #A7F3D0}
+.empty{border:1px dashed #CFC7C0;border-radius:var(--radius);padding:28px;text-align:center;color:var(--ink-2);background:#fff}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:10px;font-weight:600;z-index:50;max-width:calc(100% - 32px)}
+.tscroll{overflow-x:auto}
+table.t{width:100%;border-collapse:collapse}
+table.t th{text-align:left;font-size:12.5px;color:var(--ink-2);font-weight:700;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.t td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.t tfoot td{font-weight:800;border-bottom:none}
+.num{text-align:right;white-space:nowrap}
+
+/* Tableau des demandes */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:16px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:600;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.board{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(250px,1fr));gap:14px;align-items:start}
+.col{background:#EFEAE6;border-radius:var(--radius);padding:10px;display:flex;flex-direction:column;gap:10px;min-height:120px}
+.col h2{font-size:14px;font-weight:800;display:flex;justify-content:space-between;align-items:center;padding:4px 6px}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.qcard .top{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12.5px}
+.age{color:var(--ink-2);font-weight:600}
+.age.late{color:var(--late);font-weight:800}
+.qcard a.name{font-weight:800;font-size:16px;text-decoration:none;color:var(--ink)}
+.qcard a.name:hover{color:var(--accent)}
+.qcard .meta{font-size:13px;color:var(--ink-2)}
+.qcard select{min-height:40px;border:1px solid #CFC7C0;border-radius:8px;padding:0 8px;background:#fff;font-size:14px}
+
+/* Fiche */
+.grid2{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:16px;align-items:start}
+.grid2 > *,.stack > *{min-width:0}
+.stack{display:flex;flex-direction:column;gap:16px}
+.sec h2{font-size:16px;font-weight:800;margin-bottom:12px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--ink-2)} .kv dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+.bar{height:10px;border-radius:999px;background:#F1ECE8;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok)}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.timeline li{border-left:3px solid var(--line);padding-left:10px;font-size:14px}
+.timeline small{display:block;color:var(--ink-2);font-size:12.5px}
+.recap{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px;margin:0}
+
+/* Connexion */
+.login{max-width:440px;margin:10vh auto;padding:0 16px}
+.login .card{padding:28px;display:flex;flex-direction:column;gap:16px}
+
+@media (max-width:900px){
+  .shell{flex-direction:column}
+  .side{width:auto;flex:none;height:auto;position:static;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;border-right:none;border-bottom:1px solid var(--line)}
+  .brand{flex-direction:row;align-items:center;gap:10px}
+  .brand svg{height:30px}
+  .nav{flex-direction:row;flex-wrap:wrap;order:3;width:100%}
+  .who{margin:0 0 0 auto;border:none;padding:0;flex-direction:row;align-items:center}
+  .who .info{display:none}
+  main{padding:18px 16px 40px}
+  .grid2{grid-template-columns:1fr}
+  .board{overflow-x:auto;grid-template-columns:repeat(var(--cols,4),minmax(250px,82vw));padding-bottom:6px}
+}
 </style>
 </head>
 <body>
-<main>
-  <p class="eyebrow">Turismo Club</p>
-  <h1>Espace équipe — en construction</h1>
-  <p style="color:var(--ink-2);margin:0">Le vrai espace équipe (connexion du personnel, gestion des réservations) arrive bientôt. En attendant, les demandes envoyées depuis le site se consultent dans Supabase.</p>
+<div id="root" aria-live="polite"></div>
+<div id="toast" class="toast" role="status" hidden></div>
+<noscript><p style="padding:24px">JavaScript est nécessaire pour l'espace équipe.</p></noscript>
 
-  <div class="panel">
-    <ol>
-      <li><strong>Voir les nouvelles demandes :</strong> ouvrez le tableau de bord Supabase, puis la table <code>quote_requests</code>. Chaque ligne est une demande ; les plus récentes ont la date <code>created_at</code> la plus proche.</li>
-      <li><strong>Lire la demande :</strong> nom, e-mail, téléphone, offre (<code>offer_slug</code>), date, nombre de personnes, langue préférée et message.</li>
-      <li><strong>Changer le statut :</strong> double-cliquez sur la case <code>status</code> et choisissez <code>in_progress</code> (en cours), <code>sent</code> (proposition envoyée), <code>won</code> (confirmée) ou <code>lost</code> (perdue), puis enregistrez.</li>
-    </ol>
-    <a class="btn" href="https://supabase.com/dashboard/project/dkocjkpcfneyevxexrsr/editor" rel="noopener">Ouvrir les demandes dans Supabase</a>
-  </div>
-
-  <p class="note">Accès au tableau de bord Supabase : uniquement avec un compte invité dans le projet. Ne partagez jamais ce compte ni ses mots de passe.</p>
-  <p style="margin-top:24px"><a href="/">← Retour au site</a></p>
-</main>
+<!-- supabase-js, version figée -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
+<script src="i18n.js"></script>
+<script src="api.js"></script>
+<script src="views/common.js"></script>
+<script src="views/login.js"></script>
+<script src="views/demandes.js"></script>
+<script src="views/dossier.js"></script>
+<script src="views/nouvelle.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

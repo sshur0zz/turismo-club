@@ -8,7 +8,7 @@ Agence locale à Rome (Turismo Club di Riadh Mraihi, P.IVA 18751221005) : visite
 
 | Dossier | Rôle |
 |---|---|
-| `site/` | Le site publié par Cloudflare Pages. `site/index.html` = site client (tout est dans ce fichier), `site/pro/` = page « Espace équipe — en construction » (non indexée). |
+| `site/` | Le site publié par Cloudflare Pages. `site/index.html` = site client (tout est dans ce fichier), `site/pro/` = **espace équipe** (application de gestion des demandes, non indexée). |
 | `supabase/migrations/` | Historique de la base PostgreSQL (Supabase), dans l'ordre. **Toute modification de la base passe par un nouveau fichier ici.** |
 | `supabase/test/` | Requêtes d'exemple et script de test local (ne jamais lancer `99_test_local.sql` sur Supabase). |
 
@@ -19,11 +19,29 @@ Agence locale à Rome (Turismo Club di Riadh Mraihi, P.IVA 18751221005) : visite
 - **Aucun paiement en ligne** : les prix sont indicatifs, l'agence confirme par écrit.
 - Pages **Privacy & Cookies** et **Note legali** (anglais + italien), à faire relire par un professionnel.
 
-## Comment le patron voit et traite une demande
+## Espace équipe : https://turismoclub.it/pro/
 
-1. Ouvrir https://supabase.com/dashboard/project/dkocjkpcfneyevxexrsr/editor → table **`quote_requests`** (lien aussi sur https://turismoclub.it/pro/).
-2. Lire la demande : nom, e-mail, téléphone, offre (`offer_slug`), date, nombre de personnes, langue préférée, message.
-3. Répondre au client (e-mail ou WhatsApp), puis changer **`status`** : `in_progress` (en cours), `sent` (proposition envoyée), `won` (confirmée) ou `lost` (perdue).
+**Se connecter :** e-mail + mot de passe (option : recevoir un lien de connexion par e-mail). Premier compte admin : mraihiriadh@turismoclub.it. Changer son mot de passe : menu **Mon mot de passe** (12 caractères minimum).
+
+**Traiter une demande :**
+1. Les demandes du site arrivent en direct dans la colonne **Nouvelles** (compteur dans le menu ; ancienneté en rouge au-delà de 12 h).
+2. Ouvrir la fiche : répondre par **WhatsApp** (message pré-rempli dans la langue du client) ou **e-mail**, ajuster les **prestations** et les montants, choisir le **responsable**.
+3. Passer l'**étape** : En cours → Devis envoyé → Confirmée (puis Terminée, ou Annulée). Enregistrer les **acomptes** reçus (espèces, virement, carte sur place). Tout est tracé dans l'**historique**.
+
+Une demande reçue par téléphone, WhatsApp ou à l'agence se saisit avec **+ Nouvelle demande**.
+
+**Ajouter un membre de l'équipe** (réservé à l'administrateur, dans Supabase) :
+1. Tableau de bord Supabase → *Authentication* → *Users* → **Add user** → *Create new user* : son e-mail + un mot de passe provisoire, cocher *Auto Confirm User*.
+2. *Table Editor* → table **`staff`** → *Insert row* : `id` = l'identifiant (UID) de l'utilisateur créé à l'étape 1, `email`, `full_name`, `role` (`admin`, `conseiller` ou `guide` ; un guide doit aussi avoir un `guide_id`).
+3. La personne se connecte sur https://turismoclub.it/pro/ puis change son mot de passe (menu *Mon mot de passe*). Pour retirer un accès : mettre `is_active` à `false`.
+
+**Ce que chacun voit** (appliqué par la base, pas seulement par l'écran) :
+| Rôle | Accès |
+|---|---|
+| `admin` | Tout, y compris annuler un paiement et gérer l'équipe. |
+| `conseiller` | Demandes, prestations, clients, paiements (ajout), historique. Pas la gestion de l'équipe ni la suppression de paiements. |
+| `guide` | Pour l'instant : un écran « bientôt ». Plus tard : seulement ses départs et ses participants, sans montants. |
+| autre compte connecté | « Accès non autorisé ». |
 
 ## Modifier le site
 
@@ -50,5 +68,5 @@ Ne jamais mettre la clé `service_role` ni le mot de passe de la base dans ce d�
 - Adresse du siège, numéro REA, e-mail @turismoclub.it.
 - Validation des prix, des fiches et des conditions d'annulation par l'agence.
 - Relecture juridique des pages légales (commercialista ou avocat).
-- Vrai espace équipe avec connexion ; paiement Stripe.
+- Espace équipe : planning et guides (phase B), tableau de bord et vue guide (phase C) ; paiement Stripe.
 - Relecture des traductions par des natifs (chinois, japonais, coréen en priorité).
