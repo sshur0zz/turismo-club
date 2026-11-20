@@ -209,7 +209,6 @@ footer.site .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-bet
 </style>
 </head>
 <body>
-<div class="demo" role="note">Preview version — site under construction. Prices are indicative and online payment is not active yet.</div>
 <div class="topbar"><div class="wrap"><span>Local agency based in Rome · multilingual advisors</span><span>WhatsApp: +39 327 944 2376</span></div></div>
 <header class="site">
   <div class="wrap">
@@ -1310,7 +1309,6 @@ function pageLegal() { const lg = legalLang(); return legalShell(lg === 'it' ? '
 const GLOBE = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>';
 function applyChrome() {
   document.documentElement.lang = LANG;
-  $('.demo').textContent = tr('demo');
   const tb = $('.topbar .wrap'); if (tb) tb.innerHTML = `<span>${tr('top_left')}</span><span>${[CONFIG.whatsapp ? `WhatsApp: <a href="${esc(CONFIG.whatsappLink)}" style="color:inherit" rel="noopener">${esc(CONFIG.whatsapp)}</a>` : '', CONFIG.hours ? tr('hours_l') + ': ' + esc(CONFIG.hours) : ''].filter(Boolean).join(' · ')}</span>`;
   const nav = $('nav.main');
   if (nav) nav.innerHTML = `<a href="#catalogue" data-nav="catalogue" data-allcat>${tr('nav_offers')}</a><a href="#devis" data-nav="devis">${tr('nav_custom')}</a><a href="#accueil-faq" data-nav="faq">${tr('nav_faq')}</a>`;
