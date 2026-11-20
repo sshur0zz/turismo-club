@@ -7,7 +7,7 @@ window.TC = window.TC || {};
 
   const parse = () => {
     const p = (location.hash || '#/demandes').replace(/^#\/?/, '').split('/');
-    const name = ['demandes', 'dossier', 'nouvelle', 'motdepasse'].includes(p[0]) ? p[0] : 'demandes';
+    const name = ['demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot'].includes(p[0]) ? p[0] : 'demandes';
     return { name, params: p.slice(1) };
   };
 
@@ -27,6 +27,7 @@ window.TC = window.TC || {};
     try {
       if (route.name === 'demandes') await reloadRequests();
       if (route.name === 'dossier') await TC.views.dossier.load(route.params);
+      if (route.name === 'bientot') await TC.views.bientot.load(route.params);
     } catch (e) {
       root.innerHTML = U.shell(route.name, `<p class="alert bad" role="alert">${U.esc(t('load_err', { msg: U.errMsg(e) }))}</p>`);
       return;

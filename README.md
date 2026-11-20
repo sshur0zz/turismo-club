@@ -30,6 +30,8 @@ Agence locale à Rome (Turismo Club di Riadh Mraihi, P.IVA 18751221005) : visite
 
 Une demande reçue par téléphone, WhatsApp ou à l'agence se saisit avec **+ Nouvelle demande**.
 
+Le menu montre aussi les rubriques prévues, marquées **Bientôt** (tableau de bord, planning, guides, vue guide, paiement en ligne) : chacune décrit ce qu'elle permettra, sans données.
+
 **Ajouter un membre de l'équipe** (réservé à l'administrateur, dans Supabase) :
 1. Tableau de bord Supabase → *Authentication* → *Users* → **Add user** → *Create new user* : son e-mail + un mot de passe provisoire, cocher *Auto Confirm User*.
 2. *Table Editor* → table **`staff`** → *Insert row* : `id` = l'identifiant (UID) de l'utilisateur créé à l'étape 1, `email`, `full_name`, `role` (`admin`, `conseiller` ou `guide` ; un guide doit aussi avoir un `guide_id`).

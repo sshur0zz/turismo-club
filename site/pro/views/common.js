@@ -35,7 +35,10 @@ window.TC = window.TC || {};
   // Cadre : menu latéral + contenu
   U.shell = (active, content) => {
     const me = TC.state.me;
-    const links = [['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount} nouvelles">${TC.state.newCount}</span>`], ['motdepasse', t('nav_password')]];
+    const soon = `<span class="badge src" style="font-size:11px">${t('soon')}</span>`;
+    const links = [['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount} nouvelles">${TC.state.newCount}</span>`],
+      ['bientot/tableau', t('nav_dash'), soon], ['bientot/planning', t('nav_plan'), soon], ['bientot/guides', t('nav_guides'), soon],
+      ['bientot/vueguide', t('nav_vg'), soon], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
     return `<div class="shell">
       <aside class="side" aria-label="Menu">
         <a class="brand" href="#/demandes">${U.logo()}<span class="tag">${t('tag')}</span></a>

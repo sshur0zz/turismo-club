@@ -57,7 +57,32 @@ window.TC = window.TC || {};
       n_name: 'Nom du client', n_email: 'E-mail (facultatif si téléphone)', n_phone: 'Téléphone / WhatsApp', n_source: 'Reçue par',
       n_offer: 'Offre', n_date: 'Date souhaitée', n_people: 'Personnes', n_lang: 'Langue du client', n_msg: 'Message / détails', n_hotel: 'Hôtel',
       n_create: 'Créer la demande', n_creating: 'Création…', e_name: 'Indiquez le nom du client.', e_contact: 'Indiquez un e-mail ou un téléphone.', e_email: 'E-mail invalide.',
-      choose: '— Choisir —'
+      choose: '— Choisir —',
+      // Rubriques à venir
+      soon: 'Bientôt', soon_d: 'Cette rubrique est en préparation. Elle s\u2019affichera ici dès qu\u2019elle sera prête.', soon_what: 'Ce qu\u2019elle permettra', soon_back: '← Retour aux demandes',
+      nav_dash: 'Tableau de bord', nav_plan: 'Planning', nav_guides: 'Guides', nav_vg: 'Vue guide', nav_pay: 'Paiement en ligne',
+      soon_dash_t: 'Tableau de bord',
+      soon_dash_1: 'Bonjour personnalisé, date du jour, nombre de départs du jour et de demandes à traiter.',
+      soon_dash_2: 'Indicateurs calculés sur vos vraies données : nouvelles demandes, réservations confirmées du mois, chiffre d\u2019affaires et reste à encaisser, places restantes ce week-end.',
+      soon_dash_3: 'Liste « À traiter maintenant » : demandes en retard, devis sans réponse depuis 48 h, acomptes en attente.',
+      soon_dash_4: 'D\u2019où viennent les demandes sur 30 jours (site, WhatsApp, agence, e-mail).',
+      soon_plan_t: 'Planning de la semaine',
+      soon_plan_1: 'Grille de 7 jours avec navigation semaine précédente / aujourd\u2019hui / semaine suivante.',
+      soon_plan_2: 'Chaque départ : heure, offre, remplissage (ex. 11/15, « Complet »), guide attribué.',
+      soon_plan_3: 'Alertes : guide à attribuer, minimum de participants non atteint.',
+      soon_plan_4: 'Créer, modifier ou fermer un départ ; voir les réservations d\u2019un départ.',
+      soon_guides_t: 'Guides',
+      soon_guides_1: 'Liste des guides avec leurs langues et leur nombre de départs de la semaine.',
+      soon_guides_2: 'Attribution d\u2019un guide à un départ, avec alerte si deux départs se chevauchent.',
+      soon_guides_3: 'Disponibilités indiquées par chaque guide.',
+      soon_vg_t: 'Vue guide (téléphone)',
+      soon_vg_1: '« Ma journée » : départs du jour, point de rendez-vous avec lien Google Maps, langue, état des billets.',
+      soon_vg_2: 'Liste des participants à cocher à l\u2019arrivée, avec le compteur « 7 / 15 arrivés ».',
+      soon_vg_3: 'Notes utiles (ex. allergies) ; onglets Aujourd\u2019hui / Semaine / Disponibilités.',
+      soon_pay_t: 'Paiement en ligne (Stripe)',
+      soon_pay_1: 'Bouton « Créer un lien de paiement » dans la fiche, à envoyer au client par WhatsApp ou e-mail.',
+      soon_pay_2: 'Acompte ou paiement total par carte, enregistré automatiquement dans la fiche.',
+      soon_pay_3: 'Le montant est recalculé par le serveur avant tout encaissement.'
     }
   };
   // Langues des clients (pour l'affichage et les messages envoyés au client)
