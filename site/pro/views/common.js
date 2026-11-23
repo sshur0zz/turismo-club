@@ -10,6 +10,25 @@ window.TC = window.TC || {};
   U.date = d => d ? new Date(String(d).length === 10 ? d + 'T12:00:00' : d).toLocaleDateString(TC.locale(), { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Europe/Rome' }) : '';
   U.dateTime = d => d ? new Date(d).toLocaleString(TC.locale(), { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' }) : '';
   U.todayRome = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date());
+  // Dates à l'heure de Rome
+  U.romeDay = d => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date(d));
+  U.romeTime = d => new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(d));
+  U.addDays = (day, n) => { const x = new Date(day + 'T12:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
+  U.mondayOf = day => { const x = new Date(day + 'T12:00:00Z'); return U.addDays(day, -((x.getUTCDay() + 6) % 7)); };
+  // « 2026-11-25 » + « 09:00 » à Rome → instant ISO (gère l'heure d'été)
+  U.romeToIso = (day, time) => {
+    const [y, m, d] = day.split('-').map(Number), [h, mi] = time.split(':').map(Number);
+    const want = Date.UTC(y, m - 1, d, h, mi);
+    let t = want;
+    for (let k = 0; k < 2; k++) {
+      const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date(t)).map(x => [x.type, x.value]));
+      const seen = Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour % 24, +p.minute);
+      t += want - seen;
+    }
+    return new Date(t).toISOString();
+  };
+  U.dayLabel = day => new Date(day + 'T12:00:00Z').toLocaleDateString(TC.locale(), { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+  U.guideName = g => g ? [g.first_name, g.last_name].filter(Boolean).join(' ') : '';
   U.hoursSince = d => (Date.now() - new Date(d).getTime()) / 36e5;
   U.ago = d => {
     const h = U.hoursSince(d);
@@ -36,8 +55,7 @@ window.TC = window.TC || {};
     const me = TC.state.me;
     const soon = `<span class="badge src" style="font-size:11px">${t('soon')}</span>`;
     const links = [['tableau', t('nav_dash')], ['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount}">${TC.state.newCount}</span>`],
-      ['bientot/planning', t('nav_plan'), soon], ['bientot/guides', t('nav_guides'), soon],
-      ['bientot/vueguide', t('nav_vg'), soon], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
+      ['planning', t('nav_plan')], ['guides', t('nav_guides')], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
     return `<div class="shell">
       <aside class="side" aria-label="Menu">
         <a class="brand" href="#/tableau">${U.logo()}<span class="tag">${t('tag')}</span></a>

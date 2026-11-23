@@ -134,6 +134,48 @@ table.t tfoot td{font-weight:800;border-bottom:none}
 .bars strong{text-align:right}
 .langsw{min-height:36px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 6px;font-size:13px}
 
+/* Planning */
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13px;color:var(--ink-2);margin:0 0 12px}
+.legend .sw{display:inline-block;width:16px;height:16px;border-radius:4px;border:1px solid var(--line);vertical-align:middle}
+.week{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:10px;align-items:start;overflow-x:auto;padding-bottom:6px;position:relative}
+.day{background:#EFEAE6;border-radius:var(--radius);padding:8px;display:flex;flex-direction:column;gap:6px;min-height:120px}
+.day.is-today{outline:2px solid var(--accent)}
+.day h2{font-size:13px;font-weight:800;text-transform:capitalize;padding:2px 4px}
+.dep{display:flex;flex-direction:column;gap:2px;text-align:left;border:1px solid var(--line);border-radius:10px;padding:8px;cursor:pointer;font-size:12.5px;min-height:44px;color:var(--ink)}
+.dep:hover{border-color:var(--accent)}
+.dep .dt{font-size:13px;line-height:1.25}
+.dep .df{color:var(--ink-2)}
+.dep .okc{color:var(--ok);font-weight:800}
+.dep.closed{opacity:.55;text-decoration:line-through}
+.t-activity{background:#FFE4E6}.t-circuit{background:#DBEAFE}.t-other{background:#FEF3C7}
+.alert-mini{display:inline-block;background:var(--accent);color:#fff;border-radius:6px;padding:1px 6px;font-size:11.5px;font-weight:700;width:max-content}
+.dlg{border:1px solid var(--line);border-radius:14px;max-width:640px;width:calc(100% - 24px);padding:20px;max-height:92vh}
+.dlg::backdrop{background:rgba(17,24,39,.45)}
+.plist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.late{color:var(--late);font-weight:700}
+
+/* Vue guide (téléphone) */
+.vg{min-height:100vh;padding-bottom:84px}
+.vghead{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.vghead svg{height:30px;width:auto}
+.vgmain{max-width:640px;margin:0 auto;padding:16px}
+.vgcard{margin-bottom:14px;display:flex;flex-direction:column}
+.vgday{font-size:14px;font-weight:800;text-transform:capitalize;margin:16px 0 8px}
+.arrived{margin:12px 0 8px;font-size:20px;font-weight:800;color:var(--ok)}
+.pcheck{display:flex;align-items:center;gap:12px}
+.chk{width:44px;height:44px;flex:0 0 44px;border-radius:10px;border:2px solid #CFC7C0;background:#fff;font-size:22px;font-weight:800;color:#fff;cursor:pointer}
+.chk[aria-pressed="true"]{background:var(--ok);border-color:var(--ok)}
+.notes{margin-top:12px;background:var(--wait-soft);border-radius:10px;padding:10px 12px;font-size:14px}
+.notes ul{margin:4px 0 0;padding-left:18px}
+.avail{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.avail li{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-transform:capitalize}
+.seg{display:flex;gap:4px}
+.seg button{min-height:44px;padding:0 10px;border-radius:8px;border:1px solid var(--line);background:#fff;font-weight:600;cursor:pointer;font-size:13px}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.vgtabs{position:fixed;left:0;right:0;bottom:0;display:flex;background:#fff;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:20}
+.vgtabs a{flex:1;min-height:56px;display:flex;align-items:center;justify-content:center;font-weight:700;text-decoration:none;color:var(--ink-2)}
+.vgtabs a[aria-current="page"]{color:#fff;background:var(--accent)}
+
 /* Connexion */
 .login{max-width:440px;margin:10vh auto;padding:0 16px}
 .login .card{padding:28px;display:flex;flex-direction:column;gap:16px}
@@ -168,6 +210,9 @@ table.t tfoot td{font-weight:800;border-bottom:none}
 <script src="views/nouvelle.js"></script>
 <script src="views/bientot.js"></script>
 <script src="views/tableau.js"></script>
+<script src="views/planning.js"></script>
+<script src="views/guides.js"></script>
+<script src="views/vueguide.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -6,8 +6,10 @@ window.TC = window.TC || {};
   let channel = null, route = { name: '', params: [] };
 
   const parse = () => {
-    const p = (location.hash || '#/tableau').replace(/^#\/?/, '').split('/');
-    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot'].includes(p[0]) ? p[0] : 'tableau';
+    const isGuide = TC.state.me && TC.state.me.role === 'guide';
+    const p = (location.hash || (isGuide ? '#/jour' : '#/tableau')).replace(/^#\/?/, '').split('/');
+    if (isGuide) return { name: 'vueguide', params: [['jour', 'semaine', 'dispo'].includes(p[0]) ? p[0] : 'jour'] };
+    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot', 'planning', 'guides'].includes(p[0]) ? p[0] : 'tableau';
     return { name, params: p.slice(1) };
   };
 
@@ -28,10 +30,13 @@ window.TC = window.TC || {};
     try {
       if (route.name === 'demandes') await reloadRequests();
       if (route.name === 'tableau') await TC.views.tableau.load();
+      if (route.name === 'planning') await TC.views.planning.load();
+      if (route.name === 'guides') await TC.views.guides.load();
+      if (route.name === 'vueguide') await TC.views.vueguide.load(route.params);
       if (route.name === 'dossier') await TC.views.dossier.load(route.params);
       if (route.name === 'bientot') await TC.views.bientot.load(route.params);
     } catch (e) {
-      root.innerHTML = U.shell(route.name, `<p class="alert bad" role="alert">${U.esc(t('load_err', { msg: U.errMsg(e) }))}</p>`);
+      root.innerHTML = route.name === 'vueguide' ? `<p class="alert bad" role="alert" style="margin:24px">${U.esc(t('load_err', { msg: U.errMsg(e) }))}</p>` : U.shell(route.name, `<p class="alert bad" role="alert">${U.esc(t('load_err', { msg: U.errMsg(e) }))}</p>`);
       return;
     }
     TC.render(false);
@@ -66,7 +71,7 @@ window.TC = window.TC || {};
     try { me = await api.me(session.user.id); } catch { me = null; }
     if (!me) { root.innerHTML = TC.views.denied.html(session.user.email); return; }
     TC.state.me = me;
-    if (me.role === 'guide') { root.innerHTML = TC.views.denied.html(me.email, t('guide_soon_t'), t('guide_soon_d')); return; }
+    if (me.role === 'guide') { window.addEventListener('hashchange', go); go(); return; }
 
     try {
       [TC.state.team, TC.state.offers, TC.state.newCount] = await Promise.all([api.team(), api.offers(), api.countNew()]);

@@ -38,9 +38,18 @@ window.TC = window.TC || {};
       };
     },
     load: async () => {
-      const [reqs, items, pays] = await Promise.all([TC.api.listRequests(), TC.api.allItems(), TC.api.allPayments()]);
+      const today = U.todayRome(), mon = U.mondayOf(today), sat = U.addDays(mon, 5);
+      const [reqs, items, pays, deps, guides] = await Promise.all([TC.api.listRequests(), TC.api.allItems(), TC.api.allPayments(),
+        TC.api.departures(U.romeToIso(today < sat ? today : sat, '00:00'), U.romeToIso(U.addDays(mon, 7), '00:00')), TC.api.guides()]);
       TC.state.requests = reqs;
       S = TC.views.tableau.compute(reqs, items, pays);
+      const fillRaw = await TC.api.departureFill(deps.map(d => d.id));
+      const fill = TC.views.planning.computeFill(fillRaw.bookings, fillRaw.items);
+      const conf = d => (fill[d.id] || {}).confirmed || 0;
+      const weekend = deps.filter(d => d.status === 'open' && U.romeDay(d.starts_at) >= sat && new Date(d.starts_at) > new Date());
+      S.seats = weekend.reduce((s, d) => s + Math.max(0, d.capacity - conf(d)), 0);
+      S.seatDeps = weekend.length;
+      S.today = deps.filter(d => U.romeDay(d.starts_at) === today && d.status !== 'cancelled').map(d => ({ d, n: conf(d), g: guides.find(g => g.id === d.guide_id) }));
     },
     html: () => {
       const me = TC.state.me, first = (me.full_name || '').split(' ')[0];
@@ -59,7 +68,7 @@ window.TC = window.TC || {};
           ${kpi('k-new', t('k_new'), S.newCount, S.lateCount ? `<span style="color:var(--late);font-weight:700">${t('k_new_late', { n: S.lateCount })}</span>` : t('k_new_ok'))}
           ${kpi('k-conf', t('k_conf'), S.confirmedMonth, '')}
           ${kpi('k-ca', t('k_ca'), U.eur(S.cashedMonth), t('k_ca_sub', { x: U.eur(S.leftTotal) }))}
-          ${kpi('k-seats', t('k_seats'), '—', t('k_seats_na'), 'muted')}
+          ${S.seatDeps ? kpi('k-seats', t('k_seats'), S.seats, t('k_seats_sub', { n: S.seatDeps })) : kpi('k-seats', t('k_seats'), 0, t('k_seats_none'), 'muted')}
         </div>
 
         <div class="grid2" style="margin-top:16px">
@@ -68,7 +77,9 @@ window.TC = window.TC || {};
               : `<p class="sub">${t('todo_none')}</p>`}
           </section>
           <div class="stack">
-            <section class="card pad sec" aria-labelledby="h-today"><h2 id="h-today">${t('today_t')}</h2><p class="sub" style="margin:0">${t('today_na')}</p></section>
+            <section class="card pad sec" aria-labelledby="h-today"><h2 id="h-today">${t('today_t')}</h2>
+              ${S.today.length ? `<ul class="todo">${S.today.map(x => `<li><a href="#/planning"><strong>${U.romeTime(x.d.starts_at)}</strong> · ${U.esc(x.d.activity.title)}</a><span>${x.n >= x.d.capacity ? `<span style="color:var(--ok);font-weight:700">${t('pl_full')}</span>` : `${x.n}/${x.d.capacity}`} · ${x.g ? U.esc(U.guideName(x.g)) : (x.d.activity.type === 'bus' ? '—' : `<span class="late">${t('pl_no_guide')}</span>`)}${x.d.activity.min_participants && x.n < x.d.activity.min_participants ? ` · <span class="late">${t('pl_min', { n: x.d.activity.min_participants })}</span>` : ''}</span></li>`).join('')}</ul>`
+                : `<p class="sub" style="margin:0">${t('today_none')}</p>`}</section>
             <section class="card pad sec" aria-labelledby="h-src"><h2 id="h-src">${t('src_t')}</h2>
               ${S.sources.length ? `<ul class="bars">${S.sources.map(([k, n]) => `<li><span>${U.esc(t('src_' + k))}</span><span class="track" aria-hidden="true"><i style="width:${Math.round(n * 100 / maxSrc)}%"></i></span><strong>${n}</strong></li>`).join('')}</ul>`
                 : `<p class="sub" style="margin:0">${t('src_none')}</p>`}

@@ -6,15 +6,12 @@ window.TC = window.TC || {};
   TC.views = TC.views || {};
 
   TC.SOON = {
-    planning: { title: 'soon_plan_t', items: ['soon_plan_1', 'soon_plan_2', 'soon_plan_3', 'soon_plan_4'] },
-    guides: { title: 'soon_guides_t', items: ['soon_guides_1', 'soon_guides_2', 'soon_guides_3'] },
-    vueguide: { title: 'soon_vg_t', items: ['soon_vg_1', 'soon_vg_2', 'soon_vg_3'] },
     paiement: { title: 'soon_pay_t', items: ['soon_pay_1', 'soon_pay_2', 'soon_pay_3'] }
   };
 
   TC.views.bientot = {
-    key: 'planning',
-    load: async params => { TC.views.bientot.key = TC.SOON[params[0]] ? params[0] : 'planning'; },
+    key: 'paiement',
+    load: async params => { TC.views.bientot.key = TC.SOON[params[0]] ? params[0] : 'paiement'; },
     html: () => {
       const k = TC.views.bientot.key, s = TC.SOON[k];
       return U.shell('bientot/' + k, `

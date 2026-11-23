@@ -35,7 +35,13 @@ Une demande reçue par téléphone, WhatsApp ou à l'agence se saisit avec **+ N
 
 **Langue de l'interface** : français ou italien (menu en bas à gauche, gardé sur l'appareil).
 
-Le menu montre aussi les rubriques prévues, marquées **Bientôt** (planning, guides, vue guide, paiement en ligne) : chacune décrit ce qu'elle permettra, sans données.
+**Planning** : semaine en 7 colonnes (précédente / aujourd'hui / suivante), chaque départ avec heure, offre, remplissage (ex. 3/15, « Complet »), guide ; alertes « Guide à attribuer » et « Minimum non atteint » ; couleurs par type. Clic sur un départ : participants, guide (alerte si chevauchement ou guide indisponible), capacité, langue, billets, état. Bouton « + Créer un départ ». Une prestation d'un dossier (offre + date + heure) est rattachée automatiquement au départ correspondant.
+
+**Guides** : liste, langues, départs de la semaine, chevauchements, jours indiqués non disponibles ; l'admin ajoute et modifie les guides. Pour qu'un guide se connecte : créer son compte dans Supabase, puis dans `staff` mettre `role = guide` et `guide_id` = son numéro de guide.
+
+**Vue guide** (téléphone) : un guide arrive sur « Ma journée » (ses départs, rendez-vous + Google Maps, langue, billets, participants à cocher à l'arrivée avec le compteur « 3 / 15 arrivés », notes utiles), puis onglets Semaine et Disponibilités. Il ne voit ni montants ni coordonnées des clients.
+
+Le menu montre encore une rubrique marquée **Bientôt** : le paiement en ligne (Stripe), qui demande un compte Stripe au nom de l'agence.
 
 **Ajouter un membre de l'équipe** (réservé à l'administrateur, dans Supabase) :
 1. Tableau de bord Supabase → *Authentication* → *Users* → **Add user** → *Create new user* : son e-mail + un mot de passe provisoire, cocher *Auto Confirm User*.
@@ -47,7 +53,7 @@ Le menu montre aussi les rubriques prévues, marquées **Bientôt** (planning, g
 |---|---|
 | `admin` | Tout, y compris annuler un paiement et gérer l'équipe. |
 | `conseiller` | Demandes, prestations, clients, paiements (ajout), historique. Pas la gestion de l'équipe ni la suppression de paiements. |
-| `guide` | Pour l'instant : un écran « bientôt ». Plus tard : seulement ses départs et ses participants, sans montants. |
+| `guide` | Vue guide uniquement : ses départs, ses participants (prénom, nombre, langue, notes), le pointage et ses disponibilités. Ni montants, ni coordonnées, ni autres départs (vérifié par la base). |
 | autre compte connecté | « Accès non autorisé ». |
 
 ## Modifier le site
@@ -75,5 +81,6 @@ Ne jamais mettre la clé `service_role` ni le mot de passe de la base dans ce d�
 - Adresse du siège, numéro REA, e-mail @turismoclub.it.
 - Validation des prix, des fiches et des conditions d'annulation par l'agence.
 - Relecture juridique des pages légales (commercialista ou avocat).
-- Espace équipe : planning et guides (phase B), tableau de bord et vue guide (phase C) ; paiement Stripe.
+- Les vrais guides (noms, langues) et la validation des créneaux du planning (générés à partir des horaires du site, du 19/11 au 19/12/2026).
+- Boîte mail Gmail dans l'espace équipe (en cours) ; paiement Stripe.
 - Relecture des traductions par des natifs (chinois, japonais, coréen en priorité).

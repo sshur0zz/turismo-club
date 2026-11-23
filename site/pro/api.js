@@ -26,7 +26,7 @@ window.TC = window.TC || {};
 
     // ---- Référentiels ----
     team: async () => must(await sb.from('staff').select('id,full_name,role').eq('is_active', true).order('full_name')),
-    offers: async () => must(await sb.from('activities').select('id,slug,type,title,price_adult_cents,is_published').order('type').order('title')),
+    offers: async () => must(await sb.from('activities').select('id,slug,type,title,price_adult_cents,is_published,max_group_size,duration_minutes,min_participants').order('type').order('title')),
 
     // ---- Demandes ----
     listRequests: async () => must(await sb.from('quote_requests').select(REQ_LIST).order('created_at', { ascending: false }).limit(500)),
@@ -59,6 +59,36 @@ window.TC = window.TC || {};
     // ---- Paiements ----
     addPayment: async row => must(await sb.from('payments').insert(row).select('id').single()),
     deletePayment: async id => must(await sb.from('payments').delete().eq('id', id)),
+
+    // ---- Planning ----
+    departures: async (fromIso, toIso) => must(await sb.from('departures')
+      .select('id,starts_at,language,capacity,status,tickets_status,note,guide_id,activity:activities(id,title,type,duration_minutes,min_participants,max_group_size,meeting_point)')
+      .gte('starts_at', fromIso).lt('starts_at', toIso).order('starts_at').limit(2000)),
+    departureFill: async ids => {
+      if (!ids.length) return { bookings: [], items: [] };
+      const [b, i] = await Promise.all([
+        sb.from('bookings').select('id,departure_id,adults,children,status').in('departure_id', ids).in('status', ['pending', 'confirmed']),
+        sb.from('request_items').select('id,departure_id,people,request:quote_requests(id,reference,first_name,last_name,status,preferred_language,language,internal_note)').in('departure_id', ids)
+      ]);
+      return { bookings: must(b), items: must(i) };
+    },
+    saveDeparture: async (id, row) => id
+      ? must(await sb.from('departures').update(row).eq('id', id).select('id').single())
+      : must(await sb.from('departures').insert(row).select('id').single()),
+    guides: async () => must(await sb.from('guides').select('id,first_name,last_name,languages,is_active').order('first_name')),
+    saveGuide: async (id, row) => id
+      ? must(await sb.from('guides').update(row).eq('id', id).select('id').single())
+      : must(await sb.from('guides').insert(row).select('id').single()),
+    availability: async (fromDay, toDay) => must(await sb.from('guide_availability').select('guide_id,day,available').gte('day', fromDay).lte('day', toDay)),
+    guideDeparturesForGuides: async (fromIso, toIso) => must(await sb.from('departures').select('id,starts_at,guide_id,status,activity:activities(title,duration_minutes)')
+      .gte('starts_at', fromIso).lt('starts_at', toIso).not('guide_id', 'is', null).neq('status', 'cancelled')),
+
+    // ---- Vue guide ----
+    myDepartures: async (fromDay, toDay) => must(await sb.rpc('guide_departures', { p_from: fromDay, p_to: toDay })),
+    checkin: async (kind, id, checked) => must(await sb.rpc('guide_checkin', { p_kind: kind, p_id: id, p_checked: checked })),
+    setAvailability: async (guideId, day, available) => available === null
+      ? must(await sb.from('guide_availability').delete().eq('guide_id', guideId).eq('day', day))
+      : must(await sb.from('guide_availability').upsert({ guide_id: guideId, day, available, updated_at: new Date().toISOString() })),
 
     // ---- Direct ----
     onRequestsChange: cb => sb.channel('pro-requests')
