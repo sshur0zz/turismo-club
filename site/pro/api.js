@@ -11,7 +11,7 @@ window.TC = window.TC || {};
 
   const must = ({ data, error }) => { if (error) throw error; return data; };
 
-  const REQ_LIST = 'id,reference,status,source,created_at,updated_at,first_name,last_name,travelers,date_from,language,preferred_language,offer_slug,assigned_staff_id,activity:activities(id,type,title)';
+  const REQ_LIST = 'id,reference,status,source,created_at,updated_at,first_name,last_name,travelers,date_from,language,preferred_language,offer_slug,assigned_staff_id,confirmed_at,activity:activities(id,type,title)';
 
   TC.api = {
     sb,
@@ -47,6 +47,9 @@ window.TC = window.TC || {};
     },
     updateRequest: async (id, patch) => must(await sb.from('quote_requests').update(patch).eq('id', id).select('id').single()),
     createRequest: async row => must(await sb.from('quote_requests').insert(row).select('id').single()),
+
+    allItems: async () => must(await sb.from('request_items').select('request_id,amount_cents').limit(10000)),
+    allPayments: async () => must(await sb.from('payments').select('request_id,amount_cents,paid_on').not('request_id', 'is', null).limit(10000)),
 
     // ---- Prestations ----
     addItem: async row => must(await sb.from('request_items').insert(row).select('id').single()),

@@ -1,5 +1,5 @@
-/* Espace équipe — textes de l'interface.
-   Langue actuelle : français. Pour ajouter l'italien : copier le bloc fr en it, traduire, puis TC.setLang('it'). */
+/* Espace équipe — textes de l'interface, en français (fr) et en italien (it).
+   Toute nouvelle clé doit exister dans les deux blocs. Le choix de langue est gardé dans le navigateur (tc-pro-lang). */
 window.TC = window.TC || {};
 (function (TC) {
   const DICT = {
@@ -82,11 +82,103 @@ window.TC = window.TC || {};
       soon_pay_t: 'Paiement en ligne (Stripe)',
       soon_pay_1: 'Bouton « Créer un lien de paiement » dans la fiche, à envoyer au client par WhatsApp ou e-mail.',
       soon_pay_2: 'Acompte ou paiement total par carte, enregistré automatiquement dans la fiche.',
-      soon_pay_3: 'Le montant est recalculé par le serveur avant tout encaissement.'
+      soon_pay_3: 'Le montant est recalculé par le serveur avant tout encaissement.',
+      ui_lang: 'Langue de l\u2019interface',
+      dash_hi: 'Buongiorno {name}', dash_sum: '{n} demande(s) à traiter', dash_sum0: 'Aucune demande à traiter',
+      k_new: 'Nouvelles demandes', k_new_late: '{n} en attente depuis plus de 12 h', k_new_ok: 'Aucune en retard',
+      k_conf: 'Réservations confirmées ce mois-ci', k_ca: 'Encaissé ce mois-ci', k_ca_sub: 'Reste à encaisser : {x}',
+      k_seats: 'Places restantes ce week-end', k_seats_na: 'Disponible avec le planning (bientôt)',
+      todo_t: 'À traiter maintenant', todo_late: 'Nouvelle demande sans réponse depuis {h} h', todo_quote: 'Devis sans réponse depuis {d} jours', todo_pay: 'Reste à encaisser : {x}',
+      todo_none: 'Rien d\u2019urgent pour l\u2019instant.', today_t: 'Départs d\u2019aujourd\u2019hui', today_na: 'Les départs du jour s\u2019afficheront ici avec le planning (bientôt).',
+      src_t: 'D\u2019où viennent les demandes (30 jours)', src_none: 'Aucune demande sur les 30 derniers jours.', open: 'Ouvrir'
+    },
+    it: {
+      app_title: 'Area team', tag: 'AREA TEAM',
+      nav_requests: 'Richieste', nav_new: '+ Nuova richiesta', logout: 'Esci',
+      role_admin: 'Amministratore', role_conseiller: 'Consulente', role_guide: 'Guida',
+      login_t: 'Accesso all’area team', login_d: 'Inserisci il tuo indirizzo e-mail di lavoro: riceverai un link di accesso.',
+      email: 'E-mail', password: 'Password', login_pw_b: 'Accedi', login_link_alt: 'Ricevi invece un link via e-mail',
+      login_no_pw: 'Inserisci la password.', login_wrong: 'E-mail o password errata.', login_rate: 'Troppi tentativi. Riprova tra qualche minuto.',
+      nav_password: 'La mia password', pw_t: 'Cambia la mia password', pw_d: 'Scegli una password lunga, che non usi da nessun’altra parte.',
+      pw_new: 'Nuova password', pw_again: 'Conferma la password', pw_hint: 'Almeno 12 caratteri. Una frase di più parole è l’ideale.',
+      pw_save: 'Salva la password', pw_short: 'La password deve avere almeno 12 caratteri.', pw_mismatch: 'Le due password non coincidono.', pw_ok: 'Password modificata',
+      login_b: 'Ricevi il link di accesso', login_sending: 'Invio…',
+      login_sent: 'Se questo indirizzo fa parte del team, gli è stato appena inviato un link di accesso. Aprilo su questo dispositivo.',
+      login_err: 'Impossibile inviare il link al momento. Riprova tra qualche minuto.', login_bad_email: 'Indirizzo e-mail non valido.',
+      login_link_err: 'Questo link di accesso non è più valido. Richiedine uno nuovo.',
+      denied_t: 'Accesso non autorizzato', denied_d: 'Il tuo account ({email}) non ha accesso all’area team. Chiedi all’amministratore di aggiungerti.',
+      guide_soon_t: 'La tua area guida arriva presto', guide_soon_d: 'Qui vedrai le partenze del giorno e l’elenco dei tuoi partecipanti.',
+      loading: 'Caricamento…', load_err: 'Impossibile caricare i dati: {msg}',
+      st_new: 'Nuove', st_in_progress: 'In corso', st_sent: 'Preventivo inviato', st_won: 'Confermata', st_done: 'Conclusa', st_lost: 'Annullata',
+      st1_new: 'Nuova', st1_in_progress: 'In corso', st1_sent: 'Preventivo inviato', st1_won: 'Confermata', st1_done: 'Conclusa', st1_lost: 'Annullata',
+      src_site: 'Sito', src_whatsapp: 'WhatsApp', src_agence: 'Agenzia', src_email: 'E-mail', src_telephone: 'Telefono',
+      ty_all: 'Tutti', ty_activity: 'Attività', ty_bus: 'Bus', ty_circuit: 'Tour', ty_hotel: 'Hotel', ty_restaurant: 'Ristoranti', ty_custom: 'Su misura',
+      custom_trip: 'Viaggio su misura',
+      req_t: 'Richieste', req_d: 'Dal primo contatto alla conferma.',
+      search: 'Cerca un cliente', show_closed: 'Mostra Concluse e Annullate', filter_type: 'Tipo',
+      step: 'Fase', owner: 'Responsabile', nobody: 'Nessuno', people: '{n} pers.', no_date: 'data da definire',
+      ago_min: '{n} min fa', ago_h: '{n} h fa', ago_d: '{n} g fa',
+      col_empty: 'Nessuna richiesta', none_at_all: 'Ancora nessuna richiesta. Le richieste del sito appariranno qui in tempo reale.',
+      live_new: 'Nuova richiesta: {name}', saved: 'Salvato', save_err: 'Salvataggio non riuscito: {msg}',
+      back: '← Tutte le richieste', ref: 'Riferimento', source: 'Fonte', lang: 'Lingua', created: 'Creata il',
+      wa: 'WhatsApp', mail: 'E-mail', recap_b: 'Invia il riepilogo', recap_t: 'Riepilogo per il cliente',
+      copy: 'Copia il testo', copied: 'Testo copiato', send_wa: 'Invia su WhatsApp', close: 'Chiudi', no_phone: 'Nessun numero', no_email: 'Nessuna e-mail',
+      items_t: 'Servizi', it_offer: 'Offerta', it_label: 'Descrizione', it_date: 'Data', it_time: 'Ora', it_people: 'Persone', it_amount: 'Importo (€)',
+      it_total: 'Totale', it_add: 'Aggiungi il servizio', it_save: 'Salva la modifica', it_cancel: 'Annulla', it_edit: 'Modifica', it_del: 'Elimina',
+      it_none: 'Ancora nessun servizio.', it_other: 'Altro (testo libero)', it_form: 'Aggiungi un servizio', it_form_edit: 'Modifica il servizio',
+      e_label: 'Inserisci una descrizione.', e_amount: 'Importo non valido.', e_people: 'Numero di persone non valido.',
+      pay_t: 'Pagamento', paid: 'Ricevuto', remaining: 'Da pagare', pay_amount: 'Importo (€)', pay_date: 'Data', pay_method: 'Metodo',
+      m_especes: 'Contanti', m_virement: 'Bonifico', m_carte_sur_place: 'Carta in sede', m_stripe: 'Stripe',
+      pay_add: 'Registra il pagamento', pay_none: 'Nessun pagamento registrato.', pay_link: 'Crea un link di pagamento', pay_soon: 'Presto (Stripe)',
+      pay_del: 'Annulla questo pagamento', pay_progress: 'Pagato: {pct} %',
+      cust_t: 'Cliente', phone: 'Telefono', hotel: 'Hotel', past: 'Prenotazioni precedenti', hotel_save: 'Salva l’hotel',
+      status_t: 'Gestione', hist_t: 'Storico', hist_none: 'Nessun evento.', by: 'da {name}', system: 'sito web',
+      note_t: 'Nota interna', note_d: 'Visibile al team e alla guida interessata (es. allergie). Mai al cliente.', note_save: 'Salva la nota',
+      msg_t: 'Messaggio del cliente', not_found: 'Richiesta non trovata.', confirm_del: 'Clicca ancora una volta per confermare',
+      new_t: 'Nuova richiesta', new_d: 'Per una richiesta ricevuta per telefono, WhatsApp, e-mail o in agenzia.',
+      n_name: 'Nome del cliente', n_email: 'E-mail (facoltativa se c’è il telefono)', n_phone: 'Telefono / WhatsApp', n_source: 'Ricevuta tramite',
+      n_offer: 'Offerta', n_date: 'Data desiderata', n_people: 'Persone', n_lang: 'Lingua del cliente', n_msg: 'Messaggio / dettagli', n_hotel: 'Hotel',
+      n_create: 'Crea la richiesta', n_creating: 'Creazione…', e_name: 'Inserisci il nome del cliente.', e_contact: 'Inserisci un’e-mail o un telefono.', e_email: 'E-mail non valida.',
+      choose: '— Scegli —',
+      soon: 'Presto', soon_d: 'Questa sezione è in preparazione. Apparirà qui appena sarà pronta.', soon_what: 'Cosa permetterà', soon_back: '← Torna alle richieste',
+      nav_dash: 'Cruscotto', nav_plan: 'Planning', nav_guides: 'Guide', nav_vg: 'Vista guida', nav_pay: 'Pagamento online',
+      soon_dash_t: 'Cruscotto',
+      soon_dash_1: 'Saluto personalizzato, data del giorno, numero di partenze del giorno e di richieste da gestire.',
+      soon_dash_2: 'Indicatori calcolati sui dati reali.', soon_dash_3: 'Elenco «Da gestire ora».', soon_dash_4: 'Da dove arrivano le richieste negli ultimi 30 giorni.',
+      soon_plan_t: 'Planning della settimana',
+      soon_plan_1: 'Griglia di 7 giorni con navigazione settimana precedente / oggi / settimana successiva.',
+      soon_plan_2: 'Ogni partenza: ora, offerta, riempimento (es. 11/15, «Completo»), guida assegnata.',
+      soon_plan_3: 'Avvisi: guida da assegnare, numero minimo di partecipanti non raggiunto.',
+      soon_plan_4: 'Creare, modificare o chiudere una partenza; vedere le prenotazioni di una partenza.',
+      soon_guides_t: 'Guide',
+      soon_guides_1: 'Elenco delle guide con le loro lingue e il numero di partenze della settimana.',
+      soon_guides_2: 'Assegnazione di una guida a una partenza, con avviso se due partenze si sovrappongono.',
+      soon_guides_3: 'Disponibilità indicate da ogni guida.',
+      soon_vg_t: 'Vista guida (telefono)',
+      soon_vg_1: '«La mia giornata»: partenze del giorno, punto d’incontro con link Google Maps, lingua, stato dei biglietti.',
+      soon_vg_2: 'Elenco dei partecipanti da spuntare all’arrivo, con il contatore «7 / 15 arrivati».',
+      soon_vg_3: 'Note utili (es. allergie); schede Oggi / Settimana / Disponibilità.',
+      soon_pay_t: 'Pagamento online (Stripe)',
+      soon_pay_1: 'Pulsante «Crea un link di pagamento» nella scheda, da inviare al cliente su WhatsApp o via e-mail.',
+      soon_pay_2: 'Acconto o pagamento totale con carta, registrato automaticamente nella scheda.',
+      soon_pay_3: 'L’importo viene ricalcolato dal server prima di ogni incasso.',
+      ui_lang: 'Lingua dell’interfaccia',
+      dash_hi: 'Buongiorno {name}', dash_sum: '{n} richiesta/e da gestire', dash_sum0: 'Nessuna richiesta da gestire',
+      k_new: 'Nuove richieste', k_new_late: '{n} in attesa da più di 12 h', k_new_ok: 'Nessuna in ritardo',
+      k_conf: 'Prenotazioni confermate questo mese', k_ca: 'Incassato questo mese', k_ca_sub: 'Da incassare: {x}',
+      k_seats: 'Posti liberi questo fine settimana', k_seats_na: 'Disponibile con il planning (presto)',
+      todo_t: 'Da gestire ora', todo_late: 'Nuova richiesta senza risposta da {h} h', todo_quote: 'Preventivo senza risposta da {d} giorni', todo_pay: 'Da incassare: {x}',
+      todo_none: 'Niente di urgente al momento.', today_t: 'Partenze di oggi', today_na: 'Le partenze del giorno appariranno qui con il planning (presto).',
+      src_t: 'Da dove arrivano le richieste (30 giorni)', src_none: 'Nessuna richiesta negli ultimi 30 giorni.', open: 'Apri'
     }
+
   };
   // Langues des clients (pour l'affichage et les messages envoyés au client)
-  TC.LANGS = { en: 'Anglais', it: 'Italien', fr: 'Français', es: 'Espagnol', de: 'Allemand', pt: 'Portugais', nl: 'Néerlandais', zh: 'Chinois', ja: 'Japonais', ko: 'Coréen' };
+  const LANG_NAMES = {
+    fr: { en: 'Anglais', it: 'Italien', fr: 'Français', es: 'Espagnol', de: 'Allemand', pt: 'Portugais', nl: 'Néerlandais', zh: 'Chinois', ja: 'Japonais', ko: 'Coréen' },
+    it: { en: 'Inglese', it: 'Italiano', fr: 'Francese', es: 'Spagnolo', de: 'Tedesco', pt: 'Portoghese', nl: 'Olandese', zh: 'Cinese', ja: 'Giapponese', ko: 'Coreano' }
+  };
+  TC.LANGS = LANG_NAMES.fr;
   // Messages au client, dans SA langue
   TC.CLIENT = {
     en: { hi: 'Hello {name}, this is Turismo Club about your request {ref}.', recap: 'Summary of your booking {ref}', total: 'Total', paid: 'Paid', left: 'Remaining', people: 'people', thanks: 'Thank you, see you soon in Rome!' },
@@ -101,7 +193,24 @@ window.TC = window.TC || {};
     ko: { hi: '{name}님, 안녕하세요. 문의하신 {ref} 건으로 연락드리는 Turismo Club입니다.', recap: '예약 {ref} 요약', total: '합계', paid: '결제 완료', left: '잔액', people: '명', thanks: '감사합니다. 로마에서 뵙겠습니다!' }
   };
   let lang = 'fr';
-  TC.setLang = l => { if (DICT[l]) lang = l; };
+  TC.UI_LANGS = { fr: 'Français', it: 'Italiano' };
+  TC.lang = () => lang;
+  TC.locale = () => (lang === 'it' ? 'it-IT' : 'fr-FR');
+  TC.setLang = l => {
+    if (!DICT[l]) return;
+    lang = l; TC.LANGS = LANG_NAMES[l]; document.documentElement.lang = l;
+    try { localStorage.setItem('tc-pro-lang', l); } catch (e) { /* préférence non vitale */ }
+  };
+  // Langue au démarrage : choix enregistré, sinon langue du navigateur (italien si le navigateur est en italien)
+  (() => { let l = null; try { l = localStorage.getItem('tc-pro-lang'); } catch (e) {} if (!DICT[l]) l = /^it/i.test(navigator.language || '') ? 'it' : 'fr'; TC.setLang(l); })();
+
+  // L'historique est écrit en français par la base : traduction à l'affichage pour l'italien
+  const HIST_IT = [[/^Demande créée \(source : (\w+)\)/, (_, k) => 'Richiesta creata (fonte: ' + ({ site: 'sito', agence: 'agenzia', telephone: 'telefono', whatsapp: 'WhatsApp', email: 'e-mail' }[k] || k) + ')'], [/^Étape : /, 'Fase: '], [/^Responsable : /, 'Responsabile: '],
+    [/^Note interne modifiée$/, 'Nota interna modificata'], [/^Prestation ajoutée : /, 'Servizio aggiunto: '], [/^Prestation modifiée : /, 'Servizio modificato: '],
+    [/^Prestation supprimée : /, 'Servizio eliminato: '], [/^Paiement enregistré : /, 'Pagamento registrato: '], [/^Paiement annulé : /, 'Pagamento annullato: '],
+    [/Nouvelle/g, 'Nuova'], [/En cours/g, 'In corso'], [/Devis envoyé/g, 'Preventivo inviato'], [/Confirmée/g, 'Confermata'], [/Terminée/g, 'Conclusa'], [/Annulée/g, 'Annullata'],
+    [/\bespeces\b/g, 'contanti'], [/\bvirement\b/g, 'bonifico'], [/carte sur place/g, 'carta in sede'], [/\bpersonne\b/g, 'nessuno'], [/ pers\. /g, ' pers. ']];
+  TC.histMsg = m => (lang === 'it' ? HIST_IT.reduce((s, [a, b]) => s.replace(a, b), m || '') : m);
   TC.t = (k, vars) => {
     let s = DICT[lang][k] != null ? DICT[lang][k] : (DICT.fr[k] != null ? DICT.fr[k] : k);
     if (vars) s = s.replace(/\{(\w+)\}/g, (_, v) => (vars[v] != null ? vars[v] : ''));

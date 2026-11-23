@@ -18,6 +18,7 @@ Agence locale à Rome (Turismo Club di Riadh Mraihi, P.IVA 18751221005) : visite
 - Anti-spam simple : champ piège invisible + délai minimum de 4 secondes.
 - **Aucun paiement en ligne** : les prix sont indicatifs, l'agence confirme par écrit.
 - Pages **Privacy & Cookies** et **Note legali** (anglais + italien), à faire relire par un professionnel.
+- Référencement : description, image d'aperçu pour WhatsApp/Facebook (`og-image.jpg`, photo CC0), icône, `robots.txt`, `sitemap.xml`, fiche « agence de voyage » pour Google générée depuis `CONFIG`.
 
 ## Espace équipe : https://turismoclub.it/pro/
 
@@ -30,7 +31,11 @@ Agence locale à Rome (Turismo Club di Riadh Mraihi, P.IVA 18751221005) : visite
 
 Une demande reçue par téléphone, WhatsApp ou à l'agence se saisit avec **+ Nouvelle demande**.
 
-Le menu montre aussi les rubriques prévues, marquées **Bientôt** (tableau de bord, planning, guides, vue guide, paiement en ligne) : chacune décrit ce qu'elle permettra, sans données.
+**Tableau de bord** (page d'accueil de l'espace) : nouvelles demandes (et celles en attente depuis plus de 12 h), réservations confirmées du mois, encaissé du mois et reste à encaisser, liste « À traiter maintenant », origine des demandes sur 30 jours. Tout est calculé sur les vraies données ; sans données, la page l'indique.
+
+**Langue de l'interface** : français ou italien (menu en bas à gauche, gardé sur l'appareil).
+
+Le menu montre aussi les rubriques prévues, marquées **Bientôt** (planning, guides, vue guide, paiement en ligne) : chacune décrit ce qu'elle permettra, sans données.
 
 **Ajouter un membre de l'équipe** (réservé à l'administrateur, dans Supabase) :
 1. Tableau de bord Supabase → *Authentication* → *Users* → **Add user** → *Create new user* : son e-mail + un mot de passe provisoire, cocher *Auto Confirm User*.

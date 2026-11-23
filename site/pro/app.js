@@ -6,8 +6,8 @@ window.TC = window.TC || {};
   let channel = null, route = { name: '', params: [] };
 
   const parse = () => {
-    const p = (location.hash || '#/demandes').replace(/^#\/?/, '').split('/');
-    const name = ['demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot'].includes(p[0]) ? p[0] : 'demandes';
+    const p = (location.hash || '#/tableau').replace(/^#\/?/, '').split('/');
+    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot'].includes(p[0]) ? p[0] : 'tableau';
     return { name, params: p.slice(1) };
   };
 
@@ -24,8 +24,10 @@ window.TC = window.TC || {};
   async function go() {
     route = parse();
     document.title = 'Turismo Club — ' + t('app_title');
+    document.documentElement.lang = TC.lang();
     try {
       if (route.name === 'demandes') await reloadRequests();
+      if (route.name === 'tableau') await TC.views.tableau.load();
       if (route.name === 'dossier') await TC.views.dossier.load(route.params);
       if (route.name === 'bientot') await TC.views.bientot.load(route.params);
     } catch (e) {
@@ -44,6 +46,7 @@ window.TC = window.TC || {};
       if (ev.eventType === 'INSERT' && ev.new) U.toast(t('live_new', { name: [ev.new.first_name, ev.new.last_name].filter(Boolean).join(' ') }));
       TC.refreshCount();
       if (route.name === 'demandes') { await reloadRequests(); TC.views.demandes.refresh(); }
+      else if (route.name === 'tableau') { await TC.views.tableau.load(); TC.render(true); }
       else if (route.name === 'dossier') {
         const cur = TC.views.dossier.current();
         if (cur && ev.new && ev.new.id === cur.id && !document.activeElement.closest('form')) { await TC.views.dossier.load([cur.id]); TC.render(true); }

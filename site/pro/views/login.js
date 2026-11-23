@@ -8,6 +8,7 @@ window.TC = window.TC || {};
   TC.views.login = {
     html: (msg) => `<div class="login"><div class="card">
       <div class="brand" style="padding:0">${U.logo()}<span class="tag">${t('tag')}</span></div>
+      <div style="display:flex;justify-content:flex-end">${U.langSwitch()}</div>
       <h1 style="font-size:22px">${t('login_t')}</h1>
       ${msg ? `<p class="alert bad" role="alert">${U.esc(msg)}</p>` : ''}
       <form id="loginForm" novalidate style="display:flex;flex-direction:column;gap:14px">

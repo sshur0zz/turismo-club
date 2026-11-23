@@ -23,7 +23,7 @@ site/
     i18n.js         Textes de l'interface (dictionnaire, FR ; IT à ajouter) + messages au client en 10 langues
     api.js          Tous les appels Supabase (clé publique ; droits = RLS)
     app.js          Démarrage, connexion par lien magique (PKCE), rôles, navigation #/…, direct (Realtime)
-    views/          common.js (outils, menu), login.js, demandes.js (colonnes), dossier.js (fiche), nouvelle.js
+    views/          common.js (outils, menu), login.js, tableau.js (tableau de bord), demandes.js (colonnes), dossier.js (fiche), nouvelle.js, bientot.js (rubriques à venir)
   _headers          En-têtes Cloudflare (noindex sur /pro, sécurité)
 supabase/
   migrations/       Historique de la base PostgreSQL, à appliquer dans l'ordre
@@ -39,7 +39,8 @@ README.md
 - Accès : compte présent et actif dans `staff`. Sinon « Accès non autorisé ». Rôle `guide` : écran « bientôt » (phase C).
 - Un **dossier** = une ligne de `quote_requests` (étapes `new` → `in_progress` → `sent` → `won` → `done`, `lost` = annulée). Référence `TC-AAMM-NNN`, client (`customers`) retrouvé par e-mail ou téléphone, première prestation créée automatiquement depuis l'offre du site (migrations 11-12).
 - Prestations : `request_items`. Paiements manuels : `payments` (`request_id`, `method`, `paid_on`). Historique automatique : `booking_events` (`request_id`) écrit par des triggers (étape, responsable, paiement, prestation, note), avec l'auteur ; journal complet dans `audit_log`.
-- Tous les textes passent par `TC.t('clé')` (i18n.js). Messages au client : `TC.ct(langue, clé)`.
+- Tous les textes passent par `TC.t('clé')` (i18n.js), **en français ET en italien** (blocs `fr` et `it`). Langue choisie gardée dans `localStorage` (`tc-pro-lang`). L'historique est écrit en français par la base et traduit à l'affichage (`TC.histMsg`). Messages au client : `TC.ct(langue, clé)`.
+- Tableau de bord (`views/tableau.js`) : calculé côté navigateur à partir de `quote_requests`, `request_items`, `payments` (date de confirmation : `confirmed_at`, migration 13). Jamais de chiffre inventé : sans planning, « Places restantes » et « Départs du jour » affichent « avec le planning ».
 - Tests : comptes et données marqués `TEST`, supprimés après les tests (jamais de vraies données clients). Ne pas supprimer d'entrées de `audit_log`.
 
 ## Organisation du code (site/index.html)

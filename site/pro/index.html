@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Turismo Club — Espace équipe</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 50'%3E%3Cpath d='M4 48V22a20 20 0 0 1 40 0v26z' fill='%239F1239'/%3E%3Cpath d='M14 48V24a10 10 0 0 1 20 0v24z' fill='%23fff'/%3E%3Cpath d='M17 48a7 7 0 0 1 14 0z' fill='%239F1239'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -115,6 +116,24 @@ table.t tfoot td{font-weight:800;border-bottom:none}
 .timeline small{display:block;color:var(--ink-2);font-size:12.5px}
 .recap{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px;margin:0}
 
+/* Tableau de bord */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.kpi{display:flex;flex-direction:column;gap:4px}
+.kpi strong{font-size:30px;font-weight:800;line-height:1.1}
+.kpi strong.muted{color:var(--muted)}
+.todo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.todo li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.todo li:last-child{border-bottom:none}
+.todo a{text-decoration:none;color:var(--ink);min-height:24px}
+.todo a:hover{color:var(--accent)}
+.todo .late{color:var(--late);font-weight:700}
+.bars{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.bars li{display:grid;grid-template-columns:90px 1fr 32px;gap:10px;align-items:center;font-size:14px}
+.bars .track{height:10px;background:#F1ECE8;border-radius:999px;overflow:hidden}
+.bars .track i{display:block;height:100%;background:var(--accent)}
+.bars strong{text-align:right}
+.langsw{min-height:36px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 6px;font-size:13px}
+
 /* Connexion */
 .login{max-width:440px;margin:10vh auto;padding:0 16px}
 .login .card{padding:28px;display:flex;flex-direction:column;gap:16px}
@@ -148,6 +167,7 @@ table.t tfoot td{font-weight:800;border-bottom:none}
 <script src="views/dossier.js"></script>
 <script src="views/nouvelle.js"></script>
 <script src="views/bientot.js"></script>
+<script src="views/tableau.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

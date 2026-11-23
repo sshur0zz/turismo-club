@@ -116,7 +116,7 @@ window.TC = window.TC || {};
           </section>
 
           <section class="card pad sec" aria-labelledby="h-hist"><h2 id="h-hist">${t('hist_t')}</h2>
-            ${D.events.length ? `<ol class="timeline">${D.events.map(ev => `<li>${U.esc(ev.message)}<small>${U.dateTime(ev.created_at)} · ${t('by', { name: U.esc(ev.author ? ev.author.full_name : t('system')) })}</small></li>`).join('')}</ol>` : `<p class="sub">${t('hist_none')}</p>`}
+            ${D.events.length ? `<ol class="timeline">${D.events.map(ev => `<li>${U.esc(TC.histMsg(ev.message))}<small>${U.dateTime(ev.created_at)} · ${t('by', { name: U.esc(ev.author ? ev.author.full_name : t('system')) })}</small></li>`).join('')}</ol>` : `<p class="sub">${t('hist_none')}</p>`}
           </section>
         </div>
       </div>

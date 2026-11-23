@@ -6,10 +6,9 @@ window.TC = window.TC || {};
   U.$ = (s, r = document) => r.querySelector(s);
   U.$$ = (s, r = document) => [...r.querySelectorAll(s)];
   U.esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const eurF = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' });
-  U.eur = cents => eurF.format((cents || 0) / 100);
-  U.date = d => d ? new Date(String(d).length === 10 ? d + 'T12:00:00' : d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Europe/Rome' }) : '';
-  U.dateTime = d => d ? new Date(d).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' }) : '';
+  U.eur = cents => new Intl.NumberFormat(TC.locale(), { style: 'currency', currency: 'EUR' }).format((cents || 0) / 100);
+  U.date = d => d ? new Date(String(d).length === 10 ? d + 'T12:00:00' : d).toLocaleDateString(TC.locale(), { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Europe/Rome' }) : '';
+  U.dateTime = d => d ? new Date(d).toLocaleString(TC.locale(), { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Rome' }) : '';
   U.todayRome = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date());
   U.hoursSince = d => (Date.now() - new Date(d).getTime()) / 36e5;
   U.ago = d => {
@@ -36,17 +35,20 @@ window.TC = window.TC || {};
   U.shell = (active, content) => {
     const me = TC.state.me;
     const soon = `<span class="badge src" style="font-size:11px">${t('soon')}</span>`;
-    const links = [['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount} nouvelles">${TC.state.newCount}</span>`],
-      ['bientot/tableau', t('nav_dash'), soon], ['bientot/planning', t('nav_plan'), soon], ['bientot/guides', t('nav_guides'), soon],
+    const links = [['tableau', t('nav_dash')], ['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount}">${TC.state.newCount}</span>`],
+      ['bientot/planning', t('nav_plan'), soon], ['bientot/guides', t('nav_guides'), soon],
       ['bientot/vueguide', t('nav_vg'), soon], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
     return `<div class="shell">
       <aside class="side" aria-label="Menu">
-        <a class="brand" href="#/demandes">${U.logo()}<span class="tag">${t('tag')}</span></a>
+        <a class="brand" href="#/tableau">${U.logo()}<span class="tag">${t('tag')}</span></a>
         <nav class="nav">${links.map(([k, l, extra]) => `<a href="#/${k}" ${active === k ? 'aria-current="page"' : ''}><span>${l}</span>${extra || ''}</a>`).join('')}</nav>
         <div class="who"><div class="info"><strong>${U.esc(me.full_name)}</strong><span>${t('role_' + me.role)}</span></div>
+          ${U.langSwitch()}
           <button type="button" class="btn quiet small" id="logout">${t('logout')}</button></div>
       </aside>
       <main id="main" tabindex="-1">${content}</main></div>`;
   };
-  U.setCount = n => { TC.state.newCount = n; const c = U.$('#newCount'); if (c) { c.textContent = n; c.setAttribute('aria-label', n + ' nouvelles'); } };
+  U.langSwitch = () => `<label class="sr" for="uiLang">${t('ui_lang')}</label><select id="uiLang" class="langsw" aria-label="${t('ui_lang')}">${Object.entries(TC.UI_LANGS).map(([k, v]) => `<option value="${k}" ${k === TC.lang() ? 'selected' : ''} lang="${k}">${v}</option>`).join('')}</select>`;
+  document.addEventListener('change', e => { if (e.target.id === 'uiLang') { TC.setLang(e.target.value); location.reload(); } });
+  U.setCount = n => { TC.state.newCount = n; const c = U.$('#newCount'); if (c) { c.textContent = n; c.setAttribute('aria-label', String(n)); } };
 })(window.TC);

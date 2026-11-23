@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Turismo Club — Rome</title>
+<meta name="description" content="Local travel agency in Rome: guided tours, bus tours, day trips across Italy, hotels and restaurants. Send a booking request in 10 languages and get a reply within 24 h.">
+<link rel="canonical" href="https://turismoclub.it/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 50'%3E%3Cpath d='M4 48V22a20 20 0 0 1 40 0v26z' fill='%239F1239'/%3E%3Cpath d='M14 48V24a10 10 0 0 1 20 0v24z' fill='%23fff'/%3E%3Cpath d='M17 48a7 7 0 0 1 14 0z' fill='%239F1239'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#9F1239">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Turismo Club">
+<meta property="og:title" content="Turismo Club — Rome">
+<meta property="og:description" content="Local travel agency in Rome: guided tours, bus tours, day trips across Italy, hotels and restaurants. Send a booking request in 10 languages and get a reply within 24 h.">
+<meta property="og:url" content="https://turismoclub.it/">
+<meta property="og:image" content="https://turismoclub.it/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Colosseum and the Roman Forum from above">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -547,6 +561,14 @@ ko: { q_ok: "요청이 접수되었습니다.", demo: "데모 시뮬레이션: �
   c_d: "사진은 Wikimedia Commons에서 가져왔으며 각 라이선스에 따라 사용합니다. CC BY와 CC BY-SA는 저작자와 라이선스 표기를 요구하며, 이 페이지가 그 역할을 합니다.", c_photo: "사진", c_author: "저작자", c_lic: "라이선스", c_src: "출처", footer: "로마 현지 여행사" }
 };
 Object.keys(UI2).forEach(l => Object.assign(UI[l], UI2[l]));
+// Fiche « agence de voyage » pour Google (données structurées), uniquement à partir des infos réelles de CONFIG
+(() => {
+  const ld = { '@context': 'https://schema.org', '@type': 'TravelAgency', name: CONFIG.brand, legalName: CONFIG.company, url: 'https://turismoclub.it/',
+    image: 'https://turismoclub.it/og-image.jpg', vatID: CONFIG.vat ? 'IT' + CONFIG.vat : undefined, email: CONFIG.email || undefined, telephone: CONFIG.whatsapp || undefined,
+    address: { '@type': 'PostalAddress', addressLocality: 'Roma', addressCountry: 'IT' }, areaServed: 'Italy',
+    availableLanguage: ['en', 'it', 'fr', 'es', 'de', 'pt', 'nl', 'zh', 'ja', 'ko'] };
+  const el = document.createElement('script'); el.type = 'application/ld+json'; el.textContent = JSON.stringify(ld); document.head.appendChild(el);
+})();
 let LANG = 'en';
 function tr(k, vars) {
   let s = (UI[LANG] && UI[LANG][k] != null) ? UI[LANG][k] : (UI.en[k] != null ? UI.en[k] : k);
