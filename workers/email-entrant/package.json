@@ -1,0 +1,8 @@
+{
+  "name": "turismo-email-entrant",
+  "private": true,
+  "description": "Reçoit les e-mails transférés par Gmail (Cloudflare Email Routing) et les dépose dans l'espace équipe (Supabase).",
+  "dependencies": {
+    "postal-mime": "2.4.4"
+  }
+}

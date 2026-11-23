@@ -9,7 +9,7 @@ window.TC = window.TC || {};
     const isGuide = TC.state.me && TC.state.me.role === 'guide';
     const p = (location.hash || (isGuide ? '#/jour' : '#/tableau')).replace(/^#\/?/, '').split('/');
     if (isGuide) return { name: 'vueguide', params: [['jour', 'semaine', 'dispo'].includes(p[0]) ? p[0] : 'jour'] };
-    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot', 'planning', 'guides'].includes(p[0]) ? p[0] : 'tableau';
+    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot', 'planning', 'guides', 'emails'].includes(p[0]) ? p[0] : 'tableau';
     return { name, params: p.slice(1) };
   };
 
@@ -20,6 +20,7 @@ window.TC = window.TC || {};
     if (keepScroll) scrollTo(0, y);
   };
 
+  TC.refreshEmailCount = async () => { try { U.setEmailCount(await api.countNewEmails()); } catch { /* compteur non vital */ } };
   TC.refreshCount = async () => { try { U.setCount(await api.countNew()); } catch { /* compteur non vital */ } };
   const reloadRequests = async () => { TC.state.requests = await api.listRequests(); };
 
@@ -32,6 +33,7 @@ window.TC = window.TC || {};
       if (route.name === 'tableau') await TC.views.tableau.load();
       if (route.name === 'planning') await TC.views.planning.load();
       if (route.name === 'guides') await TC.views.guides.load();
+      if (route.name === 'emails') await TC.views.emails.load(route.params);
       if (route.name === 'vueguide') await TC.views.vueguide.load(route.params);
       if (route.name === 'dossier') await TC.views.dossier.load(route.params);
       if (route.name === 'bientot') await TC.views.bientot.load(route.params);
@@ -47,6 +49,11 @@ window.TC = window.TC || {};
 
   function startLive() {
     if (channel) return;
+    api.onEmailsChange(async ev => {
+      if (ev.eventType === 'INSERT' && ev.new) U.toast(t('em_live', { from: ev.new.from_name || ev.new.from_email }));
+      TC.refreshEmailCount();
+      if (route.name === 'emails' && ev.eventType === 'INSERT') await TC.views.emails.refresh();
+    });
     channel = api.onRequestsChange(async ev => {
       if (ev.eventType === 'INSERT' && ev.new) U.toast(t('live_new', { name: [ev.new.first_name, ev.new.last_name].filter(Boolean).join(' ') }));
       TC.refreshCount();
@@ -74,7 +81,7 @@ window.TC = window.TC || {};
     if (me.role === 'guide') { window.addEventListener('hashchange', go); go(); return; }
 
     try {
-      [TC.state.team, TC.state.offers, TC.state.newCount] = await Promise.all([api.team(), api.offers(), api.countNew()]);
+      [TC.state.team, TC.state.offers, TC.state.newCount, TC.state.emailCount] = await Promise.all([api.team(), api.offers(), api.countNew(), api.countNewEmails()]);
     } catch (e) { root.innerHTML = `<p class="alert bad" role="alert" style="margin:24px">${U.esc(t('load_err', { msg: U.errMsg(e) }))}</p>`; return; }
     startLive();
     window.addEventListener('hashchange', go);

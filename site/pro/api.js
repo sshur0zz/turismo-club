@@ -11,7 +11,7 @@ window.TC = window.TC || {};
 
   const must = ({ data, error }) => { if (error) throw error; return data; };
 
-  const REQ_LIST = 'id,reference,status,source,created_at,updated_at,first_name,last_name,travelers,date_from,language,preferred_language,offer_slug,assigned_staff_id,confirmed_at,activity:activities(id,type,title)';
+  const REQ_LIST = 'id,reference,status,source,created_at,updated_at,first_name,last_name,email,phone,travelers,date_from,language,preferred_language,offer_slug,assigned_staff_id,confirmed_at,activity:activities(id,type,title)';
 
   TC.api = {
     sb,
@@ -89,6 +89,12 @@ window.TC = window.TC || {};
     setAvailability: async (guideId, day, available) => available === null
       ? must(await sb.from('guide_availability').delete().eq('guide_id', guideId).eq('day', day))
       : must(await sb.from('guide_availability').upsert({ guide_id: guideId, day, available, updated_at: new Date().toISOString() })),
+
+    // ---- E-mails reçus ----
+    emails: async () => must(await sb.from('inbound_emails').select('id,received_at,from_name,from_email,subject,body_text,attachments,status,request_id').order('received_at', { ascending: false }).limit(300)),
+    updateEmail: async (id, patch) => must(await sb.from('inbound_emails').update(patch).eq('id', id).select('id').single()),
+    countNewEmails: async () => { const { count, error } = await sb.from('inbound_emails').select('id', { count: 'exact', head: true }).eq('status', 'new'); if (error) throw error; return count || 0; },
+    onEmailsChange: cb => sb.channel('pro-emails').on('postgres_changes', { event: '*', schema: 'public', table: 'inbound_emails' }, cb).subscribe(),
 
     // ---- Direct ----
     onRequestsChange: cb => sb.channel('pro-requests')

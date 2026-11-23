@@ -55,11 +55,13 @@ window.TC = window.TC || {};
     const me = TC.state.me;
     const soon = `<span class="badge src" style="font-size:11px">${t('soon')}</span>`;
     const links = [['tableau', t('nav_dash')], ['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount}">${TC.state.newCount}</span>`],
+      ['emails', t('nav_emails'), `<span class="count" id="emailCount" aria-label="${TC.state.emailCount || 0}">${TC.state.emailCount || 0}</span>`],
       ['planning', t('nav_plan')], ['guides', t('nav_guides')], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
     return `<div class="shell">
       <aside class="side" aria-label="Menu">
         <a class="brand" href="#/tableau">${U.logo()}<span class="tag">${t('tag')}</span></a>
-        <nav class="nav">${links.map(([k, l, extra]) => `<a href="#/${k}" ${active === k ? 'aria-current="page"' : ''}><span>${l}</span>${extra || ''}</a>`).join('')}</nav>
+        <nav class="nav">${links.map(([k, l, extra]) => `<a href="#/${k}" ${active === k ? 'aria-current="page"' : ''}><span>${l}</span>${extra || ''}</a>`).join('')}
+          <a href="https://mail.google.com/" target="_blank" rel="noopener"><span>${t('nav_gmail')}</span><span class="sub" style="font-size:12px">Gmail ↗<span class="sr"> (${t('new_tab')})</span></span></a></nav>
         <div class="who"><div class="info"><strong>${U.esc(me.full_name)}</strong><span>${t('role_' + me.role)}</span></div>
           ${U.langSwitch()}
           <button type="button" class="btn quiet small" id="logout">${t('logout')}</button></div>
@@ -68,5 +70,6 @@ window.TC = window.TC || {};
   };
   U.langSwitch = () => `<label class="sr" for="uiLang">${t('ui_lang')}</label><select id="uiLang" class="langsw" aria-label="${t('ui_lang')}">${Object.entries(TC.UI_LANGS).map(([k, v]) => `<option value="${k}" ${k === TC.lang() ? 'selected' : ''} lang="${k}">${v}</option>`).join('')}</select>`;
   document.addEventListener('change', e => { if (e.target.id === 'uiLang') { TC.setLang(e.target.value); location.reload(); } });
+  U.setEmailCount = n => { TC.state.emailCount = n; const c = U.$('#emailCount'); if (c) { c.textContent = n; c.setAttribute('aria-label', String(n)); } };
   U.setCount = n => { TC.state.newCount = n; const c = U.$('#newCount'); if (c) { c.textContent = n; c.setAttribute('aria-label', String(n)); } };
 })(window.TC);

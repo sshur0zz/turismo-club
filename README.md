@@ -10,6 +10,7 @@ Agence locale à Rome (Turismo Club di Riadh Mraihi, P.IVA 18751221005) : visite
 |---|---|
 | `site/` | Le site publié par Cloudflare Pages. `site/index.html` = site client (tout est dans ce fichier), `site/pro/` = **espace équipe** (application de gestion des demandes, non indexée). |
 | `supabase/migrations/` | Historique de la base PostgreSQL (Supabase), dans l'ordre. **Toute modification de la base passe par un nouveau fichier ici.** |
+| `workers/email-entrant/` | Cloudflare Email Worker : reçoit les e-mails transférés et les dépose dans Supabase (voir son README). |
 | `supabase/test/` | Requêtes d'exemple et script de test local (ne jamais lancer `99_test_local.sql` sur Supabase). |
 
 ## Ce qui fonctionne vraiment
@@ -40,6 +41,10 @@ Une demande reçue par téléphone, WhatsApp ou à l'agence se saisit avec **+ N
 **Guides** : liste, langues, départs de la semaine, chevauchements, jours indiqués non disponibles ; l'admin ajoute et modifie les guides. Pour qu'un guide se connecte : créer son compte dans Supabase, puis dans `staff` mettre `role = guide` et `guide_id` = son numéro de guide.
 
 **Vue guide** (téléphone) : un guide arrive sur « Ma journée » (ses départs, rendez-vous + Google Maps, langue, billets, participants à cocher à l'arrivée avec le compteur « 3 / 15 arrivés », notes utiles), puis onglets Semaine et Disponibilités. Il ne voit ni montants ni coordonnées des clients.
+
+**E-mails** : les e-mails que Gmail transfère à **demandes@in.turismoclub.it** arrivent en direct dans la rubrique E-mails (compteur dans le menu). Pour chaque e-mail : lire, **Créer une demande** (formulaire pré-rempli : nom, e-mail, téléphone, offre, date, personnes, langue), **Lier à une demande existante**, **Répondre dans Gmail**, marquer traité ou ignorer. Chemin : Gmail → transfert → Cloudflare Email Routing (sous-domaine `in.`, les MX Google de turismoclub.it ne changent pas) → Worker `workers/email-entrant` → Supabase `inbound_emails`.
+
+**Boîte mail** (menu) ouvre Gmail dans un nouvel onglet. Dans « + Nouvelle demande », **Coller un e-mail** pré-remplit le formulaire à partir d'un e-mail copié depuis Gmail (règles simples, pas d'IA ; ce qui n'est pas trouvé reste vide).
 
 Le menu montre encore une rubrique marquée **Bientôt** : le paiement en ligne (Stripe), qui demande un compte Stripe au nom de l'agence.
 
@@ -82,5 +87,5 @@ Ne jamais mettre la clé `service_role` ni le mot de passe de la base dans ce d�
 - Validation des prix, des fiches et des conditions d'annulation par l'agence.
 - Relecture juridique des pages légales (commercialista ou avocat).
 - Les vrais guides (noms, langues) et la validation des créneaux du planning (générés à partir des horaires du site, du 19/11 au 19/12/2026).
-- Boîte mail Gmail dans l'espace équipe (en cours) ; paiement Stripe.
+- Règle de transfert Gmail vers demandes@in.turismoclub.it (à créer par l'admin) ; paiement Stripe.
 - Relecture des traductions par des natifs (chinois, japonais, coréen en priorité).

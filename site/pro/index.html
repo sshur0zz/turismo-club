@@ -134,6 +134,23 @@ table.t tfoot td{font-weight:800;border-bottom:none}
 .bars strong{text-align:right}
 .langsw{min-height:36px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 6px;font-size:13px}
 
+/* E-mails */
+.mailgrid{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.maillist{flex:1 1 300px;min-width:0;overflow:hidden;display:flex;flex-direction:column}
+.mailread{flex:999 1 460px;min-width:0}
+.mrow{display:flex;flex-direction:column;gap:3px;width:100%;text-align:left;border:none;border-bottom:1px solid var(--line);padding:12px 14px;background:#fff;cursor:pointer;min-height:44px}
+.mrow:hover{background:var(--bg)}
+.mrow.on{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.mtop{display:flex;justify-content:space-between;gap:8px}
+.mfrom{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow.unread .mfrom,.mrow.unread .msubj{font-weight:800}
+.mwhen{font-size:12.5px;color:var(--ink-2);white-space:nowrap}
+.msubj{font-size:14px}
+.mprev{font-size:13px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mailbody{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6;max-height:60vh;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px}
+.autof{border-color:#6EE7B7!important;background:#ECFDF5!important}
+.autotag{color:var(--ok);font-weight:700}
+
 /* Planning */
 .legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13px;color:var(--ink-2);margin:0 0 12px}
 .legend .sw{display:inline-block;width:16px;height:16px;border-radius:4px;border:1px solid var(--line);vertical-align:middle}
@@ -207,6 +224,8 @@ table.t tfoot td{font-weight:800;border-bottom:none}
 <script src="views/login.js"></script>
 <script src="views/demandes.js"></script>
 <script src="views/dossier.js"></script>
+<script src="views/emailparse.js"></script>
+<script src="views/emails.js"></script>
 <script src="views/nouvelle.js"></script>
 <script src="views/bientot.js"></script>
 <script src="views/tableau.js"></script>

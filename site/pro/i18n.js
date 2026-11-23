@@ -114,7 +114,18 @@ window.TC = window.TC || {};
       vg_meet: 'Rendez-vous', vg_map: 'Ouvrir dans Google Maps', vg_arrived: '{a} / {n} arrivés', vg_check: 'Arrivé', vg_people: '{n} pers.',
       vg_avail_d: 'Indiquez les jours où vous êtes libre. L\u2019équipe en tient compte pour le planning.', vg_free: 'Libre', vg_busy: 'Pas libre', vg_unset: 'Non indiqué',
       vg_notes: 'À savoir', vg_no_guide_link: 'Votre compte guide n\u2019est pas encore relié à une fiche guide. Prévenez l\u2019administrateur.',
-      soon_still: 'Les autres rubriques sont disponibles.'
+      soon_still: 'Les autres rubriques sont disponibles.',
+      nav_emails: 'E-mails', nav_gmail: 'Boîte mail', new_tab: 'nouvel onglet',
+      em_t: 'E-mails reçus', em_d: 'Les e-mails transférés par Gmail à demandes@in.turismoclub.it. Répondez depuis Gmail.', em_open_gmail: 'Ouvrir Gmail ↗',
+      em_none: 'Aucun e-mail reçu pour l\u2019instant. Les e-mails transférés par Gmail apparaîtront ici en direct.', em_none_filter: 'Aucun e-mail dans ce filtre.',
+      em_pick: 'Choisissez un e-mail dans la liste.', em_nosubj: '(sans objet)', em_att: '{n} pièce(s) jointe(s) : à voir dans Gmail',
+      em_create: 'Créer une demande', em_reply: 'Répondre dans Gmail ↗', em_done: 'Marquer comme traité', em_ignore: 'Ignorer', em_restore: 'Remettre dans les nouveaux',
+      em_link: 'Lier à une demande existante', em_link_b: 'Lier', em_same: 'même client', em_linked: 'Lié à la demande', em_has_req: 'Demande créée',
+      emf_new: 'À traiter', emf_all: 'Tous', emf_done: 'Traités', emf_ignored: 'Ignorés', ems_new: 'Nouveau', ems_read: 'Lu', ems_done: 'Traité', ems_ignored: 'Ignoré',
+      em_live: 'Nouvel e-mail : {from}',
+      paste_t: '1. Coller un e-mail (facultatif)', paste_d: 'Dans Gmail, ouvrez l\u2019e-mail du client, copiez-le avec la ligne « De : », puis collez-le ici.',
+      paste_l: 'E-mail copié depuis Gmail', paste_b: 'Remplir automatiquement', paste_clear: 'Effacer', paste_ok: '{n} champ(s) rempli(s) depuis l\u2019e-mail : vérifiez-les.',
+      paste_none: 'Rien de reconnu : remplissez le formulaire à la main.', paste_auto: '· depuis l\u2019e-mail', form_t: '2. Vérifier et créer', from_email_note: 'Créée depuis l\u2019e-mail de {from}.'
     },
     it: {
       app_title: 'Area team', tag: 'AREA TEAM',
@@ -214,7 +225,18 @@ window.TC = window.TC || {};
       vg_meet: 'Punto d\u2019incontro', vg_map: 'Apri in Google Maps', vg_arrived: '{a} / {n} arrivati', vg_check: 'Arrivato', vg_people: '{n} pers.',
       vg_avail_d: 'Indica i giorni in cui sei libero. Il team ne tiene conto per il planning.', vg_free: 'Libero', vg_busy: 'Non libero', vg_unset: 'Non indicato',
       vg_notes: 'Da sapere', vg_no_guide_link: 'Il tuo account guida non è ancora collegato a una scheda guida. Avvisa l\u2019amministratore.',
-      soon_still: 'Le altre sezioni sono disponibili.'
+      soon_still: 'Le altre sezioni sono disponibili.',
+      nav_emails: 'E-mail', nav_gmail: 'Posta', new_tab: 'nuova scheda',
+      em_t: 'E-mail ricevute', em_d: 'Le e-mail inoltrate da Gmail a demandes@in.turismoclub.it. Rispondi da Gmail.', em_open_gmail: 'Apri Gmail ↗',
+      em_none: 'Ancora nessuna e-mail. Le e-mail inoltrate da Gmail appariranno qui in tempo reale.', em_none_filter: 'Nessuna e-mail in questo filtro.',
+      em_pick: 'Scegli un\u2019e-mail nell\u2019elenco.', em_nosubj: '(senza oggetto)', em_att: '{n} allegato/i: da vedere in Gmail',
+      em_create: 'Crea una richiesta', em_reply: 'Rispondi in Gmail ↗', em_done: 'Segna come gestita', em_ignore: 'Ignora', em_restore: 'Rimetti tra le nuove',
+      em_link: 'Collega a una richiesta esistente', em_link_b: 'Collega', em_same: 'stesso cliente', em_linked: 'Collegata alla richiesta', em_has_req: 'Richiesta creata',
+      emf_new: 'Da gestire', emf_all: 'Tutte', emf_done: 'Gestite', emf_ignored: 'Ignorate', ems_new: 'Nuova', ems_read: 'Letta', ems_done: 'Gestita', ems_ignored: 'Ignorata',
+      em_live: 'Nuova e-mail: {from}',
+      paste_t: '1. Incolla un\u2019e-mail (facoltativo)', paste_d: 'In Gmail apri l\u2019e-mail del cliente, copiala con la riga «Da:», poi incollala qui.',
+      paste_l: 'E-mail copiata da Gmail', paste_b: 'Compila automaticamente', paste_clear: 'Cancella', paste_ok: '{n} campo/i compilato/i dall\u2019e-mail: verificali.',
+      paste_none: 'Niente di riconosciuto: compila il modulo a mano.', paste_auto: '· dall\u2019e-mail', form_t: '2. Verifica e crea', from_email_note: 'Creata dall\u2019e-mail di {from}.'
     }
 
   };

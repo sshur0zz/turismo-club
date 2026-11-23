@@ -1,14 +1,43 @@
-/* Nouvelle demande saisie par l'équipe (téléphone, WhatsApp, e-mail, agence) */
+/* Nouvelle demande saisie par l'équipe (téléphone, WhatsApp, e-mail, agence).
+   Étape 1 facultative : coller un e-mail copié depuis Gmail → les champs reconnus sont pré-remplis (et surlignés).
+   Depuis la rubrique E-mails, « Créer une demande » arrive ici déjà pré-rempli (TC.state.prefill). */
 window.TC = window.TC || {};
 (function (TC) {
   const t = TC.t, U = TC.u;
   TC.views = TC.views || {};
+  const FIELDS = { name: 'n-name', email: 'n-email', phone: 'n-phone', offer_slug: 'n-offer', date: 'n-date', people: 'n-people', lang: 'n-lang' };
+
+  function applyParsed(p) {
+    U.$$('.autof').forEach(el => el.classList.remove('autof')); U.$$('.autotag').forEach(el => el.remove());
+    for (const [k, id] of Object.entries(FIELDS)) {
+      if (!p[k]) continue;
+      const el = U.$('#' + id); if (!el) continue;
+      if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === p[k])) continue;
+      el.value = p[k]; el.classList.add('autof');
+      const lab = U.$(`label[for="${id}"]`); if (lab) lab.insertAdjacentHTML('beforeend', ` <span class="autotag">${t('paste_auto')}</span>`);
+    }
+    if (p.message) { U.$('#n-msg').value = p.message; U.$('#n-msg').classList.add('autof'); }
+    U.$('#n-source').value = p.source || 'email'; U.$('#n-source').classList.add('autof');
+    const n = p.found.length;
+    U.$('#paste-ok').textContent = n ? t('paste_ok', { n }) : t('paste_none');
+    U.$('#paste-ok').hidden = false;
+  }
 
   TC.views.nouvelle = {
     html: () => U.shell('demandes', `
       <p style="margin:0 0 10px"><a href="#/demandes">${t('back')}</a></p>
       <div class="page-head"><div><h1>${t('new_t')}</h1><p class="sub">${t('new_d')}</p></div></div>
+      <section class="card pad" aria-labelledby="paste-h" style="display:flex;flex-direction:column;gap:10px;max-width:860px;margin-bottom:16px">
+        <h2 id="paste-h" style="font-size:16px;font-weight:800">${t('paste_t')}</h2>
+        <p class="sub" style="margin:0;font-size:14px">${t('paste_d')}</p>
+        <div class="field"><label for="paste">${t('paste_l')}</label><textarea id="paste" style="min-height:130px" maxlength="20000"></textarea></div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+          <button type="button" class="btn" id="pasteFill">${t('paste_b')}</button>
+          <button type="button" class="btn quiet" id="pasteClear">${t('paste_clear')}</button>
+          <span id="paste-ok" class="badge st-won" role="status" hidden></span></div>
+      </section>
       <form id="newForm" class="card pad" novalidate style="display:flex;flex-direction:column;gap:14px;max-width:860px">
+        <h2 style="font-size:16px;font-weight:800">${t('form_t')}</h2>
         <div class="row">
           <div class="field"><label for="n-name">${t('n_name')}</label><input id="n-name" required maxlength="200" autocomplete="off" aria-describedby="e-n-name"><span class="err" id="e-n-name"></span></div>
           <div class="field"><label for="n-source">${t('n_source')}</label><select id="n-source">${['telephone', 'whatsapp', 'email', 'agence'].map(s => `<option value="${s}">${t('src_' + s)}</option>`).join('')}</select></div>
@@ -34,7 +63,16 @@ window.TC = window.TC || {};
       </form>`),
     bind: () => {
       const f = U.$('#newForm');
-      U.$('#n-name').focus();
+      const pre = TC.state.prefill; TC.state.prefill = null;
+      if (pre) { applyParsed(pre); U.$('#n-name').focus(); } else U.$('#paste').focus();
+      U.$('#pasteFill').addEventListener('click', () => {
+        const raw = U.$('#paste').value.trim(); if (!raw) { U.$('#paste').focus(); return; }
+        applyParsed(Object.assign(TC.parseEmail(raw), { source: 'email' })); U.$('#n-name').focus();
+      });
+      U.$('#pasteClear').addEventListener('click', () => {
+        U.$('#paste').value = ''; f.reset(); U.$$('.autof').forEach(el => el.classList.remove('autof')); U.$$('.autotag').forEach(el => el.remove());
+        U.$('#paste-ok').hidden = true; U.$('#paste').focus();
+      });
       f.addEventListener('submit', async e => {
         e.preventDefault();
         const name = U.$('#n-name').value.trim(), phone = U.$('#n-phone').value.trim(), email = U.$('#n-email').value.trim().toLowerCase();
@@ -52,6 +90,7 @@ window.TC = window.TC || {};
             language: lang, preferred_language: lang, hotel: U.$('#n-hotel').value.trim() || null,
             message: U.$('#n-msg').value.trim() || null, status: 'new', interests: []
           });
+          if (pre && pre.emailId) { try { await TC.api.updateEmail(pre.emailId, { request_id: row.id, status: 'done' }); TC.refreshEmailCount(); } catch { /* le lien e-mail ↔ demande pourra être refait depuis E-mails */ } }
           location.hash = '#/dossier/' + row.id;
         } catch (err) {
           btn.disabled = false; btn.textContent = t('n_create');
