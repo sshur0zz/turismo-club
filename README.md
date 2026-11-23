@@ -83,7 +83,7 @@ Ne jamais mettre la clé `service_role` ni le mot de passe de la base dans ce d�
 
 ## Reste à faire avant l'ouverture complète
 
-- Adresse du siège, numéro REA, e-mail @turismoclub.it.
+- Adresse du siège, numéro REA.
 - Validation des prix, des fiches et des conditions d'annulation par l'agence.
 - Relecture juridique des pages légales (commercialista ou avocat).
 - Les vrais guides (noms, langues) et la validation des créneaux du planning (générés à partir des horaires du site, du 19/11 au 19/12/2026).
