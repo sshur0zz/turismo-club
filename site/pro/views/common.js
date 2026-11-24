@@ -73,6 +73,10 @@ window.TC = window.TC || {};
     const reason = await U.askLostReason();
     return reason ? { status, lost_reason: reason } : null;
   };
+  // Pourcentage saisi (« 10 » ou « 10,5 ») → points de base entiers (1 000 = 10 %) ; affichage inverse
+  U.bp = v => { const s = String(v == null ? '' : v).trim().replace(',', '.'); if (!/^\d+(\.\d{1,2})?$/.test(s)) return NaN; const [i, d = ''] = s.split('.'); return Number(i) * 100 + Number((d + '00').slice(0, 2)); };
+  U.pct = bp => bp == null ? '' : (bp / 100).toLocaleString(TC.locale(), { maximumFractionDigits: 2 }) + ' %';
+  U.euroIn = cents => cents == null ? '' : (cents / 100).toFixed(2).replace('.', ',');   // valeur d'un champ de saisie en euros
   U.cents = v => { const n = Number(String(v).replace(',', '.')); return Number.isFinite(n) ? Math.round(n * 100) : NaN; };
 
   // Logo « L'Arche » (même dessin que le site public)
@@ -84,7 +88,7 @@ window.TC = window.TC || {};
     const soon = `<span class="badge src" style="font-size:11px">${t('soon')}</span>`;
     const links = [['tableau', t('nav_dash')], ['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount}">${TC.state.newCount}</span>`],
       ['emails', t('nav_emails'), `<span class="count" id="emailCount" aria-label="${TC.state.emailCount || 0}">${TC.state.emailCount || 0}</span>`],
-      ['clients', t('nav_clients')], ['planning', t('nav_plan')], ['guides', t('nav_guides')], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
+      ['clients', t('nav_clients')], ['fournisseurs', t('nav_suppliers')], ['hotels', t('nav_hotels')], ['planning', t('nav_plan')], ['guides', t('nav_guides')], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
     return `<div class="shell">
       <aside class="side" aria-label="Menu">
         <a class="brand" href="#/tableau">${U.logo()}<span class="tag">${t('tag')}</span></a>

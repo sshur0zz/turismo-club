@@ -573,6 +573,8 @@ const UI4 = {
   ko: { sec_best: '로마 베스트셀러', sec_best_d: '로마에서 가장 많이 예약되는 투어, 저희 팀이 준비합니다.' }
 };
 Object.keys(UI4).forEach(l => Object.assign(UI[l], UI4[l]));
+const UI5 = {"en": {"nav_hotels": "Hotels", "ht_t": "Find a hotel", "ht_d": "Hotels selected by our team. Prices include VAT; availability is confirmed by the agency within 24 h.", "ht_dest": "Destination", "ht_any": "All destinations", "ht_in": "Check-in", "ht_out": "Check-out", "ht_adults": "Adults", "ht_kids": "Children", "ht_age": "Age of child {n}", "ht_search": "Search", "ht_none": "No hotel matches these dates. Change the dates or send us a tailor-made request.", "ht_err": "Check the dates (check-out after check-in, 30 nights max) and that there is at least one adult.", "ht_total": "{n} night(s), total incl. VAT", "ht_pick": "Request this room", "ht_form": "Your request", "ht_ondemand": "Price shown for your dates; availability confirmed by our team.", "ht_loading": "Searching…", "ht_back": "← Back to results", "board_RO": "Room only", "board_BB": "Bed & breakfast", "board_HB": "Half board", "board_FB": "Full board", "board_AI": "All inclusive"}, "it": {"nav_hotels": "Hotel", "ht_t": "Trova un hotel", "ht_d": "Hotel selezionati dal nostro team. Prezzi IVA inclusa; la disponibilità è confermata dall’agenzia entro 24 ore.", "ht_dest": "Destinazione", "ht_any": "Tutte le destinazioni", "ht_in": "Arrivo", "ht_out": "Partenza", "ht_adults": "Adulti", "ht_kids": "Bambini", "ht_age": "Età del bambino {n}", "ht_search": "Cerca", "ht_none": "Nessun hotel per queste date. Cambia le date o inviaci una richiesta su misura.", "ht_err": "Controlla le date (partenza dopo l’arrivo, massimo 30 notti) e che ci sia almeno un adulto.", "ht_total": "{n} notte/i, totale IVA inclusa", "ht_pick": "Richiedi questa camera", "ht_form": "La tua richiesta", "ht_ondemand": "Prezzo per le tue date; disponibilità confermata dal nostro team.", "ht_loading": "Ricerca in corso…", "ht_back": "← Torna ai risultati", "board_RO": "Solo pernottamento", "board_BB": "Pernottamento e colazione", "board_HB": "Mezza pensione", "board_FB": "Pensione completa", "board_AI": "All inclusive"}, "fr": {"nav_hotels": "Hôtels", "ht_t": "Trouver un hôtel", "ht_d": "Hôtels sélectionnés par notre équipe. Prix TTC ; la disponibilité est confirmée par l’agence sous 24 h.", "ht_dest": "Destination", "ht_any": "Toutes les destinations", "ht_in": "Arrivée", "ht_out": "Départ", "ht_adults": "Adultes", "ht_kids": "Enfants", "ht_age": "Âge de l’enfant {n}", "ht_search": "Rechercher", "ht_none": "Aucun hôtel pour ces dates. Changez les dates ou envoyez-nous une demande sur mesure.", "ht_err": "Vérifiez les dates (départ après l’arrivée, 30 nuits maximum) et qu’il y a au moins un adulte.", "ht_total": "{n} nuit(s), total TTC", "ht_pick": "Demander cette chambre", "ht_form": "Votre demande", "ht_ondemand": "Prix pour vos dates ; disponibilité confirmée par notre équipe.", "ht_loading": "Recherche…", "ht_back": "← Retour aux résultats", "board_RO": "Chambre seule", "board_BB": "Petit-déjeuner inclus", "board_HB": "Demi-pension", "board_FB": "Pension complète", "board_AI": "Tout compris"}, "es": {"nav_hotels": "Hoteles", "ht_t": "Buscar un hotel", "ht_d": "Hoteles seleccionados por nuestro equipo. Precios con IVA; la disponibilidad la confirma la agencia en 24 h.", "ht_dest": "Destino", "ht_any": "Todos los destinos", "ht_in": "Llegada", "ht_out": "Salida", "ht_adults": "Adultos", "ht_kids": "Niños", "ht_age": "Edad del niño {n}", "ht_search": "Buscar", "ht_none": "Ningún hotel para estas fechas. Cambie las fechas o envíenos una solicitud a medida.", "ht_err": "Revise las fechas (salida después de la llegada, máximo 30 noches) y que haya al menos un adulto.", "ht_total": "{n} noche(s), total con IVA", "ht_pick": "Solicitar esta habitación", "ht_form": "Su solicitud", "ht_ondemand": "Precio para sus fechas; disponibilidad confirmada por nuestro equipo.", "ht_loading": "Buscando…", "ht_back": "← Volver a los resultados", "board_RO": "Solo alojamiento", "board_BB": "Alojamiento y desayuno", "board_HB": "Media pensión", "board_FB": "Pensión completa", "board_AI": "Todo incluido"}, "de": {"nav_hotels": "Hotels", "ht_t": "Hotel finden", "ht_d": "Von unserem Team ausgewählte Hotels. Preise inkl. MwSt.; die Verfügbarkeit bestätigt die Agentur innerhalb von 24 Std.", "ht_dest": "Reiseziel", "ht_any": "Alle Reiseziele", "ht_in": "Anreise", "ht_out": "Abreise", "ht_adults": "Erwachsene", "ht_kids": "Kinder", "ht_age": "Alter von Kind {n}", "ht_search": "Suchen", "ht_none": "Kein Hotel für diese Daten. Ändern Sie die Daten oder senden Sie uns eine individuelle Anfrage.", "ht_err": "Prüfen Sie die Daten (Abreise nach Anreise, max. 30 Nächte) und dass mindestens ein Erwachsener dabei ist.", "ht_total": "{n} Nacht/Nächte, Gesamt inkl. MwSt.", "ht_pick": "Dieses Zimmer anfragen", "ht_form": "Ihre Anfrage", "ht_ondemand": "Preis für Ihre Daten; Verfügbarkeit wird von unserem Team bestätigt.", "ht_loading": "Suche läuft…", "ht_back": "← Zurück zu den Ergebnissen", "board_RO": "Nur Übernachtung", "board_BB": "Übernachtung mit Frühstück", "board_HB": "Halbpension", "board_FB": "Vollpension", "board_AI": "All inclusive"}, "pt": {"nav_hotels": "Hotéis", "ht_t": "Encontrar um hotel", "ht_d": "Hotéis selecionados pela nossa equipa. Preços com IVA; a disponibilidade é confirmada pela agência em 24 h.", "ht_dest": "Destino", "ht_any": "Todos os destinos", "ht_in": "Chegada", "ht_out": "Partida", "ht_adults": "Adultos", "ht_kids": "Crianças", "ht_age": "Idade da criança {n}", "ht_search": "Pesquisar", "ht_none": "Nenhum hotel para estas datas. Altere as datas ou envie-nos um pedido à medida.", "ht_err": "Verifique as datas (partida depois da chegada, máximo 30 noites) e que há pelo menos um adulto.", "ht_total": "{n} noite(s), total com IVA", "ht_pick": "Pedir este quarto", "ht_form": "O seu pedido", "ht_ondemand": "Preço para as suas datas; disponibilidade confirmada pela nossa equipa.", "ht_loading": "A pesquisar…", "ht_back": "← Voltar aos resultados", "board_RO": "Só alojamento", "board_BB": "Alojamento e pequeno-almoço", "board_HB": "Meia pensão", "board_FB": "Pensão completa", "board_AI": "Tudo incluído"}, "nl": {"nav_hotels": "Hotels", "ht_t": "Een hotel zoeken", "ht_d": "Hotels geselecteerd door ons team. Prijzen incl. btw; de beschikbaarheid wordt binnen 24 uur door het bureau bevestigd.", "ht_dest": "Bestemming", "ht_any": "Alle bestemmingen", "ht_in": "Aankomst", "ht_out": "Vertrek", "ht_adults": "Volwassenen", "ht_kids": "Kinderen", "ht_age": "Leeftijd kind {n}", "ht_search": "Zoeken", "ht_none": "Geen hotel voor deze data. Wijzig de data of stuur ons een aanvraag op maat.", "ht_err": "Controleer de data (vertrek na aankomst, max. 30 nachten) en dat er minstens één volwassene is.", "ht_total": "{n} nacht(en), totaal incl. btw", "ht_pick": "Deze kamer aanvragen", "ht_form": "Uw aanvraag", "ht_ondemand": "Prijs voor uw data; beschikbaarheid bevestigd door ons team.", "ht_loading": "Zoeken…", "ht_back": "← Terug naar de resultaten", "board_RO": "Alleen logies", "board_BB": "Logies met ontbijt", "board_HB": "Halfpension", "board_FB": "Volpension", "board_AI": "All-inclusive"}, "zh": {"nav_hotels": "酒店", "ht_t": "查找酒店", "ht_d": "由我们团队精选的酒店。价格含增值税；空房情况由旅行社在 24 小时内确认。", "ht_dest": "目的地", "ht_any": "所有目的地", "ht_in": "入住", "ht_out": "退房", "ht_adults": "成人", "ht_kids": "儿童", "ht_age": "儿童 {n} 的年龄", "ht_search": "搜索", "ht_none": "这些日期没有合适的酒店。请更改日期或向我们发送定制需求。", "ht_err": "请检查日期（退房晚于入住，最多 30 晚）并确保至少有一位成人。", "ht_total": "{n} 晚，含税总价", "ht_pick": "申请此房型", "ht_form": "您的申请", "ht_ondemand": "所示为您所选日期的价格；空房情况由我们的团队确认。", "ht_loading": "正在搜索…", "ht_back": "← 返回结果", "board_RO": "仅住宿", "board_BB": "含早餐", "board_HB": "半膳", "board_FB": "全膳", "board_AI": "全包"}, "ja": {"nav_hotels": "ホテル", "ht_t": "ホテルを探す", "ht_d": "当社チームが厳選したホテル。料金は税込み。空室状況は24時間以内に当社が確認します。", "ht_dest": "目的地", "ht_any": "すべての目的地", "ht_in": "チェックイン", "ht_out": "チェックアウト", "ht_adults": "大人", "ht_kids": "子ども", "ht_age": "子ども {n} の年齢", "ht_search": "検索", "ht_none": "この日程で利用できるホテルはありません。日程を変更するか、オーダーメイドのご依頼をお送りください。", "ht_err": "日程（チェックアウトはチェックイン後、最大30泊）と、大人が1名以上いることをご確認ください。", "ht_total": "{n} 泊、税込み合計", "ht_pick": "この客室をリクエスト", "ht_form": "ご依頼内容", "ht_ondemand": "ご指定日程の料金です。空室状況は当社チームが確認します。", "ht_loading": "検索中…", "ht_back": "← 検索結果に戻る", "board_RO": "素泊まり", "board_BB": "朝食付き", "board_HB": "2食付き", "board_FB": "3食付き", "board_AI": "オールインクルーシブ"}, "ko": {"nav_hotels": "호텔", "ht_t": "호텔 찾기", "ht_d": "저희 팀이 엄선한 호텔입니다. 요금은 부가세 포함이며, 예약 가능 여부는 24시간 이내에 여행사가 확인합니다.", "ht_dest": "여행지", "ht_any": "모든 여행지", "ht_in": "체크인", "ht_out": "체크아웃", "ht_adults": "성인", "ht_kids": "어린이", "ht_age": "어린이 {n} 나이", "ht_search": "검색", "ht_none": "해당 날짜에 맞는 호텔이 없습니다. 날짜를 바꾸거나 맞춤 요청을 보내 주세요.", "ht_err": "날짜(체크아웃은 체크인 이후, 최대 30박)와 성인이 1명 이상인지 확인해 주세요.", "ht_total": "{n}박, 부가세 포함 총액", "ht_pick": "이 객실 요청하기", "ht_form": "요청 내용", "ht_ondemand": "선택하신 날짜의 요금입니다. 예약 가능 여부는 저희 팀이 확인합니다.", "ht_loading": "검색 중…", "ht_back": "← 결과로 돌아가기", "board_RO": "객실만", "board_BB": "조식 포함", "board_HB": "하프 보드", "board_FB": "풀 보드", "board_AI": "올 인클루시브"}};
+Object.keys(UI5).forEach(l => Object.assign(UI[l], UI5[l]));
 // Fiche « agence de voyage » pour Google (données structurées), uniquement à partir des infos réelles de CONFIG
 (() => {
   const ld = { '@context': 'https://schema.org', '@type': 'TravelAgency', name: CONFIG.brand, legalName: CONFIG.company, url: 'https://turismoclub.it/',
@@ -1375,7 +1377,7 @@ function applyChrome() {
   document.documentElement.lang = LANG;
   const tb = $('.topbar .wrap'); if (tb) tb.innerHTML = `<span>${tr('top_left')}</span><span>${[CONFIG.whatsapp ? `WhatsApp: <a href="${esc(CONFIG.whatsappLink)}" style="color:inherit" rel="noopener">${esc(CONFIG.whatsapp)}</a>` : '', CONFIG.hours ? tr('hours_l') + ': ' + esc(CONFIG.hours) : ''].filter(Boolean).join(' · ')}</span>`;
   const nav = $('nav.main');
-  if (nav) nav.innerHTML = `<a href="#catalogue" data-nav="catalogue" data-allcat>${tr('nav_offers')}</a><a href="#devis" data-nav="devis">${tr('nav_custom')}</a><a href="#accueil-faq" data-nav="faq">${tr('nav_faq')}</a>`;
+  if (nav) nav.innerHTML = `<a href="#catalogue" data-nav="catalogue" data-allcat>${tr('nav_offers')}</a><a href="#hotels" data-nav="hotels">${tr('nav_hotels')}</a><a href="#devis" data-nav="devis">${tr('nav_custom')}</a><a href="#accueil-faq" data-nav="faq">${tr('nav_faq')}</a>`;
   const right = $('.hdr-right');
   if (right) right.innerHTML = `<div class="langsel"><button type="button" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu" aria-label="${tr('lang')}: ${LANGS.find(l => l.c === LANG).n}">${GLOBE}<span>${LANG.toUpperCase()}</span></button>
     <div id="langMenu" class="langmenu" hidden>${LANGS.map(l => `<button type="button" data-lang="${l.c}" lang="${l.c}" aria-current="${l.c === LANG}">${l.n}</button>`).join('')}</div></div>`;
@@ -1390,6 +1392,92 @@ function setLang(c) {
   applyChrome(); rerender();
 }
 
+
+/* ===================== Recherche d'hôtels (prix calculés par la base : TTC, jamais de coût ni de marge) ===================== */
+function hotelResultsHtml(r) {
+  if (r.loading) return `<p role="status">${tr('ht_loading')}</p>`;
+  if (r.error) return `<p class="warn" role="alert">${tr('ht_err')}</p>`;
+  if (!r.list) return '';
+  if (!r.list.length) return `<p class="warn" role="status">${tr('ht_none')} <a href="#devis">${tr('nav_custom')}</a></p>`;
+  return r.list.map(h => `<article class="panel" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+    ${h.photos && h.photos[0] ? `<img src="${esc(h.photos[0])}" alt="${esc(h.name)}" loading="lazy" referrerpolicy="no-referrer" style="width:100%;max-height:240px;object-fit:cover;border-radius:12px" onerror="this.remove()">` : ''}
+    <h2 style="margin:0;font-size:20px">${esc(h.name)} ${h.stars ? `<span aria-label="${h.stars} ★">${'★'.repeat(h.stars)}</span>` : ''}</h2>
+    ${h.address ? `<p style="margin:0;color:var(--ink-2)">${esc(h.address)}</p>` : ''}
+    ${h.description && (h.description[LANG] || h.description.en || h.description.it || h.description.fr) ? `<p style="margin:0">${esc(h.description[LANG] || h.description.en || h.description.it || h.description.fr)}</p>` : ''}
+    <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px">${h.options.map((o, i) => `<li style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:8px">
+      <span><strong>${esc(o.room)}</strong> · ${tr('board_' + o.board)}<br><span style="color:var(--ink-2);font-size:14px">${tr('ht_total', { n: o.nights })} : <strong style="color:var(--ink)">${eur(o.total_cents / 100)}</strong></span></span>
+      <button type="button" class="btn" data-ht-pick="${h.id}:${i}">${tr('ht_pick')}</button></li>`).join('')}</ul></article>`).join('');
+}
+function pageHotels() {
+  const s = state.hotels || (state.hotels = { dest: '', din: today1(), dout: iso(new Date(new Date(today1() + 'T12:00:00').getTime() + 2 * 864e5)), adults: 2, ages: [], res: {}, pick: null });
+  const destOpts = Object.keys(DESTINATIONS).map(k => `<option value="${k}" ${k === s.dest ? 'selected' : ''}>${esc(L(DESTINATIONS[k]))}</option>`).join('');
+  if (s.pick) {
+    const p = s.pick, q = s.req || (s.req = { t0: Date.now() });
+    if (q.result) return `<div class="wrap" style="max-width:720px"><div class="success" style="align-items:stretch;text-align:left">${resultBox(q.result)}</div></div>`;
+    return `<div class="wrap" style="max-width:720px">
+      <p><button type="button" class="linkbtn" data-ht-back>${tr('ht_back')}</button></p>
+      <h1 style="font-size:clamp(24px,3.5vw,34px);margin:6px 0">${tr('ht_form')}</h1>
+      <p style="margin:0 0 16px"><strong>${esc(p.hotel)}</strong> · ${esc(p.room)} · ${tr('board_' + p.board)}<br>${esc(s.din)} → ${esc(s.dout)} · ${tr('ht_adults')} ${s.adults}${s.ages.length ? ' · ' + tr('ht_kids') + ' ' + s.ages.join(', ') : ''}<br>${tr('ht_total', { n: p.nights })} : <strong>${eur(p.total_cents / 100)}</strong></p>
+      <p style="margin:0 0 16px;color:var(--ink-2);font-size:14px">${tr('ht_ondemand')}</p>
+      <form class="panel form" id="htReq" novalidate style="position:relative">
+        <div class="field"><label for="hq-name">${tr('f_name')}</label><input id="hq-name" autocomplete="name" required aria-describedby="ehq-name"><span class="err" id="ehq-name"></span></div>
+        <div class="field"><label for="hq-email">${tr('email')}</label><input id="hq-email" type="email" autocomplete="email" required aria-describedby="ehq-email"><span class="err" id="ehq-email"></span></div>
+        <div class="field"><label for="hq-phone">${tr('phone')}</label><input id="hq-phone" type="tel" autocomplete="tel"></div>
+        <div class="field"><label for="hq-lang">${tr('f_lang')}</label><select id="hq-lang">${langOptions(LANG)}</select></div>
+        <div class="field"><label for="hq-msg">${tr('f_msg')}</label><textarea id="hq-msg" maxlength="1500"></textarea></div>
+        ${honeypot('hq-web')}${consentField('hq-ok')}
+        <span class="err" id="ehq-form" role="alert"></span>
+        <button type="submit" class="btn">${tr('br_send')}</button></form></div>`;
+  }
+  return `<div class="wrap" style="max-width:960px">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="#accueil">${tr('home')}</a> › ${tr('nav_hotels')}</nav>
+    <h1 style="font-size:clamp(28px,4vw,40px);margin:10px 0 6px">${tr('ht_t')}</h1>
+    <p style="margin:0 0 20px;color:var(--ink-2)">${tr('ht_d')}</p>
+    <form class="panel form" id="htSearch" novalidate>
+      <div class="row">
+        <div class="field"><label for="ht-dest">${tr('ht_dest')}</label><select id="ht-dest"><option value="">${tr('ht_any')}</option>${destOpts}</select></div>
+        <div class="field"><label for="ht-in">${tr('ht_in')}</label><input id="ht-in" type="date" min="${today1()}" value="${esc(s.din)}" required></div>
+        <div class="field"><label for="ht-out">${tr('ht_out')}</label><input id="ht-out" type="date" min="${today1()}" value="${esc(s.dout)}" required></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="ht-ad">${tr('ht_adults')}</label><select id="ht-ad">${[1, 2, 3, 4, 5, 6].map(n => `<option ${n === s.adults ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
+        <div class="field"><label for="ht-kids">${tr('ht_kids')}</label><select id="ht-kids">${[0, 1, 2, 3, 4].map(n => `<option ${n === s.ages.length ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
+        ${s.ages.map((a, i) => `<div class="field"><label for="ht-age-${i}">${tr('ht_age', { n: i + 1 })}</label><select id="ht-age-${i}" data-ht-age="${i}">${Array.from({ length: 18 }, (_, k) => `<option ${k === a ? 'selected' : ''}>${k}</option>`).join('')}</select></div>`).join('')}
+      </div>
+      <button type="submit" class="btn">${tr('ht_search')}</button>
+    </form>
+    <div id="htResults" aria-live="polite" style="margin-top:20px">${hotelResultsHtml(s.res)}</div></div>`;
+}
+async function searchHotels() {
+  const s = state.hotels;
+  if (!s.din || !s.dout || s.dout <= s.din || (new Date(s.dout) - new Date(s.din)) / 864e5 > 30 || s.din < today1()) { s.res = { error: true }; rerender(); return; }
+  s.res = { loading: true }; rerender();
+  try {
+    const r = await supa('rpc/public_hotel_search', { method: 'POST', body: JSON.stringify({ p_dest: s.dest || null, p_in: s.din, p_out: s.dout, p_adults: s.adults, p_child_ages: s.ages }) });
+    s.res = { list: r.ok ? await r.json() : [] };
+  } catch (e) { s.res = { list: [] }; }
+  rerender();
+}
+function submitHotelRequest(f) {
+  const s = state.hotels, p = s.pick, q = s.req;
+  const nm = $('#hq-name'), em = $('#hq-email'), ok1 = $('#hq-ok');
+  let ok = setErr(nm, $('#ehq-name'), nm.value.trim() ? '' : tr('e_name'));
+  ok = setErr(em, $('#ehq-email'), validEmail(em.value.trim()) ? '' : tr('e_email')) && ok;
+  ok = setErr(ok1, $('#ehq-ok'), ok1.checked ? '' : tr('e_consent')) && ok;
+  if (!ok) { f.querySelector('[aria-invalid="true"]').focus(); return; }
+  const offer = `${p.hotel} · ${p.room} · ${tr('board_' + p.board)}`, pax = s.adults + s.ages.length;
+  if ($('#hq-web').value) { q.result = { ok: true, offer, date: s.din, pax, name: nm.value.trim() }; rerender(); return; }
+  if (Date.now() - q.t0 < MIN_FILL_MS) { $('#ehq-form').textContent = tr('e_wait'); return; }
+  const btn = f.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = tr('br_sending');
+  const extra = [`${s.din} → ${s.dout}`, `${eur(p.total_cents / 100)}`, s.ages.length ? 'ages ' + s.ages.join(', ') : '', $('#hq-msg').value.trim()].filter(Boolean).join('\n');
+  sendRequest(q, {
+    first_name: nm.value.trim().slice(0, 200), email: em.value.trim().slice(0, 200), phone: $('#hq-phone').value.trim().slice(0, 50) || null,
+    date_from: s.din, date_to: s.dout, travelers: pax, interests: ['hotel'], offer_slug: 'hotel-search', preferred_language: $('#hq-lang').value, consent_at: new Date().toISOString(),
+    hotel: `${p.hotel} — ${p.room} — ${p.board}`.slice(0, 200),
+    message: [`hotel search · ${p.hotel} · ${p.room} · ${p.board} · ${s.din}→${s.dout} · ${s.adults} adult(s)${s.ages.length ? ' · children ' + s.ages.join(',') : ''} · total ${(p.total_cents / 100).toFixed(2)} EUR TTC (prix affiché au client)`, $('#hq-msg').value.trim()].filter(Boolean).join(' · ').slice(0, 2000)
+  }, { offer, date: s.din, pax, name: nm.value.trim(), extra });
+}
+
 /* ===================== Routeur (#accueil, #catalogue, #activite-xxx…) ===================== */
 function render() {
   const h = (location.hash || '#accueil').slice(1);
@@ -1399,6 +1487,7 @@ function render() {
   if (h === 'catalogue') { html = pageCatalogue(); nav = 'catalogue'; }
   else if (h.startsWith('activite-') && bySlug[h.slice(9)]) { html = pageFiche(bySlug[h.slice(9)]); nav = 'catalogue'; }
   else if (h === 'devis') { html = pageDevis(); nav = 'devis'; }
+  else if (h === 'hotels') { html = pageHotels(); nav = 'hotels'; }
   else if (h === 'credits') { html = pageCredits(); }
   else if (h === 'privacy') { html = pagePrivacy(); }
   else if (h === 'legal') { html = pageLegal(); }
@@ -1409,7 +1498,7 @@ function render() {
   if (h === 'accueil-faq') { const f = $('#faq'); if (f) f.scrollIntoView(); }
   else if (!render.keepScroll) window.scrollTo(0, 0);
   render.keepScroll = false;
-  document.title = 'Turismo Club — ' + ({ catalogue: tr('nav_offers'), devis: tr('nav_custom'), credits: tr('credits'), privacy: tr('privacy'), legal: tr('legal') }[h] || (h.startsWith('activite-') && bySlug[h.slice(9)] ? L(bySlug[h.slice(9)].title) : tr('hero_eb')));
+  document.title = 'Turismo Club — ' + ({ catalogue: tr('nav_offers'), devis: tr('nav_custom'), hotels: tr('nav_hotels'), credits: tr('credits'), privacy: tr('privacy'), legal: tr('legal') }[h] || (h.startsWith('activite-') && bySlug[h.slice(9)] ? L(bySlug[h.slice(9)].title) : tr('hero_eb')));
 }
 function rerender() { render.keepScroll = true; const y = window.scrollY; render(); window.scrollTo(0, y); }
 window.addEventListener('hashchange', render);
@@ -1422,14 +1511,26 @@ document.addEventListener('click', e => {
   if (t.id === 'langBtn') { const m = $('#langMenu'); m.hidden = !m.hidden; t.setAttribute('aria-expanded', String(!m.hidden)); if (!m.hidden) m.querySelector('[aria-current="true"]').focus(); return; }
   if (t.dataset.lang) { setLang(t.dataset.lang); toast(LANGS.find(l => l.c === t.dataset.lang).n); $('#langBtn').focus(); return; }
   if (t.hasAttribute('data-allcat')) { state.filters = { envies: [], dest: 'tous', duree: 'toutes', tri: 'populaires' }; }
-  if (t.hasAttribute('data-req-again')) { if (h === 'devis') state.quote = null; else if (h.startsWith('activite-')) state.pick[h.slice(9)] = null; rerender(); return; }
+  if (t.hasAttribute('data-req-again')) { if (h === 'hotels' && state.hotels) { state.hotels.pick = null; state.hotels.req = null; } if (h === 'devis') state.quote = null; else if (h.startsWith('activite-')) state.pick[h.slice(9)] = null; rerender(); return; }
   if (t.dataset.envie) { state.filters = { envies: [t.dataset.envie], dest: 'tous', duree: 'toutes', tri: 'populaires' }; location.hash = 'catalogue'; return; }
   if (t.id === 'resetFilters') { state.filters = { envies: [], dest: 'tous', duree: 'toutes', tri: 'populaires' }; rerender(); return; }
 });
 
 document.addEventListener('click', e => { const m = $('#langMenu'); if (m && !m.hidden && !e.target.closest('.langsel')) { m.hidden = true; $('#langBtn').setAttribute('aria-expanded', 'false'); } });
 document.addEventListener('keydown', e => { const m = $('#langMenu'); if (e.key === 'Escape' && m && !m.hidden) { m.hidden = true; $('#langBtn').setAttribute('aria-expanded', 'false'); $('#langBtn').focus(); } });
-document.addEventListener('input', e => { if (e.target.closest('#reqForm, #quote')) state.typing = true; });
+document.addEventListener('input', e => { if (e.target.closest('#reqForm, #quote, #htReq, #htSearch')) state.typing = true; });
+document.addEventListener('change', e => {
+  const s = state.hotels; if (!s) return;
+  if (e.target.id === 'ht-kids') { const n = Number(e.target.value); s.dest = $('#ht-dest').value; s.din = $('#ht-in').value; s.dout = $('#ht-out').value; s.adults = Number($('#ht-ad').value); s.ages = Array.from({ length: n }, (_, i) => s.ages[i] != null ? s.ages[i] : 8); rerender(); const k = $('#ht-kids'); if (k) k.focus(); }
+  if (e.target.dataset && e.target.dataset.htAge != null) s.ages[Number(e.target.dataset.htAge)] = Number(e.target.value);
+});
+document.addEventListener('click', e => {
+  const s = state.hotels; if (!s) return;
+  const b = e.target.closest('[data-ht-pick]');
+  if (b) { const [hid, i] = b.dataset.htPick.split(':'); const h = s.res.list.find(x => String(x.id) === hid), o = h.options[Number(i)];
+    s.pick = { hotel: h.name, room: o.room, board: o.board, total_cents: o.total_cents, nights: o.nights }; s.req = null; render(); const n = $('#hq-name'); if (n) n.focus(); }
+  if (e.target.closest('[data-ht-back]')) { s.pick = null; s.req = null; render(); }
+});
 document.addEventListener('change', e => {
   const t = e.target; const f = state.filters;
   if (t.name === 'envie') { f.envies = [...document.querySelectorAll('input[name=envie]:checked')].map(x => x.value); rerender(); }
@@ -1446,6 +1547,11 @@ document.addEventListener('submit', e => {
   const f = e.target;
   if (f.id === 'reqForm') { submitBooking(f); return; }
   if (f.id === 'quote') { submitQuote(f); return; }
+  if (f.id === 'htReq') { submitHotelRequest(f); return; }
+  if (f.id === 'htSearch') {
+    const s = state.hotels; s.dest = $('#ht-dest').value; s.din = $('#ht-in').value; s.dout = $('#ht-out').value; s.adults = Number($('#ht-ad').value);
+    searchHotels(); return;
+  }
   if (f.id === 'heroSearch') {
     const env = $('#hs-envie').value;
     state.filters = { envies: env ? [env] : [], dest: $('#hs-dest').value, duree: 'toutes', tri: 'populaires' };

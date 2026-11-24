@@ -99,6 +99,14 @@ window.TC = window.TC || {};
     mergeCustomers: async (keep, merge) => must(await sb.rpc('merge_customers', { p_keep: keep, p_merge: merge })),
     merges: async id => must(await sb.from('customer_merges').select('id,merged_id,moved_requests,merged_at,snapshot').eq('kept_id', id).order('merged_at', { ascending: false })),
 
+    // ---- Accès générique aux tables des nouveaux modules (droits appliqués par la base) ----
+    sel: async (table, cols, build) => { let q = sb.from(table).select(cols); if (build) q = build(q); return must(await q); },
+    ins: async (table, row) => must(await sb.from(table).insert(row).select('*').single()),
+    upd: async (table, id, patch, key = 'id') => must(await sb.from(table).update(patch).eq(key, id).select('*').single()),
+    del: async (table, id, key = 'id') => must(await sb.from(table).delete().eq(key, id)),
+    upsert: async (table, rows, onConflict) => must(await sb.from(table).upsert(rows, { onConflict }).select('*')),
+    rpc: async (fn, args) => must(await sb.rpc(fn, args)),
+
     // ---- E-mails reçus ----
     emails: async () => must(await sb.from('inbound_emails').select('id,received_at,from_name,from_email,subject,body_text,attachments,status,request_id').order('received_at', { ascending: false }).limit(300)),
     updateEmail: async (id, patch) => must(await sb.from('inbound_emails').update(patch).eq('id', id).select('id').single()),

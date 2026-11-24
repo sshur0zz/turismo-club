@@ -9,7 +9,7 @@ window.TC = window.TC || {};
     const isGuide = TC.state.me && TC.state.me.role === 'guide';
     const p = (location.hash || (isGuide ? '#/jour' : '#/tableau')).replace(/^#\/?/, '').split('/');
     if (isGuide) return { name: 'vueguide', params: [['jour', 'semaine', 'dispo'].includes(p[0]) ? p[0] : 'jour'] };
-    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot', 'planning', 'guides', 'emails', 'clients'].includes(p[0]) ? p[0] : 'tableau';
+    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot', 'planning', 'guides', 'emails', 'clients', 'fournisseurs', 'hotels'].includes(p[0]) ? p[0] : 'tableau';
     return { name, params: p.slice(1) };
   };
 
@@ -35,6 +35,8 @@ window.TC = window.TC || {};
       if (route.name === 'guides') await TC.views.guides.load();
       if (route.name === 'emails') await TC.views.emails.load(route.params);
       if (route.name === 'clients') await TC.views.clients.load(route.params);
+      if (route.name === 'fournisseurs') await TC.views.fournisseurs.load();
+      if (route.name === 'hotels') await TC.views.hotels.load(route.params);
       if (route.name === 'vueguide') await TC.views.vueguide.load(route.params);
       if (route.name === 'dossier') await TC.views.dossier.load(route.params);
       if (route.name === 'bientot') await TC.views.bientot.load(route.params);
