@@ -28,7 +28,8 @@ h1,h2,h3{line-height:1.2;letter-spacing:-.3px;margin:0}
 
 /* Mise en page : menu à gauche, contenu à droite */
 .shell{display:flex;min-height:100vh}
-.side{width:248px;flex:0 0 248px;background:#fff;border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:18px;position:sticky;top:0;height:100vh}
+.side{width:248px;flex:0 0 248px;background:#fff;border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:18px;position:sticky;top:0;height:100vh;overflow-y:auto;overscroll-behavior:contain}
+.side > *{flex-shrink:0}   /* le menu défile dans son propre cadre quand il dépasse la hauteur de l'écran */
 .brand{display:flex;flex-direction:column;gap:6px;padding:0 8px;text-decoration:none}
 .brand svg{height:38px;width:auto;display:block}
 .brand .tag{font-size:11px;font-weight:800;letter-spacing:1.6px;color:var(--accent)}
@@ -232,7 +233,7 @@ canvas.sigpad{width:100%;max-width:520px;height:160px;border:1px solid #CFC7C0;b
 
 @media (max-width:900px){
   .shell{flex-direction:column}
-  .side{width:auto;flex:none;height:auto;position:static;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;border-right:none;border-bottom:1px solid var(--line)}
+  .side{width:auto;flex:none;height:auto;overflow:visible;position:static;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;border-right:none;border-bottom:1px solid var(--line)}
   .brand{flex-direction:row;align-items:center;gap:10px}
   .brand svg{height:30px}
   .nav{flex-direction:row;flex-wrap:wrap;order:3;width:100%}
