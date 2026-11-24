@@ -120,6 +120,11 @@ dialog.dlg::backdrop{background:rgba(17,24,39,.45)}
 .ipick:has(input:checked){border-color:var(--accent);background:#FFF1F3}.ipick input{width:18px;height:18px;accent-color:var(--accent)}
 .linkbtn{background:none;border:none;color:var(--accent);cursor:pointer;font:inherit;padding:2px 6px;min-height:28px}
 h3{margin:0}
+.prodrow{display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px solid var(--line)}
+.badge.sup-draft{background:#F1F5F9;color:#334155}.badge.sup-requested{background:#FEF3C7;color:#78350F}.badge.sup-option{background:#FFEDD5;color:#7C2D12}
+.badge.sup-confirmed{background:#DCFCE7;color:#14532D}.badge.sup-issued{background:#DBEAFE;color:#1E3A8A}.badge.sup-refused,.badge.sup-cancelled{background:#FEE2E2;color:#7F1D1D}
+.late{color:#B91C1C;font-weight:700}
+@media print{.side,.noprint,#toast{display:none!important}.shell{display:block}main{padding:0}.voucher{border:none;box-shadow:none}}
 .stack{display:flex;flex-direction:column;gap:16px}
 .sec h2{font-size:16px;font-weight:800;margin-bottom:12px}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
@@ -243,6 +248,8 @@ h3{margin:0}
 <script src="views/clients.js"></script>
 <script src="views/fournisseurs.js"></script>
 <script src="views/hotels.js"></script>
+<script src="views/production.js"></script>
+<script src="views/taches.js"></script>
 <script src="views/emailparse.js"></script>
 <script src="views/emails.js"></script>
 <script src="views/nouvelle.js"></script>

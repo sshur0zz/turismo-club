@@ -73,6 +73,7 @@ window.TC = window.TC || {};
               : `<p class="sub">${t('it_none')}</p>`}
             ${itemForm()}
           </section>
+          ${TC.prod ? TC.prod.html(D) : ''}
 
           <section class="card pad sec" aria-labelledby="h-pay"><h2 id="h-pay">${t('pay_t')}</h2>
             <dl class="kv"><dt>${t('it_total')}</dt><dd>${U.eur(tt.total)}</dd><dt>${t('paid')}</dt><dd id="paid" style="color:var(--ok)">${U.eur(tt.paid)}</dd><dt>${t('remaining')}</dt><dd id="left">${U.eur(tt.left)}</dd></dl>
@@ -139,6 +140,7 @@ window.TC = window.TC || {};
     d.payments.sort((a, b) => (a.paid_on + a.created_at).localeCompare(b.paid_on + b.created_at));
     d.events.sort((a, b) => a.created_at.localeCompare(b.created_at) || a.id - b.id);
     past = await TC.api.pastBookings(d.customer_id, d.id);
+    if (TC.prod) await TC.prod.load(d);
     return d;
   }
 
@@ -156,6 +158,7 @@ window.TC = window.TC || {};
     bind: () => {
       if (!D) return;
       const main = U.$('#main');
+      if (TC.prod) TC.prod.bind(D, async () => { D = await load(D.id); TC.render(true); });
       U.$('#d-step').addEventListener('change', async e => {
         const patch = await U.statusPatch(e.target.value);
         if (!patch) { e.target.value = D.status; e.target.focus(); return; }   // motif refusé : rien n'est enregistré

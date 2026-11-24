@@ -88,7 +88,7 @@ window.TC = window.TC || {};
     const soon = `<span class="badge src" style="font-size:11px">${t('soon')}</span>`;
     const links = [['tableau', t('nav_dash')], ['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount}">${TC.state.newCount}</span>`],
       ['emails', t('nav_emails'), `<span class="count" id="emailCount" aria-label="${TC.state.emailCount || 0}">${TC.state.emailCount || 0}</span>`],
-      ['clients', t('nav_clients')], ['fournisseurs', t('nav_suppliers')], ['hotels', t('nav_hotels')], ['planning', t('nav_plan')], ['guides', t('nav_guides')], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
+      ['taches', t('nav_tasks'), `<span class="count" id="taskCount">${TC.state.taskCount || 0}</span>`], ['clients', t('nav_clients')], ['fournisseurs', t('nav_suppliers')], ['hotels', t('nav_hotels')], ['planning', t('nav_plan')], ['guides', t('nav_guides')], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
     return `<div class="shell">
       <aside class="side" aria-label="Menu">
         <a class="brand" href="#/tableau">${U.logo()}<span class="tag">${t('tag')}</span></a>

@@ -9,7 +9,7 @@ window.TC = window.TC || {};
     const isGuide = TC.state.me && TC.state.me.role === 'guide';
     const p = (location.hash || (isGuide ? '#/jour' : '#/tableau')).replace(/^#\/?/, '').split('/');
     if (isGuide) return { name: 'vueguide', params: [['jour', 'semaine', 'dispo'].includes(p[0]) ? p[0] : 'jour'] };
-    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot', 'planning', 'guides', 'emails', 'clients', 'fournisseurs', 'hotels'].includes(p[0]) ? p[0] : 'tableau';
+    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot', 'planning', 'guides', 'emails', 'clients', 'fournisseurs', 'hotels', 'taches', 'voucher'].includes(p[0]) ? p[0] : 'tableau';
     return { name, params: p.slice(1) };
   };
 
@@ -37,6 +37,8 @@ window.TC = window.TC || {};
       if (route.name === 'clients') await TC.views.clients.load(route.params);
       if (route.name === 'fournisseurs') await TC.views.fournisseurs.load();
       if (route.name === 'hotels') await TC.views.hotels.load(route.params);
+      if (route.name === 'taches') await TC.views.taches.load();
+      if (route.name === 'voucher') await TC.views.voucher.load(route.params);
       if (route.name === 'vueguide') await TC.views.vueguide.load(route.params);
       if (route.name === 'dossier') await TC.views.dossier.load(route.params);
       if (route.name === 'bientot') await TC.views.bientot.load(route.params);
@@ -91,6 +93,8 @@ window.TC = window.TC || {};
     try {
       [TC.state.team, TC.state.offers, TC.state.newCount, TC.state.emailCount] = await Promise.all([api.team(), api.offers(), api.countNew(), api.countNewEmails()]);
     } catch (e) { root.innerHTML = `<p class="alert bad" role="alert" style="margin:24px">${U.esc(t('load_err', { msg: U.errMsg(e) }))}</p>`; return; }
+    try { TC.state.taskCount = await TC.views.taches.countOpenMine(); } catch { TC.state.taskCount = 0; }
+    TC.refreshTaskCount = async () => { try { TC.state.taskCount = await TC.views.taches.countOpenMine(); const c = U.$('#taskCount'); if (c) c.textContent = TC.state.taskCount; } catch { /* compteur non vital */ } };
     startLive();
     window.addEventListener('hashchange', go);
     go();
