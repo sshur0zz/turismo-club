@@ -563,6 +563,19 @@ ko: { q_ok: "요청이 접수되었습니다.", demo: "데모 시뮬레이션: �
 Object.keys(UI2).forEach(l => Object.assign(UI[l], UI2[l]));
 const UI3 = {en: {pv: "/ vehicle",on_req: "Price on request"},it: {pv: "/ veicolo",on_req: "Prezzo su richiesta"},fr: {pv: "/ véhicule",on_req: "Prix sur demande"},es: {pv: "/ vehículo",on_req: "Precio a consultar"},de: {pv: "/ Fahrzeug",on_req: "Preis auf Anfrage"},pt: {pv: "/ veículo",on_req: "Preço sob consulta"},nl: {pv: "/ voertuig",on_req: "Prijs op aanvraag"},zh: {pv: "/ 每车",on_req: "价格请咨询"},ja: {pv: "/ 1台",on_req: "料金はお問い合わせください"},ko: {pv: "/ 차량당",on_req: "가격 문의"}};
 Object.keys(UI3).forEach(l => Object.assign(UI[l], UI3[l]));
+const UI4 = {
+  en: { sec_best: 'Best sellers in Rome', sec_best_d: 'The most booked visits in Rome, organised by our team.' },
+  it: { sec_best: 'I più venduti a Roma', sec_best_d: 'Le visite più prenotate a Roma, organizzate dal nostro team.' },
+  fr: { sec_best: 'Les best-sellers à Rome', sec_best_d: 'Les visites les plus réservées à Rome, organisées par notre équipe.' },
+  es: { sec_best: 'Los más vendidos en Roma', sec_best_d: 'Las visitas más reservadas en Roma, organizadas por nuestro equipo.' },
+  de: { sec_best: 'Bestseller in Rom', sec_best_d: 'Die meistgebuchten Besichtigungen in Rom, organisiert von unserem Team.' },
+  pt: { sec_best: 'Os mais vendidos em Roma', sec_best_d: 'As visitas mais reservadas em Roma, organizadas pela nossa equipa.' },
+  nl: { sec_best: 'Bestsellers in Rome', sec_best_d: 'De meest geboekte bezoeken in Rome, georganiseerd door ons team.' },
+  zh: { sec_best: '罗马热销项目', sec_best_d: '罗马预订最多的游览项目，由我们的团队安排。' },
+  ja: { sec_best: 'ローマのベストセラー', sec_best_d: 'ローマで最も予約の多い観光を、私たちのチームが手配します。' },
+  ko: { sec_best: '로마 베스트셀러', sec_best_d: '로마에서 가장 많이 예약되는 투어, 저희 팀이 준비합니다.' }
+};
+Object.keys(UI4).forEach(l => Object.assign(UI[l], UI4[l]));
 // Fiche « agence de voyage » pour Google (données structurées), uniquement à partir des infos réelles de CONFIG
 (() => {
   const ld = { '@context': 'https://schema.org', '@type': 'TravelAgency', name: CONFIG.brand, legalName: CONFIG.company, url: 'https://turismoclub.it/',
@@ -600,13 +613,13 @@ const ENVIES = [
   { slug: 'restaurant', name: { en: 'Restaurants', it: 'Ristoranti', fr: 'Restaurants', es: 'Restaurantes', de: 'Restaurants', pt: 'Restaurantes', nl: 'Restaurants', zh: '餐厅', ja: 'レストラン', ko: '레스토랑' } }
 ];
 const ACTIVITIES = [
-  { slug: 'colisee-forum-palatin', type: 'activity', dest: 'rome', minutes: 180, max: 15, adult: 69, child: 49, childAge: 6, badge: 'Skip-the-line', popularity: 98,
+  { slug: 'colisee-forum-palatin', type: 'activity', dest: 'rome', minutes: 180, max: 15, adult: 69, child: 49, childAge: 6, badge: 'Best seller', best: true, popularity: 99,
     title: { en: "Colosseum, Roman Forum & Palatine Hill with arena access", it: "Colosseo, Foro Romano e Palatino con accesso all'arena", fr: "Colisée, Forum romain & Palatin avec accès à l'arène", es: "Coliseo, Foro Romano y Palatino con acceso a la arena", de: "Kolosseum, Forum Romanum & Palatin mit Arena-Zugang", pt: "Coliseu, Fórum Romano e Palatino com acesso à arena", nl: "Colosseum, Forum Romanum & Palatijn met toegang tot de arena", zh: "罗马斗兽场、古罗马广场与帕拉蒂尼山（含竞技场通道）", ja: "コロッセオ・フォロ・ロマーノ・パラティーノの丘（アリーナ入場付き）", ko: "콜로세움·포로 로마노·팔라티노 언덕 (경기장 입장 포함)" },
     summary: { en: "Skip-the-line entry, arena access and 2,000 years of history.", it: "Ingresso salta-fila, accesso all'arena e 2.000 anni di storia.", fr: "Entrée coupe-file, accès à l'arène et 2 000 ans d'histoire.", es: "Entrada sin colas, acceso a la arena y 2.000 años de historia.", de: "Ohne Anstehen, Zugang zur Arena und 2.000 Jahre Geschichte.", pt: "Entrada sem fila, acesso à arena e 2.000 anos de história.", nl: "Voorrangstoegang, toegang tot de arena en 2000 jaar geschiedenis.", zh: "免排队入场，进入竞技场，感受两千年历史。", ja: "優先入場、アリーナ見学、2000年の歴史を体感。", ko: "줄 서지 않는 입장, 경기장 입장, 2000년의 역사." },
     highlights: ['Skip-the-line entry', 'Walk onto the arena floor', 'Roman Forum and Palatine Hill', 'Licensed local guide, small group'],
     steps: [['Meet at the Arch of Constantine', 'Your guide hands out tickets and headsets.', 15], ['Colosseum and arena', "Construction, games and gladiators' lives.", 75], ['Palatine Hill', 'Imperial palaces and view over the Circus Maximus.', 45], ['Roman Forum', 'Temples, senate house, Sacred Way. Tour ends on site.', 60]],
     included: ['Skip-the-line tickets', 'Licensed guide', 'Headsets'], notIncluded: ['Tips', 'Transport to the meeting point'], info: 'ID required (tickets are named). Comfortable shoes: uneven ground.', meeting: 'Arch of Constantine, Colosseo metro (line B)', times: ['09:00', '11:30', '14:00', '16:30'] },
-  { slug: 'vatican-sixtine', type: 'activity', dest: 'rome', minutes: 210, max: 15, adult: 75, child: 55, childAge: 6, badge: 'Best seller', popularity: 95,
+  { slug: 'vatican-sixtine', type: 'activity', dest: 'rome', minutes: 210, max: 15, adult: 75, child: 55, childAge: 6, badge: 'Best seller', best: true, popularity: 100,
     title: { en: "Vatican Museums, Sistine Chapel & St Peter's Basilica", it: "Musei Vaticani, Cappella Sistina e Basilica di San Pietro", fr: "Musées du Vatican, chapelle Sixtine & Saint-Pierre", es: "Museos Vaticanos, Capilla Sixtina y Basílica de San Pedro", de: "Vatikanische Museen, Sixtinische Kapelle & Petersdom", pt: "Museus do Vaticano, Capela Sistina e Basílica de São Pedro", nl: "Vaticaanse Musea, Sixtijnse Kapel & Sint-Pietersbasiliek", zh: "梵蒂冈博物馆、西斯廷礼拜堂与圣彼得大教堂", ja: "バチカン美術館・システィーナ礼拝堂・サン・ピエトロ大聖堂", ko: "바티칸 박물관·시스티나 성당·성 베드로 대성당" },
     summary: { en: "The essential route, without the queue.", it: "Il percorso essenziale, senza code.", fr: "Le parcours essentiel, sans la file d'attente.", es: "El recorrido esencial, sin colas.", de: "Die wichtigsten Highlights – ohne Warteschlange.", pt: "O percurso essencial, sem filas.", nl: "De essentiële route, zonder wachtrij.", zh: "精华路线，无需排队。", ja: "見どころを押さえたルートを行列なしで。", ko: "줄 없이 즐기는 핵심 코스." },
     highlights: ['Skip-the-line museum entry', 'Sistine Chapel', "Direct access to St Peter's Basilica"],
@@ -624,7 +637,7 @@ const ACTIVITIES = [
     highlights: ['Trevi Fountain without the crowds', 'The Pantheon lit up', 'Gelato included'],
     steps: [['Trevi Fountain', 'History and the coin tradition.', 30], ['Pantheon', "Rome's best-preserved temple.", 40], ['Piazza Navona', 'Bernini and his fountains.', 50], ['Gelato', 'End of the tour.', 30]],
     included: ['Licensed guide', '1 gelato'], notIncluded: ['Dinner'], info: 'Stroller-friendly.', meeting: 'Trevi Fountain, Via delle Muratte side', times: ['20:00', '21:30'] },
-  { slug: 'hop-on-hop-off', type: 'bus', dest: 'rome', minutes: 1440, max: 60, adult: 28, child: 15, childAge: 4, badge: '24 h', popularity: 90,
+  { slug: 'hop-on-hop-off', type: 'bus', dest: 'rome', minutes: 1440, max: 60, adult: 19.9, child: 15, childAge: 4, badge: 'Best seller', best: true, popularity: 97,
     title: { en: "Hop-on hop-off bus: 24-hour pass", it: "Bus hop-on hop-off: pass 24 ore", fr: "Bus hop-on hop-off : pass 24 heures", es: "Bus turístico hop-on hop-off: pase de 24 horas", de: "Hop-on-Hop-off-Bus: 24-Stunden-Ticket", pt: "Autocarro hop-on hop-off: passe de 24 horas", nl: "Hop-on-hop-off-bus: 24-uurspas", zh: "随上随下观光巴士：24小时通票", ja: "乗り降り自由の観光バス：24時間パス", ko: "홉온 홉오프 버스: 24시간 패스" },
     summary: { en: "8 stops near the main sights, audio guide in 10 languages.", it: "8 fermate vicino ai monumenti principali, audioguida in 10 lingue.", fr: "8 arrêts près des grands sites, audioguide en 10 langues.", es: "8 paradas junto a los principales monumentos, audioguía en 10 idiomas.", de: "8 Haltestellen an den Hauptsehenswürdigkeiten, Audioguide in 10 Sprachen.", pt: "8 paragens junto aos principais monumentos, audioguia em 10 línguas.", nl: "8 haltes bij de belangrijkste bezienswaardigheden, audiogids in 10 talen.", zh: "8个站点覆盖主要景点，10种语言语音导览。", ja: "主要観光地近くに8か所の停留所、10言語の音声ガイド付き。", ko: "주요 명소 근처 8개 정류장, 10개 언어 오디오 가이드." },
     highlights: ['Unlimited rides for 24 hours', 'Open-top double-decker', 'Audio guide in 10 languages'],
@@ -636,7 +649,7 @@ const ACTIVITIES = [
     highlights: ["Colosseum, St Peter's and Circus Maximus by night", 'Short photo stops', 'Live commentary'],
     steps: [['Piazza della Repubblica', 'Departure.', 0], ['Colosseum', 'Photo stop.', 15], ['Gianicolo hill', 'Panoramic view over Rome.', 15], ['Return', 'Back to the start.', 0]],
     included: ['Seat on the bus', 'Live commentary'], notIncluded: ['Food and drinks'], info: 'Bring a jacket: the top deck is open.', meeting: 'Piazza della Repubblica, in front of the fountain', times: ['20:30', '21:30'] },
-  { slug: 'pompei-naples-journee', type: 'circuit', dest: 'pompei-naples', minutes: 720, max: 16, adult: 169, child: 129, childAge: 4, badge: 'Day trip', popularity: 80,
+  { slug: 'pompei-naples-journee', type: 'circuit', dest: 'pompei-naples', minutes: 720, max: 16, adult: 149, child: 129, childAge: 4, badge: 'Best seller', best: true, popularity: 96,
     title: { en: "Pompeii & Naples day trip from Rome", it: "Pompei e Napoli in giornata da Roma", fr: "Pompéi & Naples en une journée depuis Rome", es: "Pompeya y Nápoles en un día desde Roma", de: "Tagesausflug nach Pompeji & Neapel ab Rom", pt: "Pompeia e Nápoles num dia a partir de Roma", nl: "Dagtrip naar Pompeii & Napels vanuit Rome", zh: "罗马出发：庞贝与那不勒斯一日游", ja: "ローマ発 ポンペイ＆ナポリ日帰りツアー", ko: "로마 출발 폼페이·나폴리 당일 여행" },
     summary: { en: "High-speed train, guided Pompeii and pizza in Naples.", it: "Treno veloce, Pompei con guida e pizza a Napoli.", fr: "Train rapide, visite guidée de Pompéi et pizza à Naples.", es: "Tren de alta velocidad, Pompeya guiada y pizza en Nápoles.", de: "Schnellzug, geführtes Pompeji und Pizza in Neapel.", pt: "Comboio rápido, Pompeia guiada e pizza em Nápoles.", nl: "Hogesnelheidstrein, rondleiding in Pompeii en pizza in Napels.", zh: "高铁往返、庞贝导览、那不勒斯披萨。", ja: "高速列車、ガイド付きポンペイ見学、ナポリでピッツァ。", ko: "고속열차, 가이드 동반 폼페이, 나폴리 피자." },
     highlights: ['Return high-speed train included', 'Pompeii with an archaeologist guide', 'Neapolitan pizza lunch'],
@@ -947,7 +960,7 @@ Object.entries(ALT_EN).forEach(([k, v]) => { if (PHOTOS[k]) PHOTOS[k].alt = v; }
 
 /* ===================== Formats selon la langue ===================== */
 const eurFmt = {};
-function eur(n) { const loc = LOCALE(); return (eurFmt[loc] = eurFmt[loc] || new Intl.NumberFormat(loc, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })).format(n); }
+function eur(n) { const loc = LOCALE(), dec = Math.round(n * 100) % 100 ? 2 : 0, k = loc + dec; return (eurFmt[k] = eurFmt[k] || new Intl.NumberFormat(loc, { style: 'currency', currency: 'EUR', minimumFractionDigits: dec, maximumFractionDigits: dec })).format(n); } // centimes affichés seulement si le prix en a (19,90 €)
 function longDate(isoStr) { return new Date(isoStr + 'T12:00:00').toLocaleDateString(LOCALE(), { weekday: 'short', day: 'numeric', month: 'short' }); }
 function durTxt(a) {
   const m = a.minutes; if (!m) return '';
@@ -976,7 +989,9 @@ const pub = list => list.filter(a => a.published !== false);
 
 /* ===================== Pages publiques ===================== */
 function pageAccueil() {
-  const top = pub(ACTIVITIES).filter(a => a.type === 'activity' || a.type === 'bus').sort((x, y) => y.popularity - x.popularity).slice(0, 4);
+  // Best-sellers : les visites les plus réservées à Rome (recherche GetYourGuide / Viator / Tripadvisor, nov. 2026)
+  const best = pub(ACTIVITIES).filter(a => a.best).sort((x, y) => y.popularity - x.popularity);
+  const top = pub(ACTIVITIES).filter(a => !a.best && (a.type === 'activity' || a.type === 'bus')).sort((x, y) => y.popularity - x.popularity).slice(0, 4);
   const trips = pub(ACTIVITIES).filter(a => a.type === 'circuit');
   const stay = pub(ACTIVITIES).filter(a => isReq(a));
   return `
@@ -995,6 +1010,11 @@ function pageAccueil() {
     </form>
   </section>
   <div class="wrap">
+    <section class="section best" aria-labelledby="best-h">
+      <div class="row-head"><div><p class="eyebrow">★ Best seller</p><h2 id="best-h">${tr('sec_best')}</h2><p style="margin:4px 0 0;color:var(--ink-2)">${tr('sec_best_d')}</p></div><a href="#catalogue" data-allcat style="font-weight:700">${tr('see_all')}</a></div>
+      <div class="cards">${best.map(card).join('')}</div>
+    </section>
+
     <section class="section">
       <div class="row-head"><h2>${tr('sec_cat')}</h2></div>
       <div class="tiles">${ENVIES.map(e => {
