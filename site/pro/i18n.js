@@ -27,7 +27,7 @@ window.TC = window.TC || {};
       // Sources
       src_site: 'Site', src_whatsapp: 'WhatsApp', src_agence: 'Agence', src_email: 'E-mail', src_telephone: 'Téléphone',
       // Types
-      ty_all: 'Tous', ty_activity: 'Activités', ty_bus: 'Bus', ty_circuit: 'Circuits', ty_hotel: 'Hôtels', ty_restaurant: 'Restaurants', ty_custom: 'Sur-mesure',
+      ty_all: 'Tous', ty_activity: 'Activités', ty_bus: 'Bus', ty_circuit: 'Circuits', ty_hotel: 'Hôtels', ty_restaurant: 'Restaurants', ty_transfer: 'Transferts', ty_custom: 'Sur-mesure',
       custom_trip: 'Voyage sur-mesure',
       // Tableau
       req_t: 'Demandes', req_d: 'De la première prise de contact à la confirmation.',
@@ -147,7 +147,7 @@ window.TC = window.TC || {};
       st_new: 'Nuove', st_in_progress: 'In corso', st_sent: 'Preventivo inviato', st_won: 'Confermata', st_done: 'Conclusa', st_lost: 'Annullata',
       st1_new: 'Nuova', st1_in_progress: 'In corso', st1_sent: 'Preventivo inviato', st1_won: 'Confermata', st1_done: 'Conclusa', st1_lost: 'Annullata',
       src_site: 'Sito', src_whatsapp: 'WhatsApp', src_agence: 'Agenzia', src_email: 'E-mail', src_telephone: 'Telefono',
-      ty_all: 'Tutti', ty_activity: 'Attività', ty_bus: 'Bus', ty_circuit: 'Tour', ty_hotel: 'Hotel', ty_restaurant: 'Ristoranti', ty_custom: 'Su misura',
+      ty_all: 'Tutti', ty_activity: 'Attività', ty_bus: 'Bus', ty_circuit: 'Tour', ty_hotel: 'Hotel', ty_restaurant: 'Ristoranti', ty_transfer: 'Transfer', ty_custom: 'Su misura',
       custom_trip: 'Viaggio su misura',
       req_t: 'Richieste', req_d: 'Dal primo contatto alla conferma.',
       search: 'Cerca un cliente', show_closed: 'Mostra Concluse e Annullate', filter_type: 'Tipo',

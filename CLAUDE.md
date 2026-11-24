@@ -51,7 +51,7 @@ README.md
 
 Dans l'unique `<script>`, dans cet ordre :
 1. **`CONFIG`** (coordonnées réelles de l'agence ; champ vide = non affiché), `UI2` (textes ajoutés/corrigés, fusionnés dans `UI`), puis **langues** : `LANGS`, `LOCALES`, `UI`, `tr(clé, vars)`, `L(objetMultilingue)`.
-2. **Données** : `DESTINATIONS`, `ENVIES` (= les 5 catégories : activity, bus, circuit, hotel, restaurant), `ACTIVITIES` (14 offres ; `title`/`summary` traduits, détails des fiches en anglais), `isReq()` (hôtel/restaurant = demande, pas de paiement).
+2. **Données** : `DESTINATIONS`, `ENVIES` (= les 6 catégories : activity, bus, circuit, transfer, hotel, restaurant), `ACTIVITIES` (23 offres, dont 9 ajoutées le 24/11/2026 d'après le catalogue du marché romain — textes originaux, prix ~5 % sous la concurrence, migration 18 ; `onRequest: true` = « prix sur demande », `transfer` = prix par véhicule ; `title`/`summary` traduits, détails des fiches en anglais), `isReq()` (hôtel/restaurant = demande, pas de paiement).
 3. État (`state`), utilitaires. (Avis, notes, guides et chiffres fictifs supprimés le 20/11/2026 : ne pas en recréer.)
 4. Illustrations SVG (`ILLOS`), logos (`logoSVG`), palettes (`PALETTES`, `applyPalette`).
 5. Photos Wikimedia Commons (`PHOTOS`, `pic()`, `PHOTO_OF`) — crédits obligatoires sur la page `#credits`.

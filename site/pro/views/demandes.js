@@ -3,7 +3,7 @@ window.TC = window.TC || {};
 (function (TC) {
   const t = TC.t, U = TC.u;
   TC.views = TC.views || {};
-  const TYPES = ['all', 'activity', 'bus', 'circuit', 'hotel', 'restaurant', 'custom'];
+  const TYPES = ['all', 'activity', 'bus', 'circuit', 'hotel', 'restaurant', 'transfer', 'custom'];
   const f = { type: 'all', q: '', closed: false }; // filtres (gardés pendant la session)
 
   function card(r) {
