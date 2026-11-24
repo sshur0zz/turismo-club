@@ -44,6 +44,8 @@ Une demande reçue par téléphone, WhatsApp ou à l'agence se saisit avec **+ N
 
 **E-mails** : les e-mails que Gmail transfère à **demandes@in.turismoclub.it** arrivent en direct dans la rubrique E-mails (compteur dans le menu). Pour chaque e-mail : lire, **Créer une demande** (formulaire pré-rempli : nom, e-mail, téléphone, offre, date, personnes, langue), **Lier à une demande existante**, **Répondre dans Gmail**, marquer traité ou ignorer. Chemin : Gmail → transfert → Cloudflare Email Routing (sous-domaine `in.`, les MX Google de turismoclub.it ne changent pas) → Worker `workers/email-entrant` → Supabase `inbound_emails`.
 
+**Notification par e-mail** : chaque demande envoyée depuis le site (offre ou voyage sur-mesure) envoie aussitôt un e-mail à **mraihiriadh@turismoclub.it** (« Nouvelle demande TC-… · offre · client »), avec un lien vers la fiche ; « Répondre » dans Gmail écrit directement au client. Les demandes saisies dans l'espace équipe n'envoient pas de notification.
+
 **Boîte mail** (menu) ouvre Gmail dans un nouvel onglet. Dans « + Nouvelle demande », **Coller un e-mail** pré-remplit le formulaire à partir d'un e-mail copié depuis Gmail (règles simples, pas d'IA ; ce qui n'est pas trouvé reste vide).
 
 Le menu montre encore une rubrique marquée **Bientôt** : le paiement en ligne (Stripe), qui demande un compte Stripe au nom de l'agence.

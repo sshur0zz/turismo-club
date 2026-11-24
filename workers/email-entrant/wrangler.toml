@@ -3,10 +3,17 @@
 name = "turismo-email-entrant"
 main = "src/index.js"
 compatibility_date = "2026-11-01"
-workers_dev = false
+workers_dev = true   # adresse *.workers.dev utilisée par la base pour /notify (protégée par NOTIFY_SECRET)
 preview_urls = false
 
 [vars]
 SUPABASE_URL = "https://dkocjkpcfneyevxexrsr.supabase.co"
 # Clé PUBLIQUE (la même que le site) : elle ne permet que d'appeler ingest_email avec le bon secret.
 SUPABASE_KEY = "sb_publishable_LduCL-R41JyZCNodRv4S_A_WCHCdKCX"
+# Destinataire des notifications « nouvelle demande »
+NOTIFY_TO = "mraihiriadh@turismoclub.it"
+
+# Envoi d'e-mails : uniquement vers cette adresse (vérifiée dans Cloudflare Email Routing → Destination addresses)
+[[send_email]]
+name = "NOTIFY"
+destination_address = "mraihiriadh@turismoclub.it"
