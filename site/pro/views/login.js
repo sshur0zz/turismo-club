@@ -105,6 +105,7 @@ window.TC = window.TC || {};
   TC.views.motdepasse = {
     html: () => U.shell('motdepasse', `
       <div class="page-head"><div><h1>${t('pw_t')}</h1><p class="sub">${t('pw_d')}</p></div></div>
+      ${TC.state.forcePw ? `<p class="alert bad" role="alert">${t('pw_force')}</p>` : ''}
       <form id="pwForm" class="card pad" novalidate style="display:flex;flex-direction:column;gap:14px;max-width:480px">
         <input type="email" autocomplete="username" value="${U.esc(TC.state.me.email)}" hidden aria-hidden="true" tabindex="-1">
         <div class="field"><label for="pw1">${t('pw_new')}</label><input id="pw1" type="password" autocomplete="new-password" minlength="12" required aria-describedby="pw-err pw-hint"><span id="pw-hint" class="sub" style="font-size:13px">${t('pw_hint')}</span></div>
@@ -129,6 +130,7 @@ window.TC = window.TC || {};
         btn.disabled = false;
         if (error) { err.textContent = t('save_err', { msg: error.message }); return; }
         f.reset(); err.textContent = ''; U.toast(t('pw_ok'));
+        if (TC.state.forcePw) { await TC.api.sb.auth.updateUser({ data: { must_change_password: false } }); TC.state.forcePw = false; }
       });
       mfaZone();
     }
@@ -139,11 +141,12 @@ window.TC = window.TC || {};
     const z = U.$('#mfa-zone'); if (!z) return;
     const mfa = TC.api.sb.auth.mfa;
     const { data, error } = await mfa.listFactors();
+    if (!z.isConnected) return;   // la page a été redessinée entre-temps
     if (error) { z.innerHTML = `<p class="alert bad" role="alert">${U.esc(t('save_err', { msg: error.message }))}</p>`; return; }
     const on = data.totp.find(x => x.status === 'verified');
     if (on) {
       z.innerHTML = `<p class="alert good" role="status" style="margin:0 0 10px">${t('mfa_on')}</p><button type="button" class="btn ghost" id="mfa-off">${t('mfa_off_b')}</button>`;
-      U.$('#mfa-off').addEventListener('click', async () => {
+      z.querySelector('#mfa-off').addEventListener('click', async () => {
         if (!confirm(t('mfa_off_confirm'))) return;
         const { error: e2 } = await mfa.unenroll({ factorId: on.id });
         if (e2) { U.toast(t('save_err', { msg: e2.message })); return; }
@@ -152,7 +155,7 @@ window.TC = window.TC || {};
       return;
     }
     z.innerHTML = `<button type="button" class="btn" id="mfa-start">${t('mfa_on_b')}</button>`;
-    U.$('#mfa-start').addEventListener('click', async () => {
+    z.querySelector('#mfa-start').addEventListener('click', async () => {
       for (const old of data.all.filter(x => x.status !== 'verified')) await mfa.unenroll({ factorId: old.id }); // essais abandonnés
       const { data: en, error: e1 } = await mfa.enroll({ factorType: 'totp', friendlyName: 'Turismo Club' });
       if (e1) { z.innerHTML = `<p class="alert bad" role="alert">${U.esc(t('save_err', { msg: e1.message }))}</p>`; return; }

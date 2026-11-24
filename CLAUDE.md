@@ -134,10 +134,23 @@ hôtels, clients, pipeline Kanban, réservations, icônes). Le nom de ce back-of
 - Arrêt et question pour toute décision juridique, fiscale, de coût, de secret ou d'accès à un prestataire externe (**y compris la lecture de la base distante**).
 - Pas de sous-agents sauf demande ; les rôles (A0, S1, Q1, C1, D1, M1, M2, M3, U1, T1) sont tenus dans l'ordre.
 
+### Modules ajoutés (24-25/11/2026) — tous dans `site/pro/`, droits dans la base (RLS admin + conseiller)
+| Module | Écrans | Tables / fonctions (migrations) | Garde-fous en base |
+|---|---|---|---|
+| Sécurité (lot 0) | « Mon mot de passe » : double authentification | `private.mfa_ok()` (21), limite des demandes (20) | aal2 exigé si facteur actif ; 5 demandes/h/contact, 60/h |
+| Clients, Kanban, icônes (lot 1) | `clients.js`, glisser-déposer + motif dans `demandes.js` / `dossier.js`, `icons.js` | `customers` complétée, `customer_merges`, `merge_customers()`, `customer_duplicates()` (22-23) | E.164, fusion historisée, motif d'annulation obligatoire |
+| Fournisseurs, hôtels (lot 2) | `fournisseurs.js`, `hotels.js`, page publique `#hotels` | `suppliers`, `hotels`, `hotel_*`, `price_stay()`, `public_hotel_search()` (24-25) | prix en base (centimes, arrondi au pair), jamais d'enfant sans adulte, coûts jamais publics |
+| Dossiers (lot 3) | `production.js` (section de la fiche demande + voucher), `taches.js` | `request_items` complétée, `vouchers`, `issue_voucher()`, `tasks` (26-28) | transitions fournisseur, référence obligatoire, voucher numéroté sans trou et figé |
+| Flotte, locations, états des lieux (lot 4) | `flotte.js`, `locations.js` | `vehicles`, `vehicle_*`, `rental_*`, `inspections`, `inspection_*`, compartiment Storage `flotte` (29) | exclusion des chevauchements, km jamais décroissant, permis, figé après signature |
+| Transverse (lot 5) | `recherche.js` (Ctrl+K), menu par groupes, `equipe.js` | Edge Function `supabase/functions/ajouter-membre` (clé de service côté serveur seulement) | admin seulement (404 sinon), mot de passe provisoire à changer |
+
+Tests : `tests/parite-traductions.mjs` (FR = IT), `tests/*.sql` (base, transaction annulée), `tests/e2e/*.mjs` (Playwright, `TEST_PW=… node …`, compte et données TEST supprimés après).
+Nettoyage d'un état des lieux TEST : désactiver temporairement les déclencheurs `inspection_*_guard` ; photos de test retirées par l'API Storage.
+
 ### Commandes du projet
 - Installation : aucune pour le site (fichiers statiques) ; Worker : `cd workers/email-entrant && npm ci`
 - Aperçu local : `python3 -m http.server -d site 8765` → http://127.0.0.1:8765
 - Vérification JS : extraire le `<script>` de `site/index.html` puis `node --check`
-- Tests : Playwright (à ranger dans `tests/`, voir `docs/qualite/dette.md` Q-02)
+- Tests : `node tests/parite-traductions.mjs` ; `tests/*.sql` dans une transaction annulée ; `TEST_PW=… node tests/e2e/<fichier>.mjs`
 - Migrations : nouveau fichier `supabase/migrations/AAAAMMJJHHMMSS_*.sql`, appliqué sur Supabase, puis Advisors
 - Déploiement : site = push sur `main` (Cloudflare Pages) ; Worker = `cd workers/email-entrant && npx wrangler@4.45.0 deploy`

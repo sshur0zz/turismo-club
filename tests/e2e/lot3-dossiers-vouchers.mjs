@@ -1,0 +1,58 @@
+// Test de bout en bout (Playwright) — compte « tc-test-admin@example.com » et données marquées TEST, supprimées après le test.
+// Lancer : TEST_PW=… node tests/e2e/<fichier>.mjs  (site servi par : python3 -m http.server -d site 8765). Jamais sur un compte réel.
+import { chromium } from 'playwright';
+import { readFileSync } from 'node:fs';
+const B = process.env.B || 'http://127.0.0.1:8765/'; const RID = process.env.RID;
+const PW = process.env.TEST_PW;
+const CSP = readFileSync(new URL('../../site/_headers', import.meta.url), 'utf8').match(/Content-Security-Policy: (.+)/)[1];
+const res = [], errs = [];
+const ok = (n, p, i = '') => { res.push(p); console.log((p ? '✅ ' : '❌ ') + n + (i ? ' — ' + i : '')); };
+const b = await chromium.launch({ channel: 'chromium' });
+const ctx = await b.newContext({ viewport: { width: 1400, height: 900 } });
+await ctx.route(/127\.0\.0\.1:8765\/pro\//, async r => { const f = await r.fetch(); r.fulfill({ response: f, headers: { ...f.headers(), 'content-security-policy': CSP } }); });
+const p = await ctx.newPage();
+p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errs.push(m.text()); });
+p.on('dialog', d => d.accept());
+await p.goto(B + 'pro/'); await p.waitForSelector('#loginForm');
+await p.fill('#lg-email', 'tc-test-admin@example.com'); await p.fill('#lg-pass', PW); await p.click('#loginForm button[type=submit]'); await p.waitForSelector('.shell');
+ok('Menu : « Tâches » avec compteur', !!(await p.$('.nav a[href="#/taches"] #taskCount')));
+await p.goto(B + 'pro/#/dossier/' + RID); await p.waitForSelector('#h-prod');
+const item = await p.getAttribute('.prodrow', 'data-item');
+ok('Fiche : section « Fournisseurs et vouchers » + prestation en brouillon', (await p.textContent('.prodrow')).includes('Brouillon'));
+await p.click(`[data-sup="${item}:requested"]`); await p.waitForTimeout(1200);
+ok('« Demandée » sans fournisseur refusé (message clair)', /fournisseur/i.test(await p.textContent('#prod-err')), await p.textContent('#prod-err'));
+await p.selectOption('#ps-' + item, { label: 'TEST Réceptif fictif' }); await p.click(`[data-sup="${item}:requested"]`);
+await p.waitForSelector('.prodrow .badge.sup-requested');
+ok('Fournisseur choisi → « Demandée »', true);
+await p.click(`[data-sup="${item}:confirmed"]`); await p.waitForTimeout(1200);
+ok('Confirmer sans référence refusé', /référence/i.test(await p.textContent('#prod-err')), await p.textContent('#prod-err'));
+await p.fill('#pr-' + item, 'TEST-COL-778'); await p.click(`[data-sup="${item}:confirmed"]`);
+await p.waitForSelector('.prodrow .badge.sup-confirmed');
+ok('Confirmée avec la référence du fournisseur', (await p.inputValue('#pr-' + item)) === 'TEST-COL-778' && (await p.$eval('#pr-' + item, i => i.readOnly)));
+await p.click(`[data-voucher="${item}"]`); await p.waitForSelector('.voucher');
+const v = await p.textContent('.voucher');
+ok('Voucher émis et numéroté (V2026-00001)', v.includes('V2026-00001'), v.replace(/\s+/g, ' ').slice(0, 120));
+ok('Voucher : client, prestation, fournisseur et référence, sans prix', v.includes('TEST Lucia') && v.includes('TEST Visite fictive du Colisée') && v.includes('TEST Réceptif fictif') && v.includes('TEST-COL-778') && !/€|EUR|138/.test(v));
+ok('Bouton Imprimer / PDF', !!(await p.$('#vPrint')));
+await p.goto(B + 'pro/#/dossier/' + RID); await p.waitForSelector('#h-prod');
+ok('Prestation passée en « Émise », lien vers le voucher', !!(await p.$('.prodrow .badge.sup-issued')) && !!(await p.$('a[href^="#/voucher/"]')));
+const hist = await p.textContent('main');
+ok('Historique : étapes fournisseur et voucher en français', /Demandée → Confirmée \(réf\. TEST-COL-778\)/.test(hist) && hist.includes('Voucher émis : V2026-00001'));
+// tâches
+await p.fill('#tk-title', 'TEST Envoyer le voucher au client'); await p.fill('#tk-due', '2026-11-20'); await p.click('#taskForm button[type=submit]');
+await p.waitForSelector('#h-tasks ~ ul li:has-text("TEST Envoyer le voucher")');
+ok('Tâche ajoutée au dossier, en retard affichée', (await p.textContent('#h-tasks ~ ul')).includes('En retard'));
+await p.goto(B + 'pro/#/taches'); await p.waitForSelector('#tkList');
+ok('« Mes tâches » : la tâche apparaît avec le lien vers le dossier', (await p.textContent('#tkList')).includes('TC-2611-0'));
+ok('Compteur de tâches = 1', (await p.textContent('#taskCount')).trim() === '1', await p.textContent('#taskCount'));
+await p.check('[data-tdone]'); await p.waitForSelector('text=Rien à faire pour l’instant.', { timeout: 8000 }).catch(() => {});
+ok('Tâche cochée → terminée', (await p.textContent('#tkList')).includes('Rien à faire'));
+await p.click('[data-done="true"]'); ok('Filtre « Terminées »', (await p.textContent('#tkList')).includes('TEST Envoyer le voucher'));
+// italien + mobile
+await p.evaluate(() => localStorage.setItem('tc-pro-lang', 'it')); await p.goto(B + 'pro/#/dossier/' + RID); await p.reload(); await p.waitForSelector('#h-prod');
+ok('Italien : section et historique traduits', (await p.textContent('#h-prod')).includes('Fornitori') && (await p.textContent('main')).includes('Voucher emesso'));
+await p.setViewportSize({ width: 390, height: 844 }); await p.waitForTimeout(300);
+ok('390 px sans défilement horizontal', (await p.evaluate(() => document.documentElement.scrollWidth)) <= 390);
+await p.evaluate(() => localStorage.setItem('tc-pro-lang', 'fr'));
+ok('Aucune erreur JS ni CSP', !errs.length, errs.slice(0, 3).join(' | '));
+console.log(`\n${res.filter(Boolean).length}/${res.length} OK`); await b.close();

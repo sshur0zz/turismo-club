@@ -46,6 +46,8 @@ Une demande reçue par téléphone, WhatsApp ou à l'agence se saisit avec **+ N
 
 **Notification par e-mail** : chaque demande envoyée depuis le site (offre ou voyage sur-mesure) envoie aussitôt un e-mail à **mraihiriadh@turismoclub.it** (« Nouvelle demande TC-… · offre · client »), avec un lien vers la fiche ; « Répondre » dans Gmail écrit directement au client. Les demandes saisies dans l'espace équipe n'envoient pas de notification.
 
+**Back-office (25/11/2026)** : menu par groupes (Vente, Production, Finance, Pilotage) et recherche globale (Ctrl+K). Clients (fiche, doublons, fusion), Kanban (glisser-déposer, motif d'annulation), Tâches, Fournisseurs, Hôtels (saisons, TVA saisie, grille de prix, allotements, simulateur ; recherche d'hôtels sur le site), statuts fournisseur et vouchers numérotés, Flotte (véhicules, échéances, entretiens, kilométrage), Locations (contrats, permis, états des lieux avec photos, schéma des dégâts et signature), Équipe (ajout de membres, admin). Double authentification dans « Mon mot de passe ».
+
 **Boîte mail** (menu) ouvre Gmail dans un nouvel onglet. Dans « + Nouvelle demande », **Coller un e-mail** pré-remplit le formulaire à partir d'un e-mail copié depuis Gmail (règles simples, pas d'IA ; ce qui n'est pas trouvé reste vide).
 
 Le menu montre encore une rubrique marquée **Bientôt** : le paiement en ligne (Stripe), qui demande un compte Stripe au nom de l'agence.

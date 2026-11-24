@@ -4,6 +4,8 @@
 - Pour chaque fonction du back-office de référence : ce projet l'a-t-il déjà ? (**oui / partiel / non**, avec fichiers et tables), et la proposition :
   **garder** (on ne touche pas) · **compléter** (on ajoute ce qui manque à l'existant, sans le casser) · **ajouter** (nouveau module, sur les tables existantes) · **hors périmètre**.
 - Règle : rien n'est codé avant la validation de Selim **ligne par ligne** (colonne « Décision »).
+- **Validation : « je valide » le 24/11/2026 (toutes les lignes telles que proposées).**
+- **État au 25/11/2026 : lots 0 à 5 livrés et en ligne** (lignes 1-15, 17, 19-27 faites ; 16, 18, 28-33 hors périmètre). Calcul des prix d'hôtel écrit d'après la documentation (code de référence non fourni), 12 cas testés.
 - Taille : S (≤ 1 jour), M (2–4 jours), L (≥ 1 semaine).
 
 ## A. Fonctions demandées en priorité

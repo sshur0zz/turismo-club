@@ -86,13 +86,18 @@ window.TC = window.TC || {};
   U.shell = (active, content) => {
     const me = TC.state.me;
     const soon = `<span class="badge src" style="font-size:11px">${t('soon')}</span>`;
-    const links = [['tableau', t('nav_dash')], ['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount}">${TC.state.newCount}</span>`],
-      ['emails', t('nav_emails'), `<span class="count" id="emailCount" aria-label="${TC.state.emailCount || 0}">${TC.state.emailCount || 0}</span>`],
-      ['taches', t('nav_tasks'), `<span class="count" id="taskCount">${TC.state.taskCount || 0}</span>`], ['clients', t('nav_clients')], ['fournisseurs', t('nav_suppliers')], ['hotels', t('nav_hotels')], ['flotte', t('nav_fleet')], ['locations', t('nav_rentals')], ['planning', t('nav_plan')], ['guides', t('nav_guides')], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
+    const cnt = (id, n) => `<span class="count" id="${id}" aria-label="${n || 0}">${n || 0}</span>`;
+    // Menu par groupes, dans l'ordre du travail de l'agence : vente → production → finance → pilotage
+    const groups = [
+      ['grp_sales', [['demandes', t('nav_requests'), cnt('newCount', TC.state.newCount)], ['emails', t('nav_emails'), cnt('emailCount', TC.state.emailCount)], ['clients', t('nav_clients')], ['taches', t('nav_tasks'), cnt('taskCount', TC.state.taskCount)]]],
+      ['grp_prod', [['planning', t('nav_plan')], ['guides', t('nav_guides')], ['fournisseurs', t('nav_suppliers')], ['hotels', t('nav_hotels')], ['flotte', t('nav_fleet')], ['locations', t('nav_rentals')]]],
+      ['grp_fin', [['bientot/paiement', t('nav_pay'), soon]]],
+      ['grp_pilot', [['tableau', t('nav_dash')], ...(me.role === 'admin' ? [['equipe', t('nav_team')]] : []), ['motdepasse', t('nav_password')]]]];
     return `<div class="shell">
       <aside class="side" aria-label="Menu">
         <a class="brand" href="#/tableau">${U.logo()}<span class="tag">${t('tag')}</span></a>
-        <nav class="nav">${links.map(([k, l, extra]) => `<a href="#/${k}" ${active === k ? 'aria-current="page"' : ''}><span>${l}</span>${extra || ''}</a>`).join('')}
+        <button type="button" class="btn ghost small gsbtn" id="gsBtn"><span>${t('gs_btn')}</span><kbd>Ctrl K</kbd></button>
+        <nav class="nav">${groups.map(([g, links]) => `<p class="navgrp" id="ng-${g}">${t(g)}</p>` + links.map(([k, l, extra]) => `<a href="#/${k}" ${active === k ? 'aria-current="page"' : ''}><span>${l}</span>${extra || ''}</a>`).join('')).join('')}
           <a href="https://mail.google.com/" target="_blank" rel="noopener"><span>${t('nav_gmail')}</span><span class="sub" style="font-size:12px">Gmail ↗<span class="sr"> (${t('new_tab')})</span></span></a></nav>
         <div class="who"><div class="info"><strong>${U.esc(me.full_name)}</strong><span>${t('role_' + me.role)}</span></div>
           ${U.langSwitch()}

@@ -9,7 +9,7 @@ window.TC = window.TC || {};
     const isGuide = TC.state.me && TC.state.me.role === 'guide';
     const p = (location.hash || (isGuide ? '#/jour' : '#/tableau')).replace(/^#\/?/, '').split('/');
     if (isGuide) return { name: 'vueguide', params: [['jour', 'semaine', 'dispo'].includes(p[0]) ? p[0] : 'jour'] };
-    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot', 'planning', 'guides', 'emails', 'clients', 'fournisseurs', 'hotels', 'taches', 'voucher', 'flotte', 'locations'].includes(p[0]) ? p[0] : 'tableau';
+    const name = ['tableau', 'demandes', 'dossier', 'nouvelle', 'motdepasse', 'bientot', 'planning', 'guides', 'emails', 'clients', 'fournisseurs', 'hotels', 'taches', 'voucher', 'flotte', 'locations', 'equipe'].includes(p[0]) ? p[0] : 'tableau';
     return { name, params: p.slice(1) };
   };
 
@@ -39,6 +39,7 @@ window.TC = window.TC || {};
       if (route.name === 'hotels') await TC.views.hotels.load(route.params);
       if (route.name === 'taches') await TC.views.taches.load();
       if (route.name === 'flotte') await TC.views.flotte.load(route.params);
+      if (route.name === 'equipe') await TC.views.equipe.load();
       if (route.name === 'locations') await TC.views.locations.load(route.params);
       if (route.name === 'voucher') await TC.views.voucher.load(route.params);
       if (route.name === 'vueguide') await TC.views.vueguide.load(route.params);
@@ -99,6 +100,7 @@ window.TC = window.TC || {};
     TC.refreshTaskCount = async () => { try { TC.state.taskCount = await TC.views.taches.countOpenMine(); const c = U.$('#taskCount'); if (c) c.textContent = TC.state.taskCount; } catch { /* compteur non vital */ } };
     startLive();
     window.addEventListener('hashchange', go);
+    try { if (await TC.mustChangePassword()) { TC.state.forcePw = true; location.hash = '#/motdepasse'; } } catch { /* non bloquant */ }
     go();
   }
 
