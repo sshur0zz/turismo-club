@@ -45,6 +45,34 @@ window.TC = window.TC || {};
   U.STATUSES = ['new', 'in_progress', 'sent', 'won', 'done', 'lost'];
   U.toast = msg => { const el = U.$('#toast'); el.textContent = msg; el.hidden = false; clearTimeout(U.toast.tm); U.toast.tm = setTimeout(() => (el.hidden = true), 3000); };
   U.errMsg = e => (e && (e.message || e.error_description)) || String(e);
+  // Équivalent de patchOf : on n'envoie à la base que les champs réellement modifiés (jamais de valeur par défaut réinjectée)
+  U.patchOf = (before, after) => Object.fromEntries(Object.entries(after).filter(([k, v]) => {
+    const a = before[k] == null ? null : before[k], b = v === '' ? null : v;
+    return JSON.stringify(a) !== JSON.stringify(b);
+  }).map(([k, v]) => [k, v === '' ? null : v]));
+  // Motif obligatoire avant de passer une demande en « Annulée » ; renvoie le texte, ou null si l'utilisateur renonce
+  U.askLostReason = () => new Promise(resolve => {
+    const d = document.createElement('dialog'); d.className = 'dlg'; d.setAttribute('aria-labelledby', 'lr-h');
+    d.innerHTML = `<form method="dialog" class="dlgform"><h2 id="lr-h">${t('lost_t')}</h2><p class="sub" style="margin:0">${t('lost_d')}</p>
+      <div class="field"><label for="lr-txt">${t('lost_l')}</label><textarea id="lr-txt" maxlength="500" required aria-describedby="lr-err"></textarea><span class="err" id="lr-err" role="alert"></span></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" value="ok">${t('lost_ok')}</button><button class="btn quiet" value="cancel" formnovalidate>${t('cl_cancel')}</button></div></form>`;
+    document.body.appendChild(d);
+    const done = v => { d.close(); d.remove(); resolve(v); };
+    d.querySelector('form').addEventListener('submit', e => {
+      if (e.submitter && e.submitter.value === 'cancel') { e.preventDefault(); done(null); return; }
+      const v = d.querySelector('#lr-txt').value.trim();
+      if (!v) { e.preventDefault(); d.querySelector('#lr-err').textContent = t('lost_need'); d.querySelector('#lr-txt').focus(); return; }
+      e.preventDefault(); done(v);
+    });
+    d.addEventListener('cancel', e => { e.preventDefault(); done(null); });
+    d.showModal(); d.querySelector('#lr-txt').focus();
+  });
+  // Passage d'étape commun (colonnes, fiche) : demande le motif si « Annulée »
+  U.statusPatch = async status => {
+    if (status !== 'lost') return { status };
+    const reason = await U.askLostReason();
+    return reason ? { status, lost_reason: reason } : null;
+  };
   U.cents = v => { const n = Number(String(v).replace(',', '.')); return Number.isFinite(n) ? Math.round(n * 100) : NaN; };
 
   // Logo « L'Arche » (même dessin que le site public)
@@ -56,7 +84,7 @@ window.TC = window.TC || {};
     const soon = `<span class="badge src" style="font-size:11px">${t('soon')}</span>`;
     const links = [['tableau', t('nav_dash')], ['demandes', t('nav_requests'), `<span class="count" id="newCount" aria-label="${TC.state.newCount}">${TC.state.newCount}</span>`],
       ['emails', t('nav_emails'), `<span class="count" id="emailCount" aria-label="${TC.state.emailCount || 0}">${TC.state.emailCount || 0}</span>`],
-      ['planning', t('nav_plan')], ['guides', t('nav_guides')], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
+      ['clients', t('nav_clients')], ['planning', t('nav_plan')], ['guides', t('nav_guides')], ['bientot/paiement', t('nav_pay'), soon], ['motdepasse', t('nav_password')]];
     return `<div class="shell">
       <aside class="side" aria-label="Menu">
         <a class="brand" href="#/tableau">${U.logo()}<span class="tag">${t('tag')}</span></a>

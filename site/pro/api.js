@@ -11,7 +11,7 @@ window.TC = window.TC || {};
 
   const must = ({ data, error }) => { if (error) throw error; return data; };
 
-  const REQ_LIST = 'id,reference,status,source,created_at,updated_at,first_name,last_name,email,phone,travelers,date_from,language,preferred_language,offer_slug,assigned_staff_id,confirmed_at,activity:activities(id,type,title)';
+  const REQ_LIST = 'id,reference,status,lost_reason,source,created_at,updated_at,first_name,last_name,email,phone,travelers,date_from,language,preferred_language,offer_slug,assigned_staff_id,confirmed_at,activity:activities(id,type,title)';
 
   TC.api = {
     sb,
@@ -89,6 +89,15 @@ window.TC = window.TC || {};
     setAvailability: async (guideId, day, available) => available === null
       ? must(await sb.from('guide_availability').delete().eq('guide_id', guideId).eq('day', day))
       : must(await sb.from('guide_availability').upsert({ guide_id: guideId, day, available, updated_at: new Date().toISOString() })),
+
+    // ---- Clients ----
+    customers: async () => must(await sb.from('customers').select('id,kind,first_name,last_name,company_name,email,phone,phone_e164,locale,created_at,requests:quote_requests(count)').is('merged_into_id', null).order('created_at', { ascending: false }).limit(2000)),
+    getCustomer: async id => must(await sb.from('customers').select('*, requests:quote_requests(id,reference,status,created_at,date_from,travelers,offer_slug,activity:activities(title))').eq('id', id).maybeSingle()),
+    updateCustomer: async (id, patch) => must(await sb.from('customers').update(patch).eq('id', id).select('id').single()),
+    createCustomer: async row => must(await sb.from('customers').insert(row).select('id').single()),
+    duplicates: async () => must(await sb.rpc('customer_duplicates')),
+    mergeCustomers: async (keep, merge) => must(await sb.rpc('merge_customers', { p_keep: keep, p_merge: merge })),
+    merges: async id => must(await sb.from('customer_merges').select('id,merged_id,moved_requests,merged_at,snapshot').eq('kept_id', id).order('merged_at', { ascending: false })),
 
     // ---- E-mails reçus ----
     emails: async () => must(await sb.from('inbound_emails').select('id,received_at,from_name,from_email,subject,body_text,attachments,status,request_id').order('received_at', { ascending: false }).limit(300)),

@@ -55,7 +55,7 @@ window.TC = window.TC || {};
       <p style="margin:0 0 10px"><a href="#/demandes">${t('back')}</a></p>
       <div class="page-head" style="align-items:flex-start">
         <div><h1 style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">${U.esc(U.name(D))} ${U.badge(D.status)}</h1>
-          <p class="sub"><strong>${U.esc(D.reference)}</strong> · ${t('source')} : ${U.esc(t('src_' + D.source))} · ${t('lang')} : ${U.esc(U.langName(lang))} · ${t('created')} ${U.dateTime(D.created_at)}</p></div>
+          <p class="sub">${D.customer ? `<a href="#/clients/${D.customer.id}">${t('client_sheet')}</a> · ` : ''}<strong>${U.esc(D.reference)}</strong> · ${t('source')} : ${U.esc(t('src_' + D.source))} · ${t('lang')} : ${U.esc(U.langName(lang))} · ${t('created')} ${U.dateTime(D.created_at)}</p></div>
         <div style="display:flex;flex-wrap:wrap;gap:8px">
           ${ph ? `<a class="btn" id="waBtn" href="${U.esc(waUrl(TC.ct(lang, 'hi', { name: D.first_name, ref: D.reference })))}" target="_blank" rel="noopener">${t('wa')}</a>` : `<button class="btn" disabled>${t('wa')} · ${t('no_phone')}</button>`}
           ${em ? `<a class="btn ghost" id="mailBtn" href="mailto:${U.esc(em)}?subject=${encodeURIComponent('Turismo Club — ' + D.reference)}">${t('mail')}</a>` : `<button class="btn ghost" disabled>${t('mail')} · ${t('no_email')}</button>`}
@@ -96,6 +96,7 @@ window.TC = window.TC || {};
         <div class="stack">
           <section class="card pad sec" aria-labelledby="h-status"><h2 id="h-status">${t('status_t')}</h2>
             <div class="field"><label for="d-step">${t('step')}</label><select id="d-step">${U.STATUSES.map(s => `<option value="${s}" ${s === D.status ? 'selected' : ''}>${t('st1_' + s)}</option>`).join('')}</select></div>
+            ${D.status === 'lost' && D.lost_reason ? `<p class="alert bad" style="margin:10px 0 0"><strong>${t('lost_short')}</strong> ${U.esc(D.lost_reason)}</p>` : ''}
             <div class="field" style="margin-top:12px"><label for="d-owner">${t('owner')}</label><select id="d-owner"><option value="">${t('nobody')}</option>
               ${TC.state.team.map(s => `<option value="${s.id}" ${s.id === D.assigned_staff_id ? 'selected' : ''}>${U.esc(s.full_name)} (${t('role_' + s.role)})</option>`).join('')}</select></div>
           </section>
@@ -155,7 +156,11 @@ window.TC = window.TC || {};
     bind: () => {
       if (!D) return;
       const main = U.$('#main');
-      U.$('#d-step').addEventListener('change', e => act(() => TC.api.updateRequest(D.id, { status: e.target.value }), '#d-step'));
+      U.$('#d-step').addEventListener('change', async e => {
+        const patch = await U.statusPatch(e.target.value);
+        if (!patch) { e.target.value = D.status; e.target.focus(); return; }   // motif refusé : rien n'est enregistré
+        act(() => TC.api.updateRequest(D.id, patch), '#d-step');
+      });
       U.$('#d-owner').addEventListener('change', e => act(() => TC.api.updateRequest(D.id, { assigned_staff_id: e.target.value || null }), '#d-owner'));
       U.$('#hotelForm').addEventListener('submit', e => { e.preventDefault(); act(() => TC.api.updateRequest(D.id, { hotel: U.$('#d-hotel').value.trim() || null }), '#d-hotel'); });
       U.$('#noteForm').addEventListener('submit', e => { e.preventDefault(); act(() => TC.api.updateRequest(D.id, { internal_note: U.$('#d-note').value.trim() || null }), '#d-note'); });

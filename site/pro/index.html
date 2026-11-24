@@ -105,6 +105,19 @@ table.t tfoot td{font-weight:800;border-bottom:none}
 /* Fiche */
 .grid2{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:16px;align-items:start}
 .grid2 > *,.stack > *{min-width:0}
+/* Lot 1 : clients, glisser-déposer, motif d'annulation, icônes */
+ul.plain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.duprow{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.qcard[draggable="true"]{cursor:grab}.qcard.dragging{opacity:.5}
+.col.over{outline:3px dashed var(--accent);outline-offset:-3px}
+dialog.dlg{border:none;border-radius:var(--radius);padding:0;max-width:min(520px,calc(100vw - 32px));width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+dialog.dlg::backdrop{background:rgba(17,24,39,.45)}
+.dlgform{display:flex;flex-direction:column;gap:12px;padding:20px}.dlgform h2{font-size:18px;font-weight:800}
+.ico{flex:none;vertical-align:middle}
+.ichip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#F4F1EE;font-size:13px;margin:0 6px 6px 0}
+.ipicker{border:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px}
+.ipick{display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:14px}
+.ipick:has(input:checked){border-color:var(--accent);background:#FFF1F3}.ipick input{width:18px;height:18px;accent-color:var(--accent)}
 .stack{display:flex;flex-direction:column;gap:16px}
 .sec h2{font-size:16px;font-weight:800;margin-bottom:12px}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
@@ -224,6 +237,8 @@ table.t tfoot td{font-weight:800;border-bottom:none}
 <script src="views/login.js"></script>
 <script src="views/demandes.js"></script>
 <script src="views/dossier.js"></script>
+<script src="views/icons.js"></script>
+<script src="views/clients.js"></script>
 <script src="views/emailparse.js"></script>
 <script src="views/emails.js"></script>
 <script src="views/nouvelle.js"></script>
