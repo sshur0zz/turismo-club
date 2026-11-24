@@ -114,3 +114,30 @@ Provisoire ou à valider :
 - Vérifier en JavaScript : extraire le `<script>` et lancer `node --check`.
 - Après un test d'envoi réel, **supprimer la demande de test** dans Supabase.
 - Console du navigateur : zéro erreur JavaScript.
+
+## Intégration des fonctions de back-office (depuis le 24/11/2026)
+
+On ajoute à ce projet, **sans rien remplacer**, des fonctions reprises d'un back-office de référence (flotte et location, états des lieux et dégâts,
+hôtels, clients, pipeline Kanban, réservations, icônes). Le nom de ce back-office n'apparaît nulle part dans le dépôt.
+
+- Ordre imposé : **phase 0** (sécurité `docs/securite/`, qualité `docs/qualite/`, codage en dur `docs/configuration-inventaire.md`,
+  base `docs/donnees/`) → matrice des écarts validée ligne par ligne → lots.
+- Une fonction qui existe déjà est **gardée telle quelle** ; la modifier demande l'accord de Selim.
+- Les ajouts suivent la pile de ce projet : HTML/JS sans build, Supabase (SQL, RLS, fonctions `private` + relais `SECURITY INVOKER`),
+  textes FR + IT dans `site/pro/i18n.js`, charte « rouge sur blanc ». Ils s'appuient sur les tables existantes (`customers`, `staff`,
+  `quote_requests`, `activities`…) : **aucune table en double**.
+- Lot = migration → interface → tests (Playwright, compte et données « TEST »/« fictif ») → aperçu à Selim → push sur `main` après son « ok » → vérification en ligne.
+- Aucun codage en dur ; montants en **centimes entiers** (jamais de flottant) ; une modification n'envoie que les champs modifiés (équivalent `patchOf`).
+- Aucune donnée inventée présentée comme réelle (prix fournisseur, taux, barème de dégâts, confirmation) ; démonstration marquée « fictif ».
+- Autorisation dans la base (RLS) ; ressource hors portée = invisible (liste vide / 404).
+- Service en ligne : aucune action destructive, aucun test actif sur la production.
+- Arrêt et question pour toute décision juridique, fiscale, de coût, de secret ou d'accès à un prestataire externe (**y compris la lecture de la base distante**).
+- Pas de sous-agents sauf demande ; les rôles (A0, S1, Q1, C1, D1, M1, M2, M3, U1, T1) sont tenus dans l'ordre.
+
+### Commandes du projet
+- Installation : aucune pour le site (fichiers statiques) ; Worker : `cd workers/email-entrant && npm ci`
+- Aperçu local : `python3 -m http.server -d site 8765` → http://127.0.0.1:8765
+- Vérification JS : extraire le `<script>` de `site/index.html` puis `node --check`
+- Tests : Playwright (à ranger dans `tests/`, voir `docs/qualite/dette.md` Q-02)
+- Migrations : nouveau fichier `supabase/migrations/AAAAMMJJHHMMSS_*.sql`, appliqué sur Supabase, puis Advisors
+- Déploiement : site = push sur `main` (Cloudflare Pages) ; Worker = `cd workers/email-entrant && npx wrangler@4.45.0 deploy`

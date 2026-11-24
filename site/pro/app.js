@@ -73,6 +73,11 @@ window.TC = window.TC || {};
     const session = await api.session(); // échange aussi le code du lien magique (?code=…) contre une session
     if (qs.has('code') || linkErr) history.replaceState(null, '', location.pathname + location.hash);
     if (!session) { root.innerHTML = TC.views.login.html(linkErr ? t('login_link_err') : ''); TC.views.login.bind(); return; }
+    // Double authentification : si le compte a un code d'application, on le demande avant d'ouvrir l'espace
+    try {
+      const { data: aal } = await api.sb.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (aal && aal.nextLevel === 'aal2' && aal.currentLevel !== 'aal2') { root.innerHTML = TC.views.mfa.html(); TC.views.mfa.bind(); return; }
+    } catch { /* en cas d'erreur réseau, la suite échouera proprement */ }
 
     let me = null;
     try { me = await api.me(session.user.id); } catch { me = null; }

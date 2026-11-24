@@ -61,6 +61,37 @@ window.TC = window.TC || {};
     }
   };
 
+  // Code de l'application d'authentification (après le mot de passe)
+  TC.views.mfa = {
+    html: () => `<div class="login"><div class="card">
+      <div class="brand" style="padding:0">${U.logo()}<span class="tag">${t('tag')}</span></div>
+      <h1 style="font-size:22px">${t('mfa_t')}</h1>
+      <p class="sub" style="margin:0">${t('mfa_d')}</p>
+      <form id="mfaForm" novalidate style="display:flex;flex-direction:column;gap:14px">
+        <div class="field"><label for="mfa-code">${t('mfa_code')}</label>
+          <input id="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required aria-describedby="mfa-err"></div>
+        <span class="err" id="mfa-err" role="alert"></span>
+        <button class="btn" type="submit">${t('mfa_b')}</button>
+      </form>
+      <button type="button" class="btn ghost" id="logout">${t('logout')}</button>
+    </div></div>`,
+    bind: () => {
+      const f = U.$('#mfaForm'); U.$('#mfa-code').focus();
+      f.addEventListener('submit', async e => {
+        e.preventDefault();
+        const code = U.$('#mfa-code').value.replace(/\s/g, ''), err = U.$('#mfa-err'), btn = f.querySelector('button');
+        if (!/^[0-9]{6}$/.test(code)) { err.textContent = t('mfa_bad'); U.$('#mfa-code').focus(); return; }
+        btn.disabled = true;
+        const { data } = await TC.api.sb.auth.mfa.listFactors();
+        const factor = data && data.totp && data.totp.find(x => x.status === 'verified');
+        const { error } = factor ? await TC.api.sb.auth.mfa.challengeAndVerify({ factorId: factor.id, code }) : { error: new Error('no factor') };
+        btn.disabled = false;
+        if (error) { err.textContent = t('mfa_wrong'); U.$('#mfa-code').value = ''; U.$('#mfa-code').focus(); return; }
+        location.replace(location.pathname + location.hash);
+      });
+    }
+  };
+
   TC.views.denied = {
     html: (email, title, text) => `<div class="login"><div class="card">
       <div class="brand" style="padding:0">${U.logo()}<span class="tag">${t('tag')}</span></div>
@@ -80,7 +111,12 @@ window.TC = window.TC || {};
         <div class="field"><label for="pw2">${t('pw_again')}</label><input id="pw2" type="password" autocomplete="new-password" required aria-describedby="pw-err"></div>
         <span class="err" id="pw-err" role="alert"></span>
         <div><button class="btn" type="submit">${t('pw_save')}</button></div>
-      </form>`),
+      </form>
+      <section class="card pad" aria-labelledby="mfa-h" style="display:flex;flex-direction:column;gap:12px;max-width:480px;margin-top:16px">
+        <h2 id="mfa-h" style="font-size:16px;font-weight:800">${t('mfa_sec_t')}</h2>
+        <p class="sub" style="margin:0">${t('mfa_sec_d')}</p>
+        <div id="mfa-zone" aria-live="polite"><p class="sub" style="margin:0">${t('loading')}</p></div>
+      </section>`),
     bind: () => {
       const f = U.$('#pwForm');
       f.addEventListener('submit', async e => {
@@ -94,6 +130,48 @@ window.TC = window.TC || {};
         if (error) { err.textContent = t('save_err', { msg: error.message }); return; }
         f.reset(); err.textContent = ''; U.toast(t('pw_ok'));
       });
+      mfaZone();
     }
   };
+
+  // Activer / désactiver la double authentification (code d'application, gratuit dans Supabase Auth)
+  async function mfaZone() {
+    const z = U.$('#mfa-zone'); if (!z) return;
+    const mfa = TC.api.sb.auth.mfa;
+    const { data, error } = await mfa.listFactors();
+    if (error) { z.innerHTML = `<p class="alert bad" role="alert">${U.esc(t('save_err', { msg: error.message }))}</p>`; return; }
+    const on = data.totp.find(x => x.status === 'verified');
+    if (on) {
+      z.innerHTML = `<p class="alert good" role="status" style="margin:0 0 10px">${t('mfa_on')}</p><button type="button" class="btn ghost" id="mfa-off">${t('mfa_off_b')}</button>`;
+      U.$('#mfa-off').addEventListener('click', async () => {
+        if (!confirm(t('mfa_off_confirm'))) return;
+        const { error: e2 } = await mfa.unenroll({ factorId: on.id });
+        if (e2) { U.toast(t('save_err', { msg: e2.message })); return; }
+        U.toast(t('mfa_off_ok')); mfaZone();
+      });
+      return;
+    }
+    z.innerHTML = `<button type="button" class="btn" id="mfa-start">${t('mfa_on_b')}</button>`;
+    U.$('#mfa-start').addEventListener('click', async () => {
+      for (const old of data.all.filter(x => x.status !== 'verified')) await mfa.unenroll({ factorId: old.id }); // essais abandonnés
+      const { data: en, error: e1 } = await mfa.enroll({ factorType: 'totp', friendlyName: 'Turismo Club' });
+      if (e1) { z.innerHTML = `<p class="alert bad" role="alert">${U.esc(t('save_err', { msg: e1.message }))}</p>`; return; }
+      z.innerHTML = `<ol style="margin:0 0 12px;padding-left:20px;display:flex;flex-direction:column;gap:6px"><li>${t('mfa_step1')}</li><li>${t('mfa_step2')}</li></ol>
+        <img src="${U.esc(en.totp.qr_code)}" alt="${U.esc(t('mfa_qr_alt'))}" width="180" height="180" style="background:#fff;border:1px solid var(--line);border-radius:8px">
+        <p class="sub" style="margin:8px 0 12px;word-break:break-all">${t('mfa_secret')} <code>${U.esc(en.totp.secret)}</code></p>
+        <form id="mfaEnroll" novalidate style="display:flex;flex-direction:column;gap:10px">
+          <div class="field"><label for="mfa-new">${t('mfa_code')}</label><input id="mfa-new" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required aria-describedby="mfa-new-err"></div>
+          <span class="err" id="mfa-new-err" role="alert"></span>
+          <div><button class="btn" type="submit">${t('mfa_confirm_b')}</button></div>
+        </form>`;
+      U.$('#mfaEnroll').addEventListener('submit', async e => {
+        e.preventDefault();
+        const code = U.$('#mfa-new').value.replace(/\s/g, ''), er = U.$('#mfa-new-err');
+        if (!/^[0-9]{6}$/.test(code)) { er.textContent = t('mfa_bad'); return; }
+        const { error: e3 } = await mfa.challengeAndVerify({ factorId: en.id, code });
+        if (e3) { er.textContent = t('mfa_wrong'); return; }
+        U.toast(t('mfa_on_ok')); mfaZone();
+      });
+    });
+  }
 })(window.TC);
