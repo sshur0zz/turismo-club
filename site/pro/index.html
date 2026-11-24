@@ -124,6 +124,14 @@ h3{margin:0}
 .badge.sup-draft{background:#F1F5F9;color:#334155}.badge.sup-requested{background:#FEF3C7;color:#78350F}.badge.sup-option{background:#FFEDD5;color:#7C2D12}
 .badge.sup-confirmed{background:#DCFCE7;color:#14532D}.badge.sup-issued{background:#DBEAFE;color:#1E3A8A}.badge.sup-refused,.badge.sup-cancelled{background:#FEE2E2;color:#7F1D1D}
 .late{color:#B91C1C;font-weight:700}
+.badge.rs-booked{background:#FEF3C7;color:#78350F}.badge.rs-active{background:#DBEAFE;color:#1E3A8A}.badge.rs-returned{background:#DCFCE7;color:#14532D}.badge.rs-cancelled{background:#FEE2E2;color:#7F1D1D}
+.cardiag .zone{fill:#FFFFFF;stroke:#8A817A;stroke-width:1.2;cursor:pointer}.cardiag .zone:hover,.cardiag .zone:focus{fill:#FFE4E6;outline:none;stroke:var(--accent);stroke-width:2.5}
+.cardiag .zone.z-old,.chip.z-old{fill:#FDBA74;background:#FFEDD5}.cardiag .zone.z-new,.chip.z-new{fill:#F87171;background:#FEE2E2}
+.photogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}.ph{display:flex;flex-direction:column;gap:6px;align-items:flex-start;font-size:13px;font-weight:700}
+.ph img,.cmpimg img{width:100%;max-width:240px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid var(--line)}.phmiss{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/3;border:2px dashed #E5A3AE;border-radius:8px;color:#9F1239;font-weight:700;font-size:12px}
+.insgrid{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:16px;align-items:start}.insgrid > *{min-width:0}
+@media (max-width:760px){.insgrid{grid-template-columns:1fr}}
+canvas.sigpad{width:100%;max-width:520px;height:160px;border:1px solid #CFC7C0;border-radius:10px;background:#fff;touch-action:none}
 @media print{.side,.noprint,#toast{display:none!important}.shell{display:block}main{padding:0}.voucher{border:none;box-shadow:none}}
 .stack{display:flex;flex-direction:column;gap:16px}
 .sec h2{font-size:16px;font-weight:800;margin-bottom:12px}
@@ -250,6 +258,8 @@ h3{margin:0}
 <script src="views/hotels.js"></script>
 <script src="views/production.js"></script>
 <script src="views/taches.js"></script>
+<script src="views/flotte.js"></script>
+<script src="views/locations.js"></script>
 <script src="views/emailparse.js"></script>
 <script src="views/emails.js"></script>
 <script src="views/nouvelle.js"></script>
