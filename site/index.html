@@ -33,8 +33,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:3px solid #2563EB;outline-offset:2px}
 .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
 .demo{background:#1E3A8A;color:#EFF6FF;font-size:13px;text-align:center;padding:8px 16px}
-.topbar{background:var(--ink);color:#F9FAFB;font-size:13px}
-.topbar .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding-top:8px;padding-bottom:8px}
 header.site{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:20}
 header.site .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;padding-bottom:14px}
 .logo{display:flex;align-items:center;text-decoration:none;color:var(--ink);min-height:44px}
@@ -223,7 +221,6 @@ footer.site .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-bet
 </style>
 </head>
 <body>
-<div class="topbar"><div class="wrap"><span>Local agency based in Rome · multilingual advisors</span><span>WhatsApp: +39 327 944 2376</span></div></div>
 <header class="site">
   <div class="wrap">
     <a class="logo" href="#accueil" aria-label="Turismo Club, accueil"></a>
@@ -1384,7 +1381,7 @@ function applyChrome() {
     <div id="langMenu" class="langmenu" hidden>${LANGS.map(l => `<button type="button" data-lang="${l.c}" lang="${l.c}" aria-current="${l.c === LANG}">${l.n}</button>`).join('')}</div></div>`;
   const ft = $('footer.site .wrap');
   const ml = c => `<a href="${c[0]}" style="color:var(--muted)">${c[1]}</a>`;
-  if (ft) ft.innerHTML = `<span><strong style="color:var(--ink)">${esc(CONFIG.company)}</strong>${CONFIG.address ? ' · ' + esc(CONFIG.address) : ''}${CONFIG.vat ? ' · P.IVA ' + esc(CONFIG.vat) : ''}${CONFIG.email ? ' · ' + ml(['mailto:' + esc(CONFIG.email), esc(CONFIG.email)]) : ''}</span>`
+  if (ft) ft.innerHTML = `<span><strong style="color:var(--ink)">${esc(CONFIG.company)}</strong>${CONFIG.address ? ' · ' + esc(CONFIG.address) : ''}${CONFIG.vat ? ' · P.IVA ' + esc(CONFIG.vat) : ''}${CONFIG.email ? ' · ' + ml(['mailto:' + esc(CONFIG.email), esc(CONFIG.email)]) : ''}${CONFIG.whatsapp ? ' · ' + ml([esc(CONFIG.whatsappLink), 'WhatsApp ' + esc(CONFIG.whatsapp)]) : ''}</span>`
     + `<span>${[['#privacy', tr('privacy')], ['#legal', tr('legal')], ['#credits', tr('credits')]].map(ml).join(' · ')}</span>`;
 }
 function setLang(c) {
