@@ -3,3 +3,5 @@
 node_modules/
 .DS_Store
 supabase/.temp/
+graphify-out/
+.claude/settings.local.json
