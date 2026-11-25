@@ -9,7 +9,7 @@ L'agence vend : visites guidées et activités à Rome, bus touristiques, circui
 
 - Langue principale du site : **anglais**. 10 langues proposées : en, it, fr, es, de, pt, nl, zh, ja, ko.
 - Langue de travail avec Selim : **français**. Répondre en français, expliquer les choix techniques simplement (Selim apprend).
-- Identité visuelle figée : palette **« Bordeaux & or »** (`accent #9F1239`, `dark #881337`, `light #FCD34D`, `hero #2B0F17`), logo **« L'Arche »** (SVG généré dans le code), police **Plus Jakarta Sans**.
+- Identité visuelle (refonte du 25/11/2026, validée par Selim) : fond **blanc**, texte **noir #0A0A0A**, **bordeaux #9F1239** (survol `#881337`) réservé aux actions, liens actifs et logo ; ligne dorée `#FCD34D` au-dessus du titre d'accueil ; police **Host Grotesk** (titres fins 400, sauf le titre d'accueil en 700) ; logo **« L'Arche »** (SVG généré dans le code, icône d'onglet = arche bordeaux évidée) ; pied de page noir. Accueil volontairement épuré (héros photo + recherche, 4 meilleures ventes, catégories en liste, 3 étapes, FAQ, appel sur mesure) : ne pas le recharger. L'espace équipe suit les mêmes couleurs et la même police. Contexte design : `PRODUCT.md`.
 - Domaine : **turismoclub.it** et **www.turismoclub.it**, branchés sur Cloudflare Pages.
 - Agence : **Turismo Club di Riadh Mraihi**, P.IVA 18751221005. Toutes les coordonnées sont dans le bloc `CONFIG` de `site/index.html` (seule source).
 
