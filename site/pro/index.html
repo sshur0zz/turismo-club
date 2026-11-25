@@ -5,19 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Turismo Club — Espace équipe</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 50'%3E%3Cpath d='M4 48V22a20 20 0 0 1 40 0v26z' fill='%239F1239'/%3E%3Cpath d='M14 48V24a10 10 0 0 1 20 0v24z' fill='%23fff'/%3E%3Cpath d='M17 48a7 7 0 0 1 14 0z' fill='%239F1239'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 50'%3E%3Cpath d='M4 48V22a20 20 0 0 1 40 0v26z' fill='%23D92B21'/%3E%3Cpath d='M14 48V24a10 10 0 0 1 20 0v24z' fill='%23fff'/%3E%3Cpath d='M17 48a7 7 0 0 1 14 0z' fill='%23D92B21'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400..700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F7F5F3; --card:#FFFFFF; --line:#E7E1DC; --radius:14px;
-  --accent:#9F1239; --accent-dark:#881337; --accent-soft:#FFF1F2;
-  --ink:#111827; --ink-2:#4B5563; --muted:#6B7280;
+  /* Même direction que le site public : blanc, noir, rouge romain réservé aux actions et alertes */
+  --bg:#F6F6F5; --card:#FFFFFF; --line:#E4E4E2; --radius:14px;
+  --accent:#D92B21; --accent-dark:#B01F17; --accent-soft:#FDECEA;
+  --ink:#0A0A0A; --ink-2:#4A4A4A; --muted:#666666;
   --ok:#047857; --ok-soft:#ECFDF5; --wait:#B45309; --wait-dot:#D97706; --wait-soft:#FFFBEB; --info:#2563EB; --info-soft:#EFF6FF;
   --late:#B91C1C;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:15px}
+body{margin:0;font-family:'Host Grotesk',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;font-size:15px}
 button,input,select,textarea{font:inherit;color:inherit}
 a{color:var(--accent)} a:hover{color:var(--accent-dark)}
 :focus-visible{outline:3px solid #2563EB;outline-offset:2px}
@@ -231,6 +232,62 @@ canvas.sigpad{width:100%;max-width:520px;height:160px;border:1px solid #CFC7C0;b
 .login{max-width:440px;margin:10vh auto;padding:0 16px}
 .login .card{padding:28px;display:flex;flex-direction:column;gap:16px}
 
+
+/* ===== Direction artistique (branche essais-style) : outil de travail, calme et lisible ===== */
+body{-webkit-font-smoothing:antialiased;font-size:15px}
+::selection{background:#FBD9D6}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3{letter-spacing:-.02em}
+.page-head h1{font-size:30px;font-weight:500;letter-spacing:-.035em}
+.sec h2{font-weight:600}
+.side{background:#FFFFFF;border-right:1px solid var(--line)}
+.brand .tag{color:var(--muted);font-weight:600;letter-spacing:2px}
+.navgrp{color:var(--muted);font-weight:600;letter-spacing:.08em}
+.nav a{font-weight:500;color:var(--ink-2);border-radius:8px}
+.nav a:hover{background:var(--bg);color:var(--ink)}
+.nav a[aria-current="page"]{background:var(--ink);color:#fff}
+.nav a[aria-current="page"] .count{background:#fff;color:var(--ink)}
+.count{background:var(--accent);font-weight:600}
+.card{border-color:var(--line);box-shadow:0 1px 2px rgba(10,10,10,.04)}
+.btn{border-radius:8px;font-weight:500;transition:background .15s,transform .2s cubic-bezier(.16,1,.3,1)}
+.btn:active{transform:translateY(1px) scale(.98)}
+.btn.ghost{background:#fff;color:var(--ink);border-color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.quiet:hover{background:var(--bg)}
+.linkbtn{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#BDBDBD}
+.linkbtn:hover{text-decoration-color:var(--ink)}
+.field label,.lbl{font-weight:600;color:var(--ink-2)}
+.field input,.field select,.field textarea,.inp,.qcard select,#gsInput{border-color:#D3D3D0;border-radius:8px}
+.field input:focus,.field select:focus,.field textarea:focus,.inp:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px rgba(10,10,10,.08)}
+.badge{font-weight:600}
+.st-new{background:var(--accent-soft);color:#A3201A}
+.chip{font-weight:500}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink)}
+.col,.day{background:#EFEFED}
+.col h2,.day h2{font-weight:600}
+.qcard{border-color:var(--line);transition:box-shadow .2s,border-color .2s}
+.qcard:hover{border-color:#CFCFCC;box-shadow:0 6px 16px -10px rgba(10,10,10,.25)}
+.qcard a.name{font-weight:600}
+.qcard a.name:hover{color:var(--ink);text-decoration:underline}
+.kpi strong{font-weight:500;letter-spacing:-.03em;font-size:34px;font-variant-numeric:tabular-nums}
+table.t th{font-weight:600;color:var(--muted)}
+table.t td,.num{font-variant-numeric:tabular-nums}
+.bar,.bars .track{background:#ECECEA}
+.bars .track i{background:var(--ink)}
+.mrow.on{background:var(--bg);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.dep:hover{border-color:var(--ink)}
+.day.is-today{outline:2px solid var(--ink)}
+.t-activity{background:#FDECEA}.t-circuit{background:#E6EEF8}.t-other{background:#FBF3DF}
+.alert-mini{background:var(--accent)}
+.seg button[aria-pressed="true"],.vgtabs a[aria-current="page"]{background:var(--ink);border-color:var(--ink)}
+.chk[aria-pressed="true"]{background:var(--ok);border-color:var(--ok)}
+.ipick:has(input:checked){border-color:var(--ink);background:var(--bg)}
+.gslist [aria-selected=true]{background:var(--bg);outline:2px solid var(--ink)}
+.cardiag .zone:hover,.cardiag .zone:focus{fill:#FDECEA}
+.phmiss{border-color:#E8A9A4;color:#A3201A}
+.login .brand{align-items:center;text-align:center}
+.login .card{padding:36px;gap:18px;border-radius:18px;box-shadow:0 1px 2px rgba(10,10,10,.05),0 20px 40px -24px rgba(10,10,10,.25)}
+.empty{border-color:#D3D3D0}
 @media (max-width:900px){
   .shell{flex-direction:column}
   .side{width:auto;flex:none;height:auto;overflow:visible;position:static;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;border-right:none;border-bottom:1px solid var(--line)}
