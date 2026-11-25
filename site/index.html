@@ -452,6 +452,36 @@ button.cd[aria-pressed="true"] small{color:#D8F0E6}
   body:has(.mbar) footer.site{padding-bottom:84px}
   .rec{flex-basis:150px}
 }
+
+/* ===== Accueil épuré ===== */
+.hero-box{gap:14px;padding:36px}
+.hero h1{font-size:clamp(34px,3.6vw,52px)}
+.hero p{font-size:17px}
+.hero-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.hero-acts .btn.ghost{border-color:rgba(255,255,255,.6);color:#fff}
+.hero-acts .btn.ghost:hover{background:#fff;color:var(--ink)}
+.section{padding-top:144px}
+.cats{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.cats li{border-bottom:1px solid var(--line)}
+.cats button{width:100%;display:grid;grid-template-columns:1fr auto 28px;align-items:center;gap:24px;padding:26px 4px;background:none;border:0;cursor:pointer;text-align:left;color:var(--ink);font:inherit}
+.cats span{font-size:clamp(24px,2.6vw,36px);letter-spacing:-.03em;line-height:1.1;transition:transform .35s var(--ease)}
+.cats small{font-size:15px;color:var(--muted)}
+.cats svg{width:24px;height:24px;fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s var(--ease)}
+.cats button:hover span{transform:translateX(6px)}
+.cats button:hover svg{transform:translateX(4px);stroke:var(--accent)}
+.steps3 h2{margin:0 0 48px}
+.steps3 ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+.steps3 li{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--ink);padding-top:20px}
+.steps3 li span{color:var(--accent);font-variant-numeric:tabular-nums;font-size:15px}
+.steps3 h3{font-size:24px;line-height:1.2;letter-spacing:-.02em;margin:0}
+.steps3 p{margin:0;color:var(--ink-2);max-width:36ch}
+#faq h2{margin:0 0 32px}
+.faq{max-width:860px}
+.close{text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px;padding-bottom:16px}
+.close h2{max-width:18ch;margin:0}
+.close p{margin:0;color:var(--ink-2);max-width:52ch;font-size:18px}
+@media (max-width:820px){.steps3 ol{grid-template-columns:1fr;gap:28px}}
+@media (max-width:640px){.section{padding-top:96px}.hero-box{padding:24px}.hero h1{font-size:30px}.hero-acts .btn{flex:1 1 auto}.cats button{padding:20px 2px;gap:12px}}
 </style>
 </head>
 <body>
@@ -1349,92 +1379,45 @@ const pub = list => list.filter(a => a.published !== false);
 
 /* ===================== Pages publiques ===================== */
 function pageAccueil() {
-  // Best-sellers : les visites les plus réservées à Rome (recherche GetYourGuide / Viator / Tripadvisor, nov. 2026)
-  const best = pub(ACTIVITIES).filter(a => a.best).sort((x, y) => y.popularity - x.popularity);
-  const top = pub(ACTIVITIES).filter(a => !a.best && (a.type === 'activity' || a.type === 'bus')).sort((x, y) => y.popularity - x.popularity).slice(0, 4);
-  const trips = pub(ACTIVITIES).filter(a => a.type === 'circuit');
-  const stay = pub(ACTIVITIES).filter(a => isReq(a));
+  // Accueil épuré : héros, meilleures ventes, catégories, étapes, FAQ, fermeture. Le reste est dans le catalogue.
+  const best = pub(ACTIVITIES).filter(a => a.best).sort((x, y) => y.popularity - x.popularity).slice(0, 4);
+  const fav = pub(favs().map(x => bySlug[x]));
   return `
   <section class="hero" data-enter>
-    <div class="scene">${heroScene()}</div>
     <div class="hero-photo"><img class="photo" src="${photoUrl(PHOTOS.colosseum, 1920)}" alt="" loading="eager" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>
     <div class="hero-box">
-    <h1>${tr('hero_t')}</h1>
-    <p>${tr('hero_d')}</p>
-    <form class="search" id="heroSearch">
-      <div class="f"><label for="hs-envie">${tr('s_cat')}</label>
-        <select id="hs-envie"><option value="">${tr('s_all')}</option>${ENVIES.map(e => `<option value="${e.slug}">${esc(L(e.name))}</option>`).join('')}</select></div>
-      <div class="f"><label for="hs-dest">${tr('s_where')}</label>
-        <select id="hs-dest"><option value="tous">${tr('s_any')}</option>${Object.keys(DESTINATIONS).map(k => `<option value="${k}">${esc(L(DESTINATIONS[k]))}</option>`).join('')}</select></div>
-      <button class="btn" type="submit">${tr('s_btn')}</button>
-    </form>
+      <h1>${tr('hero_t')}</h1>
+      <p>${tr('hero_d')}</p>
+      <div class="hero-acts"><a class="btn" href="#catalogue" data-allcat>${tr('see_all')}</a><a class="btn ghost" href="#devis">${tr('nav_custom')}</a></div>
     </div>
   </section>
   <div class="wrap">
-    ${(() => { const f = pub(favs().map(x => bySlug[x])); return f.length ? `<section class="section" aria-labelledby="fav-h"><div class="row-head"><h2 id="fav-h">${tr('sec_fav')}</h2></div><div class="cards">${f.slice(0, 4).map(card).join('')}</div></section>` : ''; })()}
-    ${(() => { const r = pub(lsGet('tc_recent').map(x => bySlug[x])); return r.length ? `<section class="section recent" aria-labelledby="rec-h"><div class="row-head"><h2 id="rec-h">${tr('sec_recent')}</h2></div><div class="rec-row">${r.map(a => `<a class="rec" href="#activite-${a.slug}"><div class="img">${actPic(a.slug, 0)}</div><span>${esc(L(a.title))}</span></a>`).join('')}</div></section>` : ''; })()}
     <section class="section best" aria-labelledby="best-h">
-      <div class="row-head"><div><h2 id="best-h">${tr('sec_best')}</h2><p style="margin:4px 0 0;color:var(--ink-2)">${tr('sec_best_d')}</p></div><a href="#catalogue" data-allcat style="font-weight:700">${tr('see_all')}</a></div>
+      <div class="row-head"><h2 id="best-h">${tr('sec_best')}</h2><a href="#catalogue" data-allcat>${tr('see_all')}</a></div>
       <div class="cards">${best.map(card).join('')}</div>
     </section>
 
-    <section class="how" id="how" aria-labelledby="how-h">
-      <div class="how-grid">
-        <div><h2 id="how-h">${tr('how_t')}</h2>
-          <ol class="how-steps">${[['navona', 'rome'], ['pantheon', 'dome'], ['stpeterSquare', 'dome']].map((ph, i) => `<li class="how-step" data-i="${i}"><h3><span>${i + 1}</span>${tr('how' + (i + 1) + 't')}</h3><p><span>${tr('how' + (i + 1) + 'd')}</span></p><div class="how-pic">${pic(ph[0], ph[1])}</div></li>`).join('')}</ol>
-        </div>
-        <div class="how-frame" aria-hidden="true">${[['navona', 'rome'], ['pantheon', 'dome'], ['stpeterSquare', 'dome']].map((ph, i) => `<div class="how-pic${i ? '' : ' on'}" data-i="${i}">${pic(ph[0], ph[1])}</div>`).join('')}</div>
-      </div>
+    <section class="section" aria-labelledby="cat-h">
+      <h2 id="cat-h" class="sr">${tr('sec_cat')}</h2>
+      <ul class="cats">${ENVIES.map(e => { const n = pub(ACTIVITIES).filter(a => a.type === e.slug).length; return n ? `<li><button type="button" data-envie="${e.slug}"><span>${esc(L(e.name))}</span><small>${n} ${tr('offers')}</small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></li>` : ''; }).join('')}</ul>
     </section>
 
+    ${fav.length ? `<section class="section" aria-labelledby="fav-h"><div class="row-head"><h2 id="fav-h">${tr('sec_fav')}</h2></div><div class="cards">${fav.slice(0, 4).map(card).join('')}</div></section>` : ''}
 
-    <section class="section">
-      <div class="row-head"><h2>${tr('sec_cat')}</h2></div>
-      <div class="tiles">${ENVIES.map(e => {
-        const n = pub(ACTIVITIES).filter(a => a.type === e.slug).length;
-        return `<button class="tile" type="button" data-envie="${e.slug}">${pic(PHOTO_ENVIE[e.slug], ILLO_ENVIE[e.slug])}<span class="lbl">${esc(L(e.name))}<span>${n} ${tr('offers')}</span></span></button>`;
-      }).join('')}</div>
+    <section class="section steps3" aria-labelledby="how-h">
+      <h2 id="how-h">${tr('how_t')}</h2>
+      <ol>${[1, 2, 3].map(i => `<li><span>${i}</span><h3>${tr('how' + i + 't')}</h3><p>${tr('how' + i + 'd')}</p></li>`).join('')}</ol>
     </section>
 
-    <section class="section">
-      <div class="row-head"><h2>${tr('sec_top')}</h2><a href="#catalogue" data-allcat style="font-weight:700">${tr('see_all')}</a></div>
-      <div class="cards">${top.map(card).join('')}</div>
+    <section class="section" id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">${tr('faq_t')}</h2>
+      <div class="faq">${[1, 2, 3, 4].map(i => `<details><summary>${tr('f' + i + 'q')}</summary><p>${tr('f' + i + 'a')}</p></details>`).join('')}</div>
     </section>
 
-    <section class="section split">
-      <div style="position:relative;height:420px;border-radius:24px;overflow:hidden">${pic('treviDay', 'rome')}</div>
-      <div style="display:flex;flex-direction:column;gap:18px">
-        <h2 style="font-size:34px">${tr('why_t')}</h2>
-        <p style="margin:0;color:var(--ink-2)"><strong style="color:var(--ink)">${tr('why1t')}</strong> ${tr('why1d')}</p>
-        <p style="margin:0;color:var(--ink-2)"><strong style="color:var(--ink)">${tr('why2t')}</strong> ${tr('why2d')}</p>
-        <p style="margin:0;color:var(--ink-2)"><strong style="color:var(--ink)">${tr('why3t')}</strong> ${tr('why3d')}</p>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="row-head"><h2>${tr('sec_trips')}</h2></div>
-      <div class="cards">${trips.map(card).join('')}</div>
-    </section>
-
-    <section class="section">
-      <div class="row-head"><h2>${tr('sec_stay')}</h2></div>
-      <div class="cards">${stay.map(card).join('')}</div>
-    </section>
-
-    <section class="section" id="faq" style="max-width:860px">
-      <h2 style="margin-bottom:20px">${tr('faq_t')}</h2>
-      ${[1, 2, 3, 4].map(i => `<details><summary>${tr('f' + i + 'q')}</summary><p>${tr('f' + i + 'a')}</p></details>`).join('')}
-    </section>
-
-    <section class="section">
-      <div class="cta">
-        <div class="cta-photo">${pic('positano', 'coast')}</div>
-        <div class="cta-box">
-          <h2>${tr('cta_t')}</h2>
-          <p style="margin:0;color:var(--ink-2)">${tr('cta_d')}</p>
-          <a class="btn" href="#devis">${tr('cta_b')}</a>
-        </div>
-      </div>
+    <section class="section close" aria-labelledby="close-h">
+      <h2 id="close-h">${tr('cta_t')}</h2>
+      <p>${tr('cta_d')}</p>
+      <a class="btn" href="#devis">${tr('cta_b')}</a>
     </section>
   </div>`;
 }
