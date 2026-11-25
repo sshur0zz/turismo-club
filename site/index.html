@@ -296,6 +296,75 @@ footer.site{background:var(--soft);border-top:none;margin-top:104px}
   .search .btn{width:100%}
   .section{padding-top:64px}
 }
+
+/* favoris */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.cardw{min-width:0;position:relative;display:flex}
+.cardw .card{flex:1 1 auto}
+.fav{width:44px;height:44px;border-radius:999px;border:0;background:rgba(255,255,255,.95);display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow);padding:0}
+.cardw .fav{position:absolute;top:10px;right:10px;z-index:2}
+.fav svg{width:22px;height:22px;fill:none;stroke:var(--ink);stroke-width:2;transition:transform .3s cubic-bezier(.16,1,.3,1),fill .2s}
+.fav:hover svg{transform:scale(1.08)}
+.fav[aria-pressed="true"] svg{fill:#C8283F;stroke:#C8283F;transform:scale(1.1)}
+.fiche-title{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.fiche-title .fav{flex:0 0 auto;margin-top:12px;border:1px solid var(--line);box-shadow:none}
+.rec-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.rec{flex:0 0 180px;text-decoration:none;color:var(--ink);font-weight:600;font-size:14px;line-height:1.3;display:flex;flex-direction:column;gap:8px}
+.rec .img{height:120px;border-radius:12px;overflow:hidden;position:relative}
+.rec:hover span{text-decoration:underline}
+/* garanties */
+.guar{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.guar li{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.4}
+.guar svg{flex:0 0 20px;width:20px;height:20px;fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+.guar b{display:block;color:var(--ink);font-size:14px}
+/* calendrier */
+.avail{border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:10px}
+.book:has(.avail-grid) .dtf{display:none}
+#erq-cal:empty{display:none}
+.avail-wait{margin:0;font-size:14px;color:var(--muted)}
+.avail-head{display:flex;justify-content:space-between;align-items:center}
+.avail-head h3{font-size:16px;margin:0}
+.avail-nav{display:flex;gap:6px}
+.avail-nav button{width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer}
+.avail-nav button:disabled{opacity:.35;cursor:default}
+.avail-nav svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.avail-month{margin:0;font-weight:700;text-transform:capitalize}
+.avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-variant-numeric:tabular-nums}
+.avail-grid .wd{font-size:12px;color:var(--muted);text-align:center;padding-bottom:2px}
+.cd{min-height:48px;border-radius:10px;font-size:14px;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;padding:0}
+span.cd.off{color:#A9ACA7}
+button.cd{border:1px solid #D3D5D1;background:#fff;color:var(--ink);cursor:pointer}
+button.cd:hover{border-color:var(--ink)}
+.cd small{font-size:9.5px;font-weight:600;color:var(--accent);white-space:nowrap}
+.cd.few small{color:#9A4A00}
+button.cd:disabled{background:var(--soft);border-color:transparent;color:#A9ACA7;cursor:not-allowed}
+button.cd:disabled small{color:#A9ACA7}
+button.cd[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+button.cd[aria-pressed="true"] small{color:#D8F0E6}
+.avail-sub{margin:6px 0 0;font-size:14px;font-weight:700}
+.avail-times{display:flex;flex-wrap:wrap;gap:8px}
+.at{min-height:48px;min-width:72px;padding:0 12px;border-radius:12px;border:1px solid #D3D5D1;background:#fff;cursor:pointer;font-weight:700;font-variant-numeric:tabular-nums;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15}
+.at small{font-size:11px;font-weight:500;color:var(--muted)}
+.at.few small{color:#9A4A00;font-weight:700}
+.at[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.at[aria-pressed="true"] small{color:#E6E7E4}
+.at:disabled{opacity:.45;cursor:not-allowed}
+.avail-few{margin:0;background:#FFF1E0;color:#7A3B00;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700}
+/* point de rendez-vous */
+.meet{display:flex;flex-wrap:wrap;align-items:center;gap:14px;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;background:var(--soft)}
+.meet svg{flex:0 0 28px;width:28px;height:28px;fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round}
+.meet p{flex:1 1 220px;margin:0;font-weight:600}
+.meet .btn{min-height:44px;background:#fff}
+/* barre fixe sur téléphone */
+.mbar{display:none}
+@media (max-width:640px){
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;justify-content:space-between;align-items:center;gap:12px;background:#fff;border-top:1px solid var(--line);box-shadow:0 -10px 24px -14px rgba(21,23,26,.35);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+  .mbar p{margin:0;font-size:13px;line-height:1.3;color:var(--muted)}
+  .mbar p strong{display:block;font-size:18px;color:var(--ink)}
+  .mbar .btn{flex:0 0 auto}
+  body:has(.mbar) footer.site{padding-bottom:84px}
+  .rec{flex-basis:150px}
+}
 </style>
 </head>
 <body>
@@ -636,6 +705,41 @@ ko: { q_ok: "요청이 접수되었습니다.", demo: "데모 시뮬레이션: �
   c_d: "사진은 Wikimedia Commons에서 가져왔으며 각 라이선스에 따라 사용합니다. CC BY와 CC BY-SA는 저작자와 라이선스 표기를 요구하며, 이 페이지가 그 역할을 합니다.", c_photo: "사진", c_author: "저작자", c_lic: "라이선스", c_src: "출처", footer: "로마 현지 여행사" }
 };
 Object.keys(UI2).forEach(l => Object.assign(UI[l], UI2[l]));
+
+/* ===================== Calendrier, garanties, favoris (essai, 10 langues) ===================== */
+const UI_CAL = {
+en: { cal_t: "Choose a date", cal_prev: "Previous month", cal_next: "Next month", cal_left: "{n} left", cal_full: "Full", cal_times: "Departure times", cal_few: "Only {n} seats left", cal_seats: "{n} seats", cal_loading: "Loading available dates…",
+  g_pay: "No payment now", g_pay_d: "We confirm availability and price first.", g_reply: "Reply within 24 h", g_reply_d: "From our team in Rome, in your language.", g_cancel: "Cancellation conditions in writing", g_cancel_d: "Sent with our reply, before any payment.",
+  dir: "Directions", fav_add: "Save to favourites", fav_rm: "Remove from favourites", sec_fav: "Your favourites", sec_recent: "Recently viewed", req_go: "Request" },
+it: { cal_t: "Scegli una data", cal_prev: "Mese precedente", cal_next: "Mese successivo", cal_left: "{n} posti", cal_full: "Completo", cal_times: "Orari di partenza", cal_few: "Solo {n} posti rimasti", cal_seats: "{n} posti", cal_loading: "Caricamento delle date disponibili…",
+  g_pay: "Nessun pagamento ora", g_pay_d: "Prima confermiamo disponibilità e prezzo.", g_reply: "Risposta entro 24 h", g_reply_d: "Dal nostro team a Roma, nella tua lingua.", g_cancel: "Condizioni di cancellazione per iscritto", g_cancel_d: "Inviate con la nostra risposta, prima di ogni pagamento.",
+  dir: "Indicazioni", fav_add: "Aggiungi ai preferiti", fav_rm: "Rimuovi dai preferiti", sec_fav: "I tuoi preferiti", sec_recent: "Visti di recente", req_go: "Richiedi" },
+fr: { cal_t: "Choisissez une date", cal_prev: "Mois précédent", cal_next: "Mois suivant", cal_left: "{n} places", cal_full: "Complet", cal_times: "Heures de départ", cal_few: "Plus que {n} places", cal_seats: "{n} places", cal_loading: "Chargement des dates disponibles…",
+  g_pay: "Aucun paiement maintenant", g_pay_d: "Nous confirmons d'abord la disponibilité et le prix.", g_reply: "Réponse sous 24 h", g_reply_d: "Par notre équipe à Rome, dans votre langue.", g_cancel: "Conditions d'annulation par écrit", g_cancel_d: "Envoyées avec notre réponse, avant tout paiement.",
+  dir: "Itinéraire", fav_add: "Ajouter aux favoris", fav_rm: "Retirer des favoris", sec_fav: "Vos favoris", sec_recent: "Vus récemment", req_go: "Demander" },
+es: { cal_t: "Elige una fecha", cal_prev: "Mes anterior", cal_next: "Mes siguiente", cal_left: "{n} plazas", cal_full: "Completo", cal_times: "Horarios de salida", cal_few: "Solo quedan {n} plazas", cal_seats: "{n} plazas", cal_loading: "Cargando fechas disponibles…",
+  g_pay: "Sin pago ahora", g_pay_d: "Primero confirmamos disponibilidad y precio.", g_reply: "Respuesta en 24 h", g_reply_d: "De nuestro equipo en Roma, en tu idioma.", g_cancel: "Condiciones de cancelación por escrito", g_cancel_d: "Enviadas con nuestra respuesta, antes de cualquier pago.",
+  dir: "Cómo llegar", fav_add: "Guardar en favoritos", fav_rm: "Quitar de favoritos", sec_fav: "Tus favoritos", sec_recent: "Vistos recientemente", req_go: "Solicitar" },
+de: { cal_t: "Datum wählen", cal_prev: "Vorheriger Monat", cal_next: "Nächster Monat", cal_left: "{n} frei", cal_full: "Ausgebucht", cal_times: "Abfahrtszeiten", cal_few: "Nur noch {n} Plätze", cal_seats: "{n} Plätze", cal_loading: "Verfügbare Termine werden geladen…",
+  g_pay: "Jetzt keine Zahlung", g_pay_d: "Wir bestätigen zuerst Verfügbarkeit und Preis.", g_reply: "Antwort innerhalb von 24 h", g_reply_d: "Von unserem Team in Rom, in Ihrer Sprache.", g_cancel: "Stornobedingungen schriftlich", g_cancel_d: "Mit unserer Antwort, vor jeder Zahlung.",
+  dir: "Route", fav_add: "Zu Favoriten hinzufügen", fav_rm: "Aus Favoriten entfernen", sec_fav: "Ihre Favoriten", sec_recent: "Zuletzt angesehen", req_go: "Anfragen" },
+pt: { cal_t: "Escolha uma data", cal_prev: "Mês anterior", cal_next: "Mês seguinte", cal_left: "{n} lugares", cal_full: "Esgotado", cal_times: "Horários de partida", cal_few: "Só restam {n} lugares", cal_seats: "{n} lugares", cal_loading: "A carregar as datas disponíveis…",
+  g_pay: "Sem pagamento agora", g_pay_d: "Confirmamos primeiro a disponibilidade e o preço.", g_reply: "Resposta em 24 h", g_reply_d: "Da nossa equipa em Roma, na sua língua.", g_cancel: "Condições de cancelamento por escrito", g_cancel_d: "Enviadas com a nossa resposta, antes de qualquer pagamento.",
+  dir: "Direções", fav_add: "Guardar nos favoritos", fav_rm: "Remover dos favoritos", sec_fav: "Os seus favoritos", sec_recent: "Vistos recentemente", req_go: "Pedir" },
+nl: { cal_t: "Kies een datum", cal_prev: "Vorige maand", cal_next: "Volgende maand", cal_left: "{n} vrij", cal_full: "Vol", cal_times: "Vertrektijden", cal_few: "Nog maar {n} plaatsen", cal_seats: "{n} plaatsen", cal_loading: "Beschikbare data laden…",
+  g_pay: "Nu niet betalen", g_pay_d: "We bevestigen eerst beschikbaarheid en prijs.", g_reply: "Antwoord binnen 24 u", g_reply_d: "Van ons team in Rome, in jouw taal.", g_cancel: "Annuleringsvoorwaarden op schrift", g_cancel_d: "Meegestuurd met ons antwoord, vóór elke betaling.",
+  dir: "Route", fav_add: "Bewaren in favorieten", fav_rm: "Verwijderen uit favorieten", sec_fav: "Jouw favorieten", sec_recent: "Onlangs bekeken", req_go: "Aanvragen" },
+zh: { cal_t: "选择日期", cal_prev: "上个月", cal_next: "下个月", cal_left: "余{n}位", cal_full: "已满", cal_times: "出发时间", cal_few: "仅剩{n}个名额", cal_seats: "{n}个名额", cal_loading: "正在加载可选日期…",
+  g_pay: "现在无需付款", g_pay_d: "我们先确认名额和价格。", g_reply: "24小时内回复", g_reply_d: "由我们在罗马的团队用您的语言回复。", g_cancel: "书面取消条款", g_cancel_d: "随回复一并发送，在任何付款之前。",
+  dir: "路线", fav_add: "加入收藏", fav_rm: "取消收藏", sec_fav: "我的收藏", sec_recent: "最近浏览", req_go: "申请" },
+ja: { cal_t: "日付を選ぶ", cal_prev: "前の月", cal_next: "次の月", cal_left: "残り{n}", cal_full: "満席", cal_times: "出発時刻", cal_few: "残りわずか{n}席", cal_seats: "{n}席", cal_loading: "空き状況を読み込み中…",
+  g_pay: "今はお支払い不要", g_pay_d: "まず空き状況と料金を確認します。", g_reply: "24時間以内に返信", g_reply_d: "ローマのチームがあなたの言語でお答えします。", g_cancel: "キャンセル条件を書面で", g_cancel_d: "お支払いの前に、返信と一緒にお送りします。",
+  dir: "行き方", fav_add: "お気に入りに追加", fav_rm: "お気に入りから削除", sec_fav: "お気に入り", sec_recent: "最近見たツアー", req_go: "リクエスト" },
+ko: { cal_t: "날짜 선택", cal_prev: "이전 달", cal_next: "다음 달", cal_left: "{n}석", cal_full: "마감", cal_times: "출발 시간", cal_few: "{n}석만 남음", cal_seats: "{n}석", cal_loading: "예약 가능한 날짜를 불러오는 중…",
+  g_pay: "지금 결제 없음", g_pay_d: "먼저 예약 가능 여부와 가격을 확인합니다.", g_reply: "24시간 이내 답변", g_reply_d: "로마 현지 팀이 고객님의 언어로 답변합니다.", g_cancel: "취소 조건 서면 안내", g_cancel_d: "결제 전에 답변과 함께 보내드립니다.",
+  dir: "길찾기", fav_add: "찜하기", fav_rm: "찜 해제", sec_fav: "찜한 투어", sec_recent: "최근 본 투어", req_go: "요청하기" }
+};
+Object.keys(UI_CAL).forEach(l => Object.assign(UI[l], UI_CAL[l]));
 const UI3 = {en: {pv: "/ vehicle",on_req: "Price on request"},it: {pv: "/ veicolo",on_req: "Prezzo su richiesta"},fr: {pv: "/ véhicule",on_req: "Prix sur demande"},es: {pv: "/ vehículo",on_req: "Precio a consultar"},de: {pv: "/ Fahrzeug",on_req: "Preis auf Anfrage"},pt: {pv: "/ veículo",on_req: "Preço sob consulta"},nl: {pv: "/ voertuig",on_req: "Prijs op aanvraag"},zh: {pv: "/ 每车",on_req: "价格请咨询"},ja: {pv: "/ 1台",on_req: "料金はお問い合わせください"},ko: {pv: "/ 차량당",on_req: "가격 문의"}};
 Object.keys(UI3).forEach(l => Object.assign(UI[l], UI3[l]));
 const UI4 = {
@@ -797,6 +901,7 @@ const state = {
   booked: {},               // places prises en plus, par "slug|date|heure"
   filters: { envies: [], dest: 'tous', duree: 'toutes', tri: 'populaires' },
   pick: {},                 // choix en cours sur la fiche
+  avail: {},                // disponibilités réelles par offre (jours → créneaux)
   lastOrder: null,
   quoteSent: null,
   palette: 'bordeaux',
@@ -1053,15 +1158,91 @@ function priceTxt(a) {
 }
 const catName = slug => L(ENVIES.find(e => e.slug === slug).name);
 
+
+/* ===================== Favoris et « vus récemment » (dans le navigateur du visiteur, sans compte) ===================== */
+function lsGet(k) { try { const v = JSON.parse(localStorage.getItem(k) || '[]'); return Array.isArray(v) ? v.filter(x => typeof x === 'string' && bySlug[x]) : []; } catch (e) { return []; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+const favs = () => lsGet('tc_fav');
+const isFav = slug => favs().includes(slug);
+function toggleFav(slug) { const f = favs(); const i = f.indexOf(slug); if (i >= 0) f.splice(i, 1); else f.unshift(slug); lsSet('tc_fav', f.slice(0, 40)); return i < 0; }
+function noteRecent(slug) { const r = lsGet('tc_recent').filter(x => x !== slug); r.unshift(slug); lsSet('tc_recent', r.slice(0, 8)); }
+const HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9.2-8.6C1.2 8.2 3.1 4.5 6.6 4.5c2.1 0 3.5 1.2 5.4 3.2 1.9-2 3.3-3.2 5.4-3.2 3.5 0 5.4 3.7 3.8 6.9C19 15.6 12 20 12 20z"/></svg>';
+function favBtn(a) { const on = isFav(a.slug); return `<button type="button" class="fav" data-fav="${a.slug}" aria-pressed="${on}" aria-label="${on ? tr('fav_rm') : tr('fav_add')}">${HEART}</button>`; }
+
+/* ===================== Disponibilités réelles (fonction offer_availability, migration 31) ===================== */
+const ROME_DAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit' });
+const ROME_TIME = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+const FEW_SEATS = 5;
+const hasCalendar = a => ['activity', 'bus', 'circuit'].includes(a.type);
+async function loadAvail(a) {
+  const st = state.avail[a.slug];
+  if (st && (st.days || st.loading)) return;
+  state.avail[a.slug] = { loading: true };
+  try {
+    const r = await supa('rpc/offer_availability', { method: 'POST', body: JSON.stringify({ p_slug: a.slug, p_days: 60 }) });
+    const rows = r.ok ? await r.json() : [];
+    const days = {};
+    (Array.isArray(rows) ? rows : []).forEach(x => { const d = new Date(x.starts_at); const k = ROME_DAY.format(d); (days[k] = days[k] || []).push({ t: ROME_TIME.format(d), n: x.seats_left }); });
+    const keys = Object.keys(days).sort();
+    state.avail[a.slug] = { days: keys.length ? days : null, month: keys.length ? keys[0].slice(0, 7) : null };
+  } catch (e) { state.avail[a.slug] = { days: null }; }
+  const box = $('#avail'); if (box && box.dataset.slug === a.slug) { box.outerHTML = calendarHtml(a); syncTimes(a); }
+}
+function calendarHtml(a) {
+  const st = state.avail[a.slug] || {}, p = state.pick[a.slug] || {};
+  if (st.loading) return `<div id="avail" data-slug="${a.slug}" class="avail"><p class="avail-wait">${tr('cal_loading')}</p></div>`;
+  if (!st.days) return `<div id="avail" data-slug="${a.slug}" hidden></div>`;
+  const keys = Object.keys(st.days).sort(), first = keys[0].slice(0, 7), last = keys[keys.length - 1].slice(0, 7);
+  const [y, m] = st.month.split('-').map(Number);
+  const start = new Date(Date.UTC(y, m - 1, 1)), nDays = new Date(Date.UTC(y, m, 0)).getUTCDate(), lead = (start.getUTCDay() + 6) % 7;
+  const wk = Array.from({ length: 7 }, (_, i) => new Date(Date.UTC(2024, 0, 1 + i)).toLocaleDateString(LOCALE(), { weekday: 'narrow', timeZone: 'UTC' }));
+  const title = start.toLocaleDateString(LOCALE(), { month: 'long', year: 'numeric', timeZone: 'UTC' });
+  let cells = '';
+  for (let i = 0; i < lead; i++) cells += '<span></span>';
+  for (let d = 1; d <= nDays; d++) {
+    const k = st.month + '-' + String(d).padStart(2, '0'), slots = st.days[k];
+    if (!slots) { cells += `<span class="cd off">${d}</span>`; continue; }
+    const free = slots.reduce((s, x) => s + x.n, 0), maxOne = Math.max(...slots.map(x => x.n));
+    const lab = free === 0 ? tr('cal_full') : maxOne <= FEW_SEATS ? tr('cal_left', { n: maxOne }) : '';
+    const full = new Date(k + 'T12:00:00').toLocaleDateString(LOCALE(), { weekday: 'long', day: 'numeric', month: 'long' });
+    cells += `<button type="button" class="cd${free === 0 ? ' full' : maxOne <= FEW_SEATS ? ' few' : ''}" data-day="${k}" aria-pressed="${p.day === k}" aria-label="${esc(full + (lab ? ' · ' + lab : ''))}" ${free === 0 ? 'disabled' : ''}>${d}<small>${lab || '&nbsp;'}</small></button>`;
+  }
+  const sel = p.day && st.days[p.day];
+  return `<div id="avail" data-slug="${a.slug}" class="avail">
+    <div class="avail-head"><h3>${tr('cal_t')}</h3><div class="avail-nav">
+      <button type="button" data-calm="-1" aria-label="${tr('cal_prev')}" ${st.month <= first ? 'disabled' : ''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button type="button" data-calm="1" aria-label="${tr('cal_next')}" ${st.month >= last ? 'disabled' : ''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div></div>
+    <p class="avail-month" aria-live="polite">${esc(title)}</p>
+    <span class="err" id="erq-cal" role="alert"></span>
+    <div class="avail-grid">${wk.map(w => `<span class="wd" aria-hidden="true">${esc(w)}</span>`).join('')}${cells}</div>
+    ${sel ? `<p class="avail-sub">${tr('cal_times')}</p><div class="avail-times">${sel.map(x => `<button type="button" class="at${x.n <= FEW_SEATS ? ' few' : ''}" data-time="${x.t}" aria-pressed="${p.time === x.t}" ${x.n === 0 ? 'disabled' : ''}>${x.t}<small>${x.n === 0 ? tr('cal_full') : tr('cal_seats', { n: x.n })}</small></button>`).join('')}</div>` : ''}
+    ${sel && p.time ? (() => { const x = sel.find(s => s.t === p.time); return x && x.n > 0 && x.n <= FEW_SEATS ? `<p class="avail-few">${tr('cal_few', { n: x.n })}</p>` : ''; })() : ''}
+  </div>`;
+}
+// Recopie le jour et l'heure choisis dans les champs du formulaire (ils restent la référence à l'envoi)
+function syncTimes(a) {
+  const st = state.avail[a.slug] || {}, p = state.pick[a.slug] || {};
+  const dt = $('#rq-date'), tm = $('#rq-time');
+  if (dt && p.day) dt.value = p.day;
+  if (tm && p.day && st.days && st.days[p.day]) {
+    const list = st.days[p.day].filter(x => x.n > 0).map(x => x.t);
+    if (list.length) { tm.innerHTML = list.map(t => `<option ${t === p.time ? 'selected' : ''}>${t}</option>`).join(''); if (!p.time) p.time = list[0]; tm.value = p.time; }
+  }
+}
+function guarantees() {
+  const I = { pay: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/>', reply: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', cancel: '<path d="M4 12l5 5L20 6"/>' };
+  return `<ul class="guar">${['pay', 'reply', 'cancel'].map(k => `<li><svg viewBox="0 0 24 24" aria-hidden="true">${I[k]}</svg><span><b>${tr('g_' + k)}</b>${tr('g_' + k + '_d')}</span></li>`).join('')}</ul>`;
+}
+
 function card(a) {
   const meta = [durTxt(a), L(DESTINATIONS[a.dest]), (a.type === 'activity' || a.type === 'circuit') ? tr('guided') : catName(a.type)].filter(Boolean).join(' · ');
-  return `<a class="card" href="#activite-${a.slug}">
+  return `<div class="cardw"><a class="card" href="#activite-${a.slug}">
     <div class="img">${actPic(a.slug, 0)}${a.badge ? `<span class="badge">${esc(a.badge)}</span>` : ''}</div>
     <div class="body">
       <span class="meta">${esc(meta)}</span>
       <strong class="t">${esc(L(a.title))}</strong>
       <span class="price">${priceTxt(a)}</span>
-    </div></a>`;
+    </div></a>${favBtn(a)}</div>`;
 }
 const pub = list => list.filter(a => a.published !== false);
 
@@ -1087,6 +1268,8 @@ function pageAccueil() {
     </form>
   </section>
   <div class="wrap">
+    ${(() => { const f = pub(favs().map(x => bySlug[x])); return f.length ? `<section class="section" aria-labelledby="fav-h"><div class="row-head"><h2 id="fav-h">${tr('sec_fav')}</h2></div><div class="cards">${f.slice(0, 4).map(card).join('')}</div></section>` : ''; })()}
+    ${(() => { const r = pub(lsGet('tc_recent').map(x => bySlug[x])); return r.length ? `<section class="section recent" aria-labelledby="rec-h"><div class="row-head"><h2 id="rec-h">${tr('sec_recent')}</h2></div><div class="rec-row">${r.map(a => `<a class="rec" href="#activite-${a.slug}"><div class="img">${actPic(a.slug, 0)}</div><span>${esc(L(a.title))}</span></a>`).join('')}</div></section>` : ''; })()}
     <section class="section best" aria-labelledby="best-h">
       <div class="row-head"><div><h2 id="best-h">${tr('sec_best')}</h2><p style="margin:4px 0 0;color:var(--ink-2)">${tr('sec_best_d')}</p></div><a href="#catalogue" data-allcat style="font-weight:700">${tr('see_all')}</a></div>
       <div class="cards">${best.map(card).join('')}</div>
@@ -1188,7 +1371,7 @@ function pageCatalogue() {
 function pageFiche(a) {
   return `<div class="wrap">
     <nav class="crumb" aria-label="Breadcrumb"><a href="#accueil">${tr('home')}</a> › <a href="#catalogue">${tr('nav_offers')}</a> › ${esc(catName(a.type))}</nav>
-    <h1 style="font-size:clamp(26px,4vw,38px);margin:10px 0 6px">${esc(L(a.title))}</h1>
+    <div class="fiche-title"><h1 style="font-size:clamp(26px,4vw,38px);margin:10px 0 6px">${esc(L(a.title))}</h1>${favBtn(a)}</div>
     <p style="margin:0;color:var(--ink-2)">${esc(L(DESTINATIONS[a.dest]))}${durTxt(a) ? ' · ' + durTxt(a) : ''}</p>
     <div class="gallery">
       <div class="big" style="position:relative;overflow:hidden">${actPic(a.slug, 0)}</div>
@@ -1203,11 +1386,12 @@ function pageFiche(a) {
           <div style="background:#F0FDF4"><h2 style="font-size:18px">${tr('incl')}</h2><ul>${a.included.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>
           <div style="background:#FEF2F2"><h2 style="font-size:18px">${tr('notincl')}</h2><ul>${a.notIncluded.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>
         </section>
-        <section><h2>${tr('meet')}</h2><div class="map" lang="en">${esc(a.meeting)}</div></section>
+        <section><h2>${tr('meet')}</h2><div class="meet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><p lang="en">${esc(a.meeting)}</p><a class="btn ghost" href="https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(a.meeting + ', Roma')}" target="_blank" rel="noopener">${tr('dir')}</a></div></section>
         <section><h2>${tr('gtk')}</h2><p style="margin:0;color:var(--ink-2)" lang="en">${esc(a.info)}</p></section>
       </div>
       ${bookingBox(a)}
-    </div></div>`;
+    </div></div>
+    ${(state.pick[a.slug] || {}).result ? '' : `<div class="mbar"><p>${priceTxt(a)}</p><a class="btn" href="#reqForm" data-goreq>${tr('req_go')}</a></div>`}`;
 }
 
 /* ===================== Demandes de réservation (réelles, sans paiement) =====================
@@ -1251,14 +1435,15 @@ function bookingBox(a) {
   return `<aside class="book" aria-label="${tr('br_t')}">
     <p style="margin:0;color:var(--muted)">${priceTxt(a)}</p>
     <h2 style="margin:0;font-size:20px">${tr('br_t')}</h2>
-    <p style="margin:0;font-size:14px;color:var(--ink-2)">${tr('br_d')}</p>
+    ${guarantees()}
+    ${hasCalendar(a) ? calendarHtml(a) : ''}
     <form id="reqForm" data-slug="${a.slug}" class="form" style="gap:14px;position:relative" novalidate>
       <div class="field"><label for="rq-offer">${tr('f_offer')}</label><input id="rq-offer" value="${esc(L(a.title))}" readonly></div>
       <div class="field"><label for="rq-name">${tr('f_name')}</label><input id="rq-name" autocomplete="name" required aria-describedby="erq-name"><span class="err" id="erq-name"></span></div>
       <div class="field"><label for="rq-email">${tr('email')}</label><input id="rq-email" type="email" autocomplete="email" required aria-describedby="erq-email"><span class="err" id="erq-email"></span></div>
       <div class="field"><label for="rq-phone">${tr('phone')}</label><input id="rq-phone" type="tel" autocomplete="tel"></div>
-      <div class="field"><label for="rq-date">${isHotel ? tr('checkin') : tr('f_date')}</label><input id="rq-date" type="date" min="${today1()}" required aria-describedby="erq-date"><span class="err" id="erq-date"></span></div>
-      ${!isHotel && a.times.length ? `<div class="field"><label for="rq-time">${tr('time')}</label><select id="rq-time">${a.times.map(x => `<option>${x}</option>`).join('')}</select></div>` : ''}
+      <div class="field dtf"><label for="rq-date">${isHotel ? tr('checkin') : tr('f_date')}</label><input id="rq-date" type="date" min="${today1()}" value="${esc(p.day || '')}" required aria-describedby="erq-date"><span class="err" id="erq-date"></span></div>
+      ${!isHotel && a.times.length ? `<div class="field dtf"><label for="rq-time">${tr('time')}</label><select id="rq-time">${a.times.map(x => `<option>${x}</option>`).join('')}</select></div>` : ''}
       ${isHotel ? `<div class="field"><label for="rq-nights">${tr('nights')}</label><input id="rq-nights" type="number" min="1" max="30" value="2" inputmode="numeric"></div>` : ''}
       <div class="field"><label for="rq-pax">${tr('f_pax')}</label><input id="rq-pax" type="number" min="1" max="99" value="2" inputmode="numeric" required aria-describedby="erq-pax"><span class="err" id="erq-pax"></span></div>
       <div class="field"><label for="rq-lang">${tr('f_lang')}</label><select id="rq-lang">${langOptions(LANG)}</select></div>
@@ -1314,7 +1499,8 @@ function submitBooking(f) {
   ok = setErr(dt, $('#erq-date'), dt.value && dt.value >= today1() ? '' : tr('e_date')) && ok;
   ok = setErr(px, $('#erq-pax'), pax >= 1 && pax <= 99 ? '' : tr('e_pax')) && ok;
   ok = setErr(ok1, $('#erq-ok'), ok1.checked ? '' : tr('e_consent')) && ok;
-  if (!ok) { f.querySelector('[aria-invalid="true"]').focus(); return; }
+  const calOn = $('.book .avail-grid'), ec = $('#erq-cal'); if (ec) ec.textContent = calOn ? $('#erq-date').textContent : '';
+  if (!ok) { const bad = f.querySelector('[aria-invalid="true"]'); if (bad === dt && calOn) (document.querySelector('#avail button.cd:not(:disabled)') || dt).focus(); else bad.focus(); return; }
   if ($('#rq-web').value) { p.result = { ok: true, offer: L(a.title), date: dt.value, pax, name: nm.value.trim() }; rerender(); return; } // robot : on ne fait rien
   if (Date.now() - p.t0 < MIN_FILL_MS) { $('#erq-form').textContent = tr('e_wait'); return; }
   $('#erq-form').textContent = '';
@@ -1574,6 +1760,7 @@ function render() {
   if (h === 'accueil-faq') { const f = $('#faq'); if (f) f.scrollIntoView(); }
   else if (!render.keepScroll) window.scrollTo(0, 0);
   render.keepScroll = false;
+  if (h.startsWith('activite-') && bySlug[h.slice(9)]) { const a = bySlug[h.slice(9)]; noteRecent(a.slug); if (hasCalendar(a) && !(state.pick[a.slug] || {}).result) { loadAvail(a); syncTimes(a); } }
   document.title = 'Turismo Club — ' + ({ catalogue: tr('nav_offers'), devis: tr('nav_custom'), hotels: tr('nav_hotels'), credits: tr('credits'), privacy: tr('privacy'), legal: tr('legal') }[h] || (h.startsWith('activite-') && bySlug[h.slice(9)] ? L(bySlug[h.slice(9)].title) : tr('hero_eb')));
 }
 function rerender() { render.keepScroll = true; const y = window.scrollY; render(); window.scrollTo(0, y); }
@@ -1589,6 +1776,18 @@ document.addEventListener('click', e => {
   if (t.hasAttribute('data-allcat')) { state.filters = { envies: [], dest: 'tous', duree: 'toutes', tri: 'populaires' }; }
   if (t.hasAttribute('data-req-again')) { if (h === 'hotels' && state.hotels) { state.hotels.pick = null; state.hotels.req = null; } if (h === 'devis') state.quote = null; else if (h.startsWith('activite-')) state.pick[h.slice(9)] = null; rerender(); return; }
   if (t.dataset.envie) { state.filters = { envies: [t.dataset.envie], dest: 'tous', duree: 'toutes', tri: 'populaires' }; location.hash = 'catalogue'; return; }
+  if (t.dataset.fav) { e.preventDefault(); const on = toggleFav(t.dataset.fav); document.querySelectorAll(`[data-fav="${t.dataset.fav}"]`).forEach(b => { b.setAttribute('aria-pressed', on); b.setAttribute('aria-label', on ? tr('fav_rm') : tr('fav_add')); }); return; }
+  if (t.dataset.day || t.dataset.time || t.dataset.calm) {
+    const a = bySlug[h.slice(9)]; if (!a) return; const p = state.pick[a.slug] || (state.pick[a.slug] = { t0: Date.now() }); const st = state.avail[a.slug];
+    if (t.dataset.calm) { const [y, m] = st.month.split('-').map(Number); const d = new Date(Date.UTC(y, m - 1 + Number(t.dataset.calm), 1)); st.month = d.toISOString().slice(0, 7); }
+    if (t.dataset.day) { p.day = t.dataset.day; p.time = null; }
+    if (t.dataset.time) p.time = t.dataset.time;
+    const focusKey = t.dataset.day ? `[data-day="${t.dataset.day}"]` : t.dataset.time ? `[data-time="${t.dataset.time}"]` : `[data-calm="${t.dataset.calm}"]`;
+    $('#avail').outerHTML = calendarHtml(a); syncTimes(a);
+    const back = document.querySelector('#avail ' + focusKey); if (back && !back.disabled) back.focus();
+    return;
+  }
+  if (t.hasAttribute('data-goreq')) { e.preventDefault(); const f = $('#reqForm'); if (f) { f.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); setTimeout(() => { const n = $('#rq-name'); if (n) n.focus({ preventScroll: true }); }, 400); } return; }
   if (t.id === 'resetFilters') { state.filters = { envies: [], dest: 'tous', duree: 'toutes', tri: 'populaires' }; rerender(); return; }
 });
 

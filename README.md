@@ -21,6 +21,13 @@ Agence locale à Rome (Turismo Club di Riadh Mraihi, P.IVA 18751221005) : visite
 - Pages **Privacy & Cookies** et **Note legali** (anglais + italien), à faire relire par un professionnel.
 - Référencement : description, image d'aperçu pour WhatsApp/Facebook (`og-image.jpg`, photo CC0), icône, `robots.txt`, `sitemap.xml`, fiche « agence de voyage » pour Google générée depuis `CONFIG`.
 
+## Fiches offres (branche essais-style)
+
+- **Calendrier des disponibilités** sur les visites, bus et circuits : jours de départ réels et places restantes, lus via la fonction `offer_availability` (migration 31, aucune donnée client). Le jour et l'heure choisis remplissent le formulaire. Si la base ne répond pas, le champ date classique reste affiché.
+- **Garanties** près du formulaire : sans paiement maintenant, réponse sous 24 h, conditions d'annulation par écrit.
+- **Favoris** (cœur) et **vus récemment** : gardés dans le navigateur du visiteur, sans compte, affichés sur l'accueil.
+- **Point de rendez-vous** avec un lien d'itinéraire Google Maps ; **barre de demande fixe** en bas de l'écran sur téléphone.
+
 ## Espace équipe : https://turismoclub.it/pro/
 
 **Se connecter :** e-mail + mot de passe (option : recevoir un lien de connexion par e-mail). Premier compte admin : mraihiriadh@turismoclub.it. Changer son mot de passe : menu **Mon mot de passe** (12 caractères minimum).
