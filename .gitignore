@@ -5,3 +5,7 @@ node_modules/
 supabase/.temp/
 graphify-out/
 .claude/settings.local.json
+.taste-skill/
+site/.taste-skill/
+.impeccable/mocks/
+.impeccable/review/

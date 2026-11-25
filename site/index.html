@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-type="service" data-radius="soft">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Turismo Club — Rome</title>
 <meta name="description" content="Local travel agency in Rome: guided tours, bus tours, day trips across Italy, hotels and restaurants. Send a booking request in 10 languages and get a reply within 24 h.">
 <link rel="canonical" href="https://turismoclub.it/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 50'%3E%3Cpath d='M4 48V22a20 20 0 0 1 40 0v26z' fill='%230B6B57'/%3E%3Cpath d='M14 48V24a10 10 0 0 1 20 0v24z' fill='%23fff'/%3E%3Cpath d='M17 48a7 7 0 0 1 14 0z' fill='%230B6B57'/%3E%3C/svg%3E">
-<meta name="theme-color" content="#0B6B57">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 50'%3E%3Cpath d='M4 48V22a20 20 0 0 1 40 0v26z' fill='%23D92B21'/%3E%3Cpath d='M14 48V24a10 10 0 0 1 20 0v24z' fill='%23fff'/%3E%3Cpath d='M17 48a7 7 0 0 1 14 0z' fill='%23D92B21'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0A0A0A">
+<meta name="page-type" content="service">
+<meta name="site-kind" content="other">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Turismo Club">
 <meta property="og:title" content="Turismo Club — Rome">
@@ -19,15 +21,17 @@
 <meta property="og:image:alt" content="The Colosseum and the Roman Forum from above">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400..700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --accent:#0B6B57; --accent-dark:#08533F; --accent-light:#BFE6D6; --hero:#15171A; --ink:#15171A; --ink-2:#3B3F45; --muted:#5A5F66;
-  --line:#E6E7E4; --soft:#F4F5F3; --bg:#FFFFFF; --cream:#F4F5F3; --cream-line:#E6E7E4;
-  --radius:14px; --shadow:0 1px 2px rgba(21,23,26,.06),0 8px 24px -8px rgba(21,23,26,.14);
+  /* Direction (taste-skill, tirage) : service · palette white-signal-red · Host Grotesk · radius soft · héros film · moment pinned-chapters · footer-dark · close-photo · dark-band · boutons solid · marque arc */
+  --accent:#D92B21; --accent-dark:#B01F17; --accent-light:#FBD9D6; --hero:#0A0A0A; --ink:#0A0A0A; --ink-2:#333333; --muted:#666666;
+  --line:#E4E4E4; --soft:#F2F2F2; --bg:#FFFFFF; --cream:#F2F2F2; --cream-line:#E4E4E4;
+  --radius:16px; --r-btn:10px; --shadow:0 1px 2px rgba(10,10,10,.06),0 10px 28px -12px rgba(10,10,10,.22);
+  --ease:cubic-bezier(.16,1,.3,1);
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:'Figtree',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+body{margin:0;font-family:'Host Grotesk',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
 a{color:var(--accent)}a:hover{color:var(--accent-dark)}
 button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:3px solid #2563EB;outline-offset:2px}
@@ -219,84 +223,167 @@ footer.site .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-bet
   .langmenu{left:0;right:auto}
 }
 
-/* ===== Essai « style simple » (branche essais-style) ===== */
+/* ===== Direction artistique (branche essais-style) ===== */
 ::selection{background:var(--accent-light);color:var(--ink)}
-html{scrollbar-color:#C9CBC7 transparent}
-body{line-height:1.55;-webkit-font-smoothing:antialiased}
-:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+html{scrollbar-color:#C8C8C8 transparent}
+body{font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01"}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
 a{text-underline-offset:3px}
-h1,h2,h3{letter-spacing:-.02em;text-wrap:balance}
+h1,h2,h3{font-weight:400;letter-spacing:-.035em;text-wrap:balance;line-height:1.04}
+strong,b{font-weight:600}
+.wrap{max-width:1280px;padding:0 40px}
 .demo{background:var(--soft);color:var(--ink-2);border-bottom:1px solid var(--line)}
-header.site{border-bottom:1px solid var(--line);background:rgba(255,255,255,.96)}
-nav.main{gap:4px}
-nav.main a{padding:10px 14px;border-radius:999px;color:var(--ink-2)}
-nav.main a:hover{background:var(--soft);color:var(--ink)}
-nav.main a[aria-current="page"]{color:var(--ink);background:var(--soft);box-shadow:none}
-.btn{border-radius:999px;padding:0 24px;font-weight:700;transition:background .2s,transform .2s cubic-bezier(.16,1,.3,1)}
-.btn:active{transform:scale(.98)}
-.btn.ghost{border:1.5px solid #CFD1CD}
-.cart-btn,#langBtn{border-radius:999px;border-color:var(--line)}
-.cart-btn b{background:var(--accent)}
-.section{padding-top:88px}
-.section h2{font-size:clamp(26px,3vw,34px);font-weight:800}
-.row-head{margin-bottom:28px}
-.row-head a{color:var(--ink);text-decoration:underline;text-decoration-color:#C9CBC7}
-.row-head a:hover{text-decoration-color:var(--ink)}
-.hero{max-width:1240px;margin:16px auto 0;border-radius:24px;min-height:600px;padding:64px 56px 56px;justify-content:flex-end;gap:16px}
+/* en-tête */
+header.site{border-bottom:0;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px)}
+header.site .wrap{padding-top:12px;padding-bottom:12px}
+nav.main{gap:4px;font-weight:500;font-size:16px}
+nav.main a{padding:10px 14px;color:var(--ink);background-image:linear-gradient(var(--ink),var(--ink));background-size:0 1.5px;background-repeat:no-repeat;background-position:14px calc(100% - 8px);transition:background-size .35s var(--ease)}
+nav.main a:hover{color:var(--ink);background-size:calc(100% - 28px) 1.5px}
+nav.main a[aria-current="page"]{color:var(--ink);box-shadow:none;background-size:calc(100% - 28px) 1.5px}
+.cart-btn,#langBtn{border-radius:var(--r-btn);border-color:var(--line);font-weight:500}
+/* boutons pleins : marche au survol, pression au clic */
+.btn{border-radius:var(--r-btn);font-weight:500;padding:0 24px;min-height:52px;transition:background .2s,transform .25s var(--ease),box-shadow .25s var(--ease)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px -10px rgba(217,43,33,.7)}
+.btn:active{transform:translateY(1px) scale(.98);box-shadow:none}
+.btn.ghost{border:1.5px solid var(--ink);background:transparent}
+.btn.ghost:hover{background:var(--ink);color:#fff;box-shadow:none}
+/* rythme */
+.section{padding-top:128px}
+.section h2,.row-head h2{font-size:clamp(34px,4.2vw,56px)}
+.row-head{margin-bottom:40px;align-items:flex-end}
+.row-head p{font-size:18px;max-width:52ch}
+.row-head a{color:var(--ink);text-decoration:none;font-weight:500;background-image:linear-gradient(var(--ink),var(--ink));background-size:100% 1.5px;background-repeat:no-repeat;background-position:0 100%;padding-bottom:2px;transition:background-size .35s var(--ease)}
+.row-head a:hover{background-size:0 1.5px;background-position:100% 100%}
+/* héros « film » : un cadre photo sur les lignes du conteneur, les mots dans un bloc plein */
+.hero{width:min(1200px,calc(100% - 80px));max-width:none;margin:12px auto 16px;height:calc(100svh - var(--hdr,84px) - 28px);min-height:560px;max-height:980px;border-radius:24px;padding:0;display:block;background:#0A0A0A}
 .hero .scene{display:none}
-.hero .hero-photo::after{background:linear-gradient(0deg,rgba(12,14,16,.78) 0%,rgba(12,14,16,.35) 45%,rgba(12,14,16,0) 75%),linear-gradient(90deg,rgba(12,14,16,.35),rgba(12,14,16,0) 60%)}
-.hero h1{font-size:clamp(36px,5vw,60px);font-weight:800;letter-spacing:-.03em;max-width:820px}
-.hero p{font-size:19px;color:#ECEDEB;max-width:620px}
-.search{border-radius:999px;padding:8px 8px 8px 12px;max-width:820px;margin-top:12px;box-shadow:0 18px 40px -16px rgba(0,0,0,.45);align-items:center}
-.search .f{padding:6px 18px}
+.hero .hero-photo::after{display:none}
+.hero .hero-photo img{transform-origin:60% 40%}
+.hero > .hero-box{position:absolute}
+.hero-box{position:absolute;left:32px;bottom:32px;width:min(640px,calc(100% - 64px));max-height:calc(100% - 64px);background:#0A0A0A;color:#fff;border-radius:18px;padding:40px;display:flex;flex-direction:column;gap:18px}
+.hero h1{margin:0;color:#fff;font-weight:400;font-size:clamp(38px,4.2vw,60px);line-height:1.03;letter-spacing:-.04em}
+.hero p{margin:0;color:#D6D6D6;font-size:18px;max-width:42ch}
+.hero .search{display:grid;grid-template-columns:1fr 1fr auto;gap:0;background:#fff;border-radius:12px;padding:6px;max-width:none;margin-top:6px;box-shadow:none;align-items:stretch}
+.search .f{padding:8px 14px;gap:0}
 .search .f + .f{border-left:1px solid var(--line)}
-.search label{font-size:12px;letter-spacing:.02em;color:var(--ink)}
-.search select,.search input{color:var(--ink-2);cursor:pointer}
-.search .btn{min-height:56px}
-.cards{gap:28px}
-.card{border:none;border-radius:0;padding-bottom:6px;gap:10px;background:transparent}
-.card:hover{box-shadow:none}
-.card .img{height:220px;border-radius:var(--radius);overflow:hidden}
-.card .img img,.card .img .photo{transition:transform .5s cubic-bezier(.16,1,.3,1)}
-.card:hover .img img{transform:scale(1.04)}
-.card .badge{border-radius:999px;padding:5px 12px;box-shadow:var(--shadow)}
-.card .body{padding:2px 2px 0}
-.card strong.t{font-size:17px;font-weight:700}
-.price{font-weight:700}
-.price span{font-weight:500}
-.tiles{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
-.tile{height:200px;border-radius:var(--radius)}
-.tile .lbl{background:#fff;border-radius:12px;padding:8px 12px;font-weight:700;box-shadow:var(--shadow)}
-.tile:hover .lbl{background:var(--ink);color:#fff}
-.cta{background:var(--soft);border:none;border-radius:24px;padding:48px}
-details{border-radius:var(--radius)}
-footer.site{background:var(--soft);border-top:none;margin-top:104px}
-.filters{border-radius:var(--radius)}
+.search label{font-size:12px;font-weight:500;color:var(--muted)}
+.search select,.search input{color:var(--ink);font-weight:500;cursor:pointer;padding:2px 0}
+.search .btn{min-height:52px;height:52px;align-self:center}
+[data-enter] .hero-box{animation:enterBox .9s var(--ease) .15s both}
+[data-enter] .hero-photo img{animation:enterPhoto 1.6s var(--ease) both}
+@keyframes enterBox{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes enterPhoto{from{transform:scale(1.06)}to{transform:none}}
+/* cartes : la carte monte de 2 px, la photo zoome dans son cadre */
+.cards{gap:40px 28px}
+.card{border:none;border-radius:0;padding-bottom:4px;gap:12px;background:transparent;transition:transform .35s var(--ease)}
+.card:hover{box-shadow:none;transform:translateY(-2px)}
+.card .img{height:auto;aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden}
+.card .img img,.card .img .photo{transition:transform .7s var(--ease)}
+.card:hover .img img{transform:scale(1.03)}
+.card .badge{border-radius:8px;padding:5px 10px;font-weight:500;background:#fff}
+.card .body{padding:0}
+.meta{font-weight:400}
+.card strong.t{font-size:18px;font-weight:500;line-height:1.3;letter-spacing:-.01em}
+.price{font-size:16px}
+.price strong{font-weight:600}
+/* catégories en mosaïque */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:260px;gap:16px}
+.tiles .tile:first-child,.tiles .tile:last-child{grid-column:span 2}
+.tile{height:auto;border-radius:var(--radius);padding:20px;transition:transform .35s var(--ease)}
+.tile .illo,.tile .photo{transition:transform .7s var(--ease)}
+.tile:hover{transform:translateY(-2px)}
+.tile:hover .photo{transform:scale(1.03)}
+.tile .lbl{background:#fff;border-radius:10px;padding:10px 14px;font-weight:500;font-size:17px;box-shadow:none}
+.tile .lbl span{color:var(--muted);font-weight:400}
+.tiles .tile:first-child .lbl{font-size:24px;padding:14px 18px;letter-spacing:-.02em}
+/* bande noire (pourquoi nous) */
+.section.split{background:#0A0A0A;color:#fff;border-radius:24px;padding:72px;margin-top:128px;gap:64px}
+.section.split h2{color:#fff;font-size:clamp(34px,4vw,52px)!important}
+.section.split p{color:#BDBDBD!important}
+.section.split strong{color:#fff!important}
+.section.split > div:first-child{height:480px!important;border-radius:16px!important}
+/* « comment ça marche » (moment pinned-chapters) */
+.how{padding-top:128px}
+.how-grid{display:grid;gap:56px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
+.how h2{font-size:clamp(34px,4.2vw,56px);margin:0 0 40px}
+.how-steps{list-style:none;margin:0;padding:0;display:grid;gap:28px}
+.how-step{display:grid;gap:8px;padding-left:24px;border-left:2px solid var(--line);transition:border-color .3s}
+.how-step h3{font-size:24px;letter-spacing:-.02em;margin:0;line-height:1.2;transition:color .3s}
+.how-step h3 span{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:10px}
+.how-step p{margin:0;color:var(--ink-2);max-width:46ch}
+.how-step .how-pic{display:none}
+.how-frame{position:relative;aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;background:var(--soft)}
+.how-frame .how-pic{position:absolute;inset:0;opacity:0;transform:scale(1.04);transition:opacity .5s ease,transform .9s var(--ease)}
+.how-frame .how-pic.on{opacity:1;transform:none}
+.how.live{height:200svh;padding-top:0}
+.how.live .how-grid{position:sticky;top:0;height:100svh;padding-top:88px;box-sizing:border-box}
+.how.live .how-step h3{color:#707070}
+.how.live .how-step p{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .42s cubic-bezier(.2,.7,.2,1),opacity .3s}
+.how.live .how-step p > span{min-height:0;overflow:hidden}
+.how.live .how-step.on{border-left-color:var(--accent)}
+.how.live .how-step.on h3{color:var(--ink)}
+.how.live .how-step.on p{grid-template-rows:1fr;opacity:1}
+/* fermeture sur photo (voyage sur mesure) */
+.cta{position:relative;overflow:hidden;background:#0A0A0A;border:none;border-radius:24px;padding:0;min-height:560px;display:flex;align-items:flex-end}
+.cta .cta-photo{position:absolute;inset:0}
+.cta .cta-box{position:relative;margin:32px;background:#fff;color:var(--ink);border-radius:18px;padding:40px;max-width:560px;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.cta .cta-box h2{font-size:clamp(30px,3.4vw,44px)!important}
+details{border:0;border-top:1px solid var(--line);border-radius:0;padding:22px 0}
+details:last-of-type{border-bottom:1px solid var(--line)}
+details + details{margin-top:0}
+summary{font-weight:500;font-size:20px;letter-spacing:-.01em;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:26px;line-height:1;color:var(--muted);transition:transform .3s var(--ease)}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--ink-2);max-width:68ch}
+/* pied de page noir */
+footer.site{background:#0A0A0A;color:#BDBDBD;border-top:none;margin-top:128px}
+footer.site .wrap{padding-top:56px;padding-bottom:56px;color:#BDBDBD}
+footer.site strong{color:#fff!important}
+footer.site a{color:#E6E6E6!important}
+/* fiches, formulaires */
+.filters,.panel{border-radius:var(--radius)}
 .filters input[type=checkbox],.filters input[type=radio],.check input{accent-color:var(--accent)}
-.field input,.field select,.field textarea,.filters select,.toolbar select{border-radius:12px;border-color:#D3D5D1}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field input,.field select,.field textarea,.filters select,.toolbar select{border-radius:10px;border-color:#D0D0D0}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px rgba(10,10,10,.08)}
 .book{border-radius:20px;border-color:var(--line);box-shadow:var(--shadow)}
-.chip,.slot{border-radius:12px;border-color:#D3D5D1}
-.chip[aria-pressed="true"],.slot[aria-pressed="true"]{background:var(--accent);border-color:var(--accent)}
-.steps{border-left-color:var(--line)}
-.panel{border-radius:20px}
+.chip,.slot{border-radius:10px}
+.chip[aria-pressed="true"],.slot[aria-pressed="true"]{background:var(--ink);border-color:var(--ink)}
+.gallery .big,.gallery .side div{border-radius:var(--radius)}
 .palette-fab{display:none}
-@media (max-width:640px){
-  .hero{margin:8px;border-radius:20px;min-height:0;padding:96px 18px 18px;gap:10px}
-  .hero h1{font-size:32px}
-  .hero p{font-size:16px}
-  .search .f{flex:0 0 auto;padding:4px 12px}
-  nav.main{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -8px}
-  nav.main a{white-space:nowrap}
-  .search select{min-height:28px;padding:2px 0}
-  .tile{height:150px}
-  .card .img{height:200px}
-  .search{border-radius:20px;flex-direction:column;align-items:stretch;padding:8px}
-  .search .f + .f{border-left:none;border-top:1px solid var(--line)}
-  .search .btn{width:100%}
-  .section{padding-top:64px}
+@media (max-width:1023px){
+  .how-grid{grid-template-columns:1fr}
+  .how-frame{display:none}
+  .how-step .how-pic{display:block;position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-top:12px}
+  .tiles{grid-template-columns:repeat(2,1fr);grid-auto-rows:180px}
+  .section.split{padding:40px}
 }
-
+@media (max-width:640px){
+  .wrap{padding:0 20px}
+  .hero{width:calc(100% - 24px);height:calc(100svh - var(--hdr,130px) - 20px);min-height:600px;margin:8px auto 12px;border-radius:20px}
+  .hero-box{left:12px;right:12px;bottom:12px;width:auto;padding:24px;gap:12px}
+  .hero h1{font-size:31px}
+  .hero p{font-size:15px}
+  nav.main{order:3;width:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -10px}
+  nav.main a{white-space:nowrap}
+  .search .f{padding:6px 12px}
+  .hero .search{grid-template-columns:1fr;padding:6px}
+  .search .f + .f{border-left:none;border-top:1px solid var(--line)}
+  .search .btn{width:100%;min-height:52px}
+  .section,.how{padding-top:88px}
+  .section h2,.row-head h2,.how h2{font-size:28px}
+  .section.split{padding:24px;border-radius:20px;margin-top:88px}
+  .section.split > div:first-child{height:260px!important}
+  .tiles{grid-auto-rows:150px}
+  .card .img{aspect-ratio:4/3}
+  .cta{min-height:520px;border-radius:20px}
+  .cta .cta-box{margin:12px;padding:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  [data-enter] .hero-box,[data-enter] .hero-photo img{animation:none}
+  .how.live{height:auto}.how.live .how-grid{position:static;height:auto}
+  .card,.tile,.btn,.card .img img{transition:none}
+}
 /* favoris */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
 .cardw{min-width:0;position:relative;display:flex}
@@ -740,6 +827,20 @@ ko: { cal_t: "날짜 선택", cal_prev: "이전 달", cal_next: "다음 달", ca
   dir: "길찾기", fav_add: "찜하기", fav_rm: "찜 해제", sec_fav: "찜한 투어", sec_recent: "최근 본 투어", req_go: "요청하기" }
 };
 Object.keys(UI_CAL).forEach(l => Object.assign(UI[l], UI_CAL[l]));
+
+const UI_HOW = {
+en: { how_t: "How booking works", how1t: "Choose your tour", how1d: "Pick a date and a departure time on the offer page. Prices are indicative.", how2t: "Send your request", how2d: "Your name, email and group size. No payment, no account.", how3t: "We confirm within 24 h", how3d: "Our team in Rome checks availability and replies with the price and cancellation conditions, in your language." },
+it: { how_t: "Come funziona la prenotazione", how1t: "Scegli il tuo tour", how1d: "Scegli data e orario di partenza nella pagina dell'offerta. I prezzi sono indicativi.", how2t: "Invia la tua richiesta", how2d: "Nome, e-mail e numero di persone. Nessun pagamento, nessun account.", how3t: "Confermiamo entro 24 h", how3d: "Il nostro team a Roma verifica la disponibilità e risponde con prezzo e condizioni di cancellazione, nella tua lingua." },
+fr: { how_t: "Comment se passe une réservation", how1t: "Choisissez votre visite", how1d: "Choisissez une date et une heure de départ sur la fiche. Les prix sont indicatifs.", how2t: "Envoyez votre demande", how2d: "Votre nom, votre e-mail et le nombre de personnes. Aucun paiement, aucun compte.", how3t: "Nous confirmons sous 24 h", how3d: "Notre équipe à Rome vérifie la disponibilité et vous répond avec le prix et les conditions d'annulation, dans votre langue." },
+es: { how_t: "Cómo funciona la reserva", how1t: "Elige tu visita", how1d: "Elige una fecha y una hora de salida en la ficha. Los precios son orientativos.", how2t: "Envía tu solicitud", how2d: "Tu nombre, tu e-mail y el número de personas. Sin pago ni cuenta.", how3t: "Confirmamos en 24 h", how3d: "Nuestro equipo en Roma comprueba la disponibilidad y te responde con el precio y las condiciones de cancelación, en tu idioma." },
+de: { how_t: "So funktioniert die Buchung", how1t: "Tour auswählen", how1d: "Wählen Sie auf der Angebotsseite Datum und Abfahrtszeit. Die Preise sind Richtwerte.", how2t: "Anfrage senden", how2d: "Name, E-Mail und Personenzahl. Keine Zahlung, kein Konto.", how3t: "Bestätigung innerhalb von 24 h", how3d: "Unser Team in Rom prüft die Verfügbarkeit und antwortet mit Preis und Stornobedingungen, in Ihrer Sprache." },
+pt: { how_t: "Como funciona a reserva", how1t: "Escolha a sua visita", how1d: "Escolha uma data e um horário de partida na página da oferta. Os preços são indicativos.", how2t: "Envie o seu pedido", how2d: "O seu nome, e-mail e número de pessoas. Sem pagamento, sem conta.", how3t: "Confirmamos em 24 h", how3d: "A nossa equipa em Roma verifica a disponibilidade e responde com o preço e as condições de cancelamento, na sua língua." },
+nl: { how_t: "Zo werkt boeken", how1t: "Kies je tour", how1d: "Kies een datum en vertrektijd op de pagina van het aanbod. De prijzen zijn indicatief.", how2t: "Stuur je aanvraag", how2d: "Je naam, e-mail en het aantal personen. Geen betaling, geen account.", how3t: "We bevestigen binnen 24 u", how3d: "Ons team in Rome controleert de beschikbaarheid en antwoordt met de prijs en de annuleringsvoorwaarden, in jouw taal." },
+zh: { how_t: "预订流程", how1t: "选择行程", how1d: "在产品页面选择日期和出发时间。价格仅供参考。", how2t: "提交申请", how2d: "填写姓名、邮箱和人数。无需付款，无需注册。", how3t: "24小时内确认", how3d: "我们在罗马的团队会核实名额，并用您的语言回复价格和取消条款。" },
+ja: { how_t: "予約の流れ", how1t: "ツアーを選ぶ", how1d: "ツアーページで日付と出発時刻を選びます。料金は目安です。", how2t: "リクエストを送る", how2d: "お名前、メールアドレス、人数を入力。お支払いもアカウントも不要です。", how3t: "24時間以内に確定", how3d: "ローマのチームが空き状況を確認し、料金とキャンセル条件をあなたの言語でお知らせします。" },
+ko: { how_t: "예약 방법", how1t: "투어 선택", how1d: "상품 페이지에서 날짜와 출발 시간을 고르세요. 가격은 참고용입니다.", how2t: "요청 보내기", how2d: "이름, 이메일, 인원수만 입력하세요. 결제도 계정도 필요 없습니다.", how3t: "24시간 내 확정", how3d: "로마 현지 팀이 예약 가능 여부를 확인하고 가격과 취소 조건을 고객님의 언어로 안내합니다." }
+};
+Object.keys(UI_HOW).forEach(l => Object.assign(UI[l], UI_HOW[l]));
 const UI3 = {en: {pv: "/ vehicle",on_req: "Price on request"},it: {pv: "/ veicolo",on_req: "Prezzo su richiesta"},fr: {pv: "/ véhicule",on_req: "Prix sur demande"},es: {pv: "/ vehículo",on_req: "Precio a consultar"},de: {pv: "/ Fahrzeug",on_req: "Preis auf Anfrage"},pt: {pv: "/ veículo",on_req: "Preço sob consulta"},nl: {pv: "/ voertuig",on_req: "Prijs op aanvraag"},zh: {pv: "/ 每车",on_req: "价格请咨询"},ja: {pv: "/ 1台",on_req: "料金はお問い合わせください"},ko: {pv: "/ 차량당",on_req: "가격 문의"}};
 Object.keys(UI3).forEach(l => Object.assign(UI[l], UI3[l]));
 const UI4 = {
@@ -982,9 +1083,9 @@ function heroScene() {
 /* ===================== Logos prévisionnels ===================== */
 function logoSVG(v, o = {}) {
   const ink = o.ink || 'var(--ink)', bg = o.bg || '#FFFFFF', sub = o.sub || '#6B7280';
-  const word = `<text x="58" y="27" style="font:800 23px 'Figtree',sans-serif;fill:${ink}">Turismo Club</text><text x="59" y="43" style="font:600 9.5px 'Figtree',sans-serif;letter-spacing:3.2px;fill:${sub}">ROMA · ITALIA</text>`;
-  if (v === 'sceau') return `<svg viewBox="0 0 230 50" role="img" aria-label="Logo Turismo Club" xmlns="http://www.w3.org/2000/svg"><circle cx="25" cy="25" r="23" style="fill:none;stroke:var(--accent);stroke-width:2.5"/><circle cx="25" cy="25" r="18" style="fill:var(--accent)"/><text x="25" y="31" text-anchor="middle" style="font:800 16px 'Figtree',sans-serif;fill:#fff;letter-spacing:.5px">TC</text>${word}</svg>`;
-  if (v === 'mot') return `<svg viewBox="0 0 230 50" role="img" aria-label="Logo Turismo Club" xmlns="http://www.w3.org/2000/svg"><text x="2" y="34" textLength="176" lengthAdjust="spacingAndGlyphs" style="font:800 32px 'Figtree',sans-serif;letter-spacing:-1px"><tspan style="fill:${ink}">turismo</tspan><tspan style="fill:var(--accent)">club</tspan></text><path d="M186 34 a12 12 0 0 1 24 0z" style="fill:var(--accent)"/><rect x="182" y="36" width="32" height="3" rx="1.5" style="fill:var(--accent)"/></svg>`;
+  const word = `<text x="58" y="27" style="font:800 23px 'Host Grotesk',sans-serif;fill:${ink}">Turismo Club</text><text x="59" y="43" style="font:600 9.5px 'Host Grotesk',sans-serif;letter-spacing:3.2px;fill:${sub}">ROMA · ITALIA</text>`;
+  if (v === 'sceau') return `<svg viewBox="0 0 230 50" role="img" aria-label="Logo Turismo Club" xmlns="http://www.w3.org/2000/svg"><circle cx="25" cy="25" r="23" style="fill:none;stroke:var(--accent);stroke-width:2.5"/><circle cx="25" cy="25" r="18" style="fill:var(--accent)"/><text x="25" y="31" text-anchor="middle" style="font:800 16px 'Host Grotesk',sans-serif;fill:#fff;letter-spacing:.5px">TC</text>${word}</svg>`;
+  if (v === 'mot') return `<svg viewBox="0 0 230 50" role="img" aria-label="Logo Turismo Club" xmlns="http://www.w3.org/2000/svg"><text x="2" y="34" textLength="176" lengthAdjust="spacingAndGlyphs" style="font:800 32px 'Host Grotesk',sans-serif;letter-spacing:-1px"><tspan style="fill:${ink}">turismo</tspan><tspan style="fill:var(--accent)">club</tspan></text><path d="M186 34 a12 12 0 0 1 24 0z" style="fill:var(--accent)"/><rect x="182" y="36" width="32" height="3" rx="1.5" style="fill:var(--accent)"/></svg>`;
   return `<svg viewBox="0 0 230 50" role="img" aria-label="Logo Turismo Club" xmlns="http://www.w3.org/2000/svg"><path d="M4 48V22a20 20 0 0 1 40 0v26z" style="fill:var(--accent)"/><path d="M14 48V24a10 10 0 0 1 20 0v24z" style="fill:${bg}"/><path d="M17 48a7 7 0 0 1 14 0z" style="fill:var(--accent)"/>${word}</svg>`;
 }
 const LOGOS = [
@@ -1001,7 +1102,7 @@ const PALETTES = [
   { id: 'mediterranee', name: 'Bleu Méditerranée', accent: '#1D4ED8', dark: '#1E3A8A', light: '#93C5FD', soft: '#EFF6FF', line: '#BFDBFE', hero: '#0F2747' },
   { id: 'olivier', name: 'Vert olivier', accent: '#4D7C0F', dark: '#3F6212', light: '#BEF264', soft: '#F7FEE7', line: '#D9F99D', hero: '#1F2A1B' },
   { id: 'bordeaux', name: 'Bordeaux & or', accent: '#9F1239', dark: '#881337', light: '#FCD34D', soft: '#FFF1F2', line: '#FECDD3', hero: '#2B0F17' },
-  { id: 'pin', name: 'Vert pin (essai simple)', accent: '#0B6B57', dark: '#08533F', light: '#BFE6D6', soft: '#F4F5F3', line: '#E6E7E4', hero: '#15171A' },
+  { id: 'rosso', name: 'Rouge romain (DA)', accent: '#D92B21', dark: '#B01F17', light: '#FBD9D6', soft: '#F2F2F2', line: '#E4E4E4', hero: '#0A0A0A' },
   { id: 'lagune', name: 'Lagune', accent: '#0F766E', dark: '#115E59', light: '#5EEAD4', soft: '#F0FDFA', line: '#99F6E4', hero: '#102A2E' }
 ];
 function applyPalette(id) {
@@ -1040,7 +1141,7 @@ function pageIdentite() {
     </section>
 
     <section class="section"><div class="row-head"><h2>Typographie</h2></div>
-      <div class="panel"><p style="margin:0;font-size:44px;font-weight:800;letter-spacing:-1px">Figtree</p><p style="margin:6px 0 0;font-size:18px;color:var(--ink-2)">Titres en 800 (gras), textes en 400. Ronde, lisible sur mobile, avec des accents français soignés : àâçéèêëîïôûù.</p></div>
+      <div class="panel"><p style="margin:0;font-size:44px;font-weight:400;letter-spacing:-1.5px">Host Grotesk</p><p style="margin:6px 0 0;font-size:18px;color:var(--ink-2)">Titres en 800 (gras), textes en 400. Ronde, lisible sur mobile, avec des accents français soignés : àâçéèêëîïôûù.</p></div>
     </section>
 
     <section class="section"><div class="row-head"><h2>Illustrations</h2></div>
@@ -1254,9 +1355,10 @@ function pageAccueil() {
   const trips = pub(ACTIVITIES).filter(a => a.type === 'circuit');
   const stay = pub(ACTIVITIES).filter(a => isReq(a));
   return `
-  <section class="hero">
+  <section class="hero" data-enter>
     <div class="scene">${heroScene()}</div>
     <div class="hero-photo"><img class="photo" src="${photoUrl(PHOTOS.colosseum, 1920)}" alt="" loading="eager" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>
+    <div class="hero-box">
     <h1>${tr('hero_t')}</h1>
     <p>${tr('hero_d')}</p>
     <form class="search" id="heroSearch">
@@ -1264,8 +1366,9 @@ function pageAccueil() {
         <select id="hs-envie"><option value="">${tr('s_all')}</option>${ENVIES.map(e => `<option value="${e.slug}">${esc(L(e.name))}</option>`).join('')}</select></div>
       <div class="f"><label for="hs-dest">${tr('s_where')}</label>
         <select id="hs-dest"><option value="tous">${tr('s_any')}</option>${Object.keys(DESTINATIONS).map(k => `<option value="${k}">${esc(L(DESTINATIONS[k]))}</option>`).join('')}</select></div>
-      <button class="btn" type="submit" style="min-height:56px">${tr('s_btn')}</button>
+      <button class="btn" type="submit">${tr('s_btn')}</button>
     </form>
+    </div>
   </section>
   <div class="wrap">
     ${(() => { const f = pub(favs().map(x => bySlug[x])); return f.length ? `<section class="section" aria-labelledby="fav-h"><div class="row-head"><h2 id="fav-h">${tr('sec_fav')}</h2></div><div class="cards">${f.slice(0, 4).map(card).join('')}</div></section>` : ''; })()}
@@ -1274,6 +1377,16 @@ function pageAccueil() {
       <div class="row-head"><div><h2 id="best-h">${tr('sec_best')}</h2><p style="margin:4px 0 0;color:var(--ink-2)">${tr('sec_best_d')}</p></div><a href="#catalogue" data-allcat style="font-weight:700">${tr('see_all')}</a></div>
       <div class="cards">${best.map(card).join('')}</div>
     </section>
+
+    <section class="how" id="how" aria-labelledby="how-h">
+      <div class="how-grid">
+        <div><h2 id="how-h">${tr('how_t')}</h2>
+          <ol class="how-steps">${[['navona', 'rome'], ['pantheon', 'dome'], ['stpeterSquare', 'dome']].map((ph, i) => `<li class="how-step" data-i="${i}"><h3><span>${i + 1}</span>${tr('how' + (i + 1) + 't')}</h3><p><span>${tr('how' + (i + 1) + 'd')}</span></p><div class="how-pic">${pic(ph[0], ph[1])}</div></li>`).join('')}</ol>
+        </div>
+        <div class="how-frame" aria-hidden="true">${[['navona', 'rome'], ['pantheon', 'dome'], ['stpeterSquare', 'dome']].map((ph, i) => `<div class="how-pic${i ? '' : ' on'}" data-i="${i}">${pic(ph[0], ph[1])}</div>`).join('')}</div>
+      </div>
+    </section>
+
 
     <section class="section">
       <div class="row-head"><h2>${tr('sec_cat')}</h2></div>
@@ -1308,19 +1421,20 @@ function pageAccueil() {
       <div class="cards">${stay.map(card).join('')}</div>
     </section>
 
-    <section class="section">
-      <div class="cta">
-        <div style="flex:1 1 460px;display:flex;flex-direction:column;gap:8px">
-          <h2 style="font-size:28px">${tr('cta_t')}</h2>
-          <p style="margin:0;color:var(--ink-2)">${tr('cta_d')}</p>
-        </div>
-        <a class="btn" href="#devis">${tr('cta_b')}</a>
-      </div>
-    </section>
-
     <section class="section" id="faq" style="max-width:860px">
       <h2 style="margin-bottom:20px">${tr('faq_t')}</h2>
       ${[1, 2, 3, 4].map(i => `<details><summary>${tr('f' + i + 'q')}</summary><p>${tr('f' + i + 'a')}</p></details>`).join('')}
+    </section>
+
+    <section class="section">
+      <div class="cta">
+        <div class="cta-photo">${pic('positano', 'coast')}</div>
+        <div class="cta-box">
+          <h2>${tr('cta_t')}</h2>
+          <p style="margin:0;color:var(--ink-2)">${tr('cta_d')}</p>
+          <a class="btn" href="#devis">${tr('cta_b')}</a>
+        </div>
+      </div>
     </section>
   </div>`;
 }
@@ -1760,9 +1874,34 @@ function render() {
   if (h === 'accueil-faq') { const f = $('#faq'); if (f) f.scrollIntoView(); }
   else if (!render.keepScroll) window.scrollTo(0, 0);
   render.keepScroll = false;
+  initHow(); setHdr();
   if (h.startsWith('activite-') && bySlug[h.slice(9)]) { const a = bySlug[h.slice(9)]; noteRecent(a.slug); if (hasCalendar(a) && !(state.pick[a.slug] || {}).result) { loadAvail(a); syncTimes(a); } }
   document.title = 'Turismo Club — ' + ({ catalogue: tr('nav_offers'), devis: tr('nav_custom'), hotels: tr('nav_hotels'), credits: tr('credits'), privacy: tr('privacy'), legal: tr('legal') }[h] || (h.startsWith('activite-') && bySlug[h.slice(9)] ? L(bySlug[h.slice(9)].title) : tr('hero_eb')));
 }
+
+/* ===================== Moment « pinned-chapters » (taste-skill) : seulement sur grand écran, sans « réduire les animations » ===================== */
+let howOff = null;
+function initHow() {
+  if (howOff) { howOff(); howOff = null; }
+  const root = $('#how'); if (!root) return;
+  const steps = [...root.querySelectorAll('.how-step')], pics = [...root.querySelectorAll('.how-frame .how-pic')];
+  const fits = () => matchMedia('(min-width: 1024px)').matches && innerHeight >= 640 && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let k = -1;
+  const show = i => { if (i === k) return; k = i; steps.forEach((x, n) => x.classList.toggle('on', n === i)); pics.forEach((x, n) => x.classList.toggle('on', n === i)); };
+  const tick = () => {
+    if (!root.classList.contains('live')) return;
+    const r = root.getBoundingClientRect(), span = r.height - innerHeight;
+    const prog = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+    show(Math.min(steps.length - 1, Math.floor(prog * steps.length)));
+  };
+  const sync = () => { const on = fits(); root.classList.toggle('live', on); if (on) { k = -1; tick(); if (k < 0) show(0); } else { steps.forEach(x => x.classList.remove('on')); show(0); } };
+  sync();
+  const onR = () => sync();
+  addEventListener('scroll', tick, { passive: true }); addEventListener('resize', onR);
+  howOff = () => { removeEventListener('scroll', tick); removeEventListener('resize', onR); };
+}
+function setHdr() { const h = document.querySelector('header.site'); if (h) document.documentElement.style.setProperty('--hdr', h.offsetHeight + 'px'); }
+addEventListener('resize', setHdr);
 function rerender() { render.keepScroll = true; const y = window.scrollY; render(); window.scrollTo(0, y); }
 window.addEventListener('hashchange', render);
 
@@ -1834,7 +1973,7 @@ document.addEventListener('submit', e => {
   }
 });
 
-applyPalette('pin'); setLogo('arche');
+applyPalette('rosso'); setLogo('arche');
 try { const sl = localStorage.getItem('tc-lang'); if (sl && UI[sl]) LANG = sl; } catch (e) {}
 applyChrome(); syncFromDb();
 render();
