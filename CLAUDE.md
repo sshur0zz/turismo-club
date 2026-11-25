@@ -144,6 +144,8 @@ hôtels, clients, pipeline Kanban, réservations, icônes). Le nom de ce back-of
 | Flotte, locations, états des lieux (lot 4) | `flotte.js`, `locations.js` | `vehicles`, `vehicle_*`, `rental_*`, `inspections`, `inspection_*`, compartiment Storage `flotte` (29) | exclusion des chevauchements, km jamais décroissant, permis, figé après signature |
 | Transverse (lot 5) | `recherche.js` (Ctrl+K), menu par groupes, `equipe.js` | Edge Function `supabase/functions/ajouter-membre` (clé de service côté serveur seulement) | admin seulement (404 sinon), mot de passe provisoire à changer |
 
+Planning (migration 30) : `private.generate_departures(60)` crée chaque nuit (pg_cron `turismo-creneaux`, 03:15 UTC) les créneaux manquants des offres publiées `activity`/`bus`/`circuit` d'après `activities.times` et les jours `weekdays` (ISO, NULL = tous) / `weekdays_winter` (nov.–mars). Il ne modifie jamais un créneau existant (annuler = statut `cancelled`, ne pas supprimer). Nouvelle offre à jours fixes : renseigner `weekdays`.
+
 Tests : `tests/parite-traductions.mjs` (FR = IT), `tests/*.sql` (base, transaction annulée), `tests/e2e/*.mjs` (Playwright, `TEST_PW=… node …`, compte et données TEST supprimés après).
 Nettoyage d'un état des lieux TEST : désactiver temporairement les déclencheurs `inspection_*_guard` ; photos de test retirées par l'API Storage.
 

@@ -90,6 +90,6 @@ Ne jamais mettre la clé `service_role` ni le mot de passe de la base dans ce d�
 - Adresse du siège, numéro REA.
 - Validation des prix, des fiches et des conditions d'annulation par l'agence.
 - Relecture juridique des pages légales (commercialista ou avocat).
-- Les vrais guides (noms, langues) et la validation des créneaux du planning (générés à partir des horaires du site, du 19/11 au 19/12/2026).
+- Les vrais guides (noms, langues) et la validation des créneaux du planning par l'agence. Les créneaux sont générés automatiquement à partir des horaires des offres (`activities.times`, jours dans `weekdays` / `weekdays_winter`), sur 60 jours glissants, chaque nuit (tâche pg_cron `turismo-creneaux`, migration 30).
 - Règle de transfert Gmail vers demandes@in.turismoclub.it (à créer par l'admin) ; paiement Stripe.
 - Relecture des traductions par des natifs (chinois, japonais, coréen en priorité).
